@@ -70,7 +70,8 @@ plot_missing <- function(dataset, percent){
       xlab("") +
       ylab(" %row missing:") +
       theme_gray(8) +
-      theme(legend.position = "none")
+      theme(legend.position = "none") +
+      ggtitle("Missing value patterns")
   }
   else if (percent == FALSE){
     p2 <- ggplot(data_perc, aes(x = fct_reorder(col_name, col_na, .desc = TRUE), y = col_na)) +
@@ -78,7 +79,8 @@ plot_missing <- function(dataset, percent){
       xlab("") +
       ylab("num row missing:") +
       theme_gray(8) +
-      theme(legend.position = "none")
+      theme(legend.position = "none") +
+      ggtitle("Missing value patterns")
   }
   layout <- 
   "
