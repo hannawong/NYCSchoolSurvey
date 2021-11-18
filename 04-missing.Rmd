@@ -1,1 +1,118 @@
 # Missing values
+
+```{r, echo=FALSE}
+plot_missing <- function(dataset, percent){
+  library(tidyverse)
+  library(patchwork)
+  library(reshape2)
+  library(ggplot2)
+  
+  missing_patterns <- data.frame(is.na(dataset)) %>%
+    group_by_all() %>%
+    count(name = "count", sort = TRUE) %>%
+    ungroup()
+  
+  # check completeness
+  missing_patterns$id <- factor(c(1:nrow(missing_patterns)))
+  missing_patterns$complete <- rep(FALSE,nrow(missing_patterns))
+  for(i in names(missing_patterns)){
+    if(typeof(missing_patterns[[i]]) == "logical" & i != "complete"){
+      missing_patterns$complete <- missing_patterns$complete|missing_patterns[[i]]
+    }
+  }
+  missing_patterns$complete = as.integer(!missing_patterns$complete) * 0.2
+  
+  # long format data & 3 levels of missing patterns
+  data_m <- melt(missing_patterns, id.vars = c("id","count","complete"), variable.name = "col_name", value.name = "is_nan")
+  data_m$is_nan <- as.double(data_m$is_nan) + data_m$complete
+  
+  # count of missingness by variable
+  missing_patterns_long <- missing_patterns %>%
+    pivot_longer(cols = !count & !id & !complete, names_to = "type") %>%
+    filter(value == "TRUE") %>%
+    group_by(type) %>%
+    summarise(col_na = sum(count)) %>%
+    rename(col_name = type)
+  data_m  <- data_m %>%
+    left_join(missing_patterns_long) %>%
+    mutate(col_na = replace(col_na, is.na(col_na), 0))
+  
+  # add percentage
+  data_perc <- data_m %>%
+    distinct(col_name, .keep_all = TRUE) %>%
+    mutate(perc = col_na/sum(col_na))
+  
+  # main graph
+  p <- ggplot(data_m, aes(fct_reorder(col_name, col_na, .desc = TRUE), fct_relevel(id,rev), fill = is_nan)) +
+  geom_tile(color = "white") +
+  scale_fill_gradient(low = "grey", high = "purple") +
+  scale_colour_manual(values = c("red", "blue", "green")) +
+  xlab("Variable") +
+  ylab("Missing Pattern") +
+  theme_grey(9) +
+  theme(legend.position="top") +
+  theme(legend.position = "none") +
+  geom_text(x = 0.5 + length(unique(data_m$col_name))/2, aes(label = ifelse(complete != 0.00 & !duplicated(id), paste("complete cases"), "")))
+  
+  # vertical graph
+  p1 <- ggplot(missing_patterns, aes(fct_relevel(id,rev), count)) +
+    geom_col(fill = "blue",alpha = missing_patterns$complete + 0.4) +
+    coord_flip() +
+    xlab("") +
+    ylab("row count") +
+    theme_gray(8) +
+    theme(legend.position = "none")
+  
+  # horizontal graph
+  if (percent == TRUE){
+    p2 <- ggplot(data_perc, aes(x = fct_reorder(col_name, col_na, .desc = TRUE), y = perc)) +
+      geom_col(fill = "steel blue") +
+      xlab("") +
+      ylab(" %row missing:") +
+      theme_gray(8) +
+      theme(legend.position = "none")
+  }
+  else if (percent == FALSE){
+    p2 <- ggplot(data_perc, aes(x = fct_reorder(col_name, col_na, .desc = TRUE), y = col_na)) +
+      geom_col(fill = "steel blue") +
+      xlab("") +
+      ylab("num row missing:") +
+      theme_gray(8) +
+      theme(legend.position = "none")
+  }
+  layout <- 
+  "
+  CCC#
+  AAAB
+  AAAB
+  AAAB
+  AAAB
+  "
+  
+  p <- p + p1 + p2 + plot_layout(design = layout)
+  return(p)
+}
+```
+
+```{r, fig.height = 8, fig.width = 14, echo=FALSE}
+library(readxl)
+library(tidyverse)
+overview <- read_excel("Student.xlsx")
+overview <- replace(overview, overview == "N/A", NA)
+overview <- overview %>%
+  slice(-c(1,2))
+overview <- overview %>%
+  rename(student_rr = `Total Student Response Rate`) %>%
+  rename(parent_rr = `Total Parent \r\nResponse Rate`) %>%
+  rename(teacher_rr = `Total Teacher Response Rate`) %>%
+  rename(name = `School Name`) %>%
+  rename(trust = `Trust Score`) %>%
+  rename(collab_teachers = `Collaborative Teachers Score`) %>%
+  rename(effective_schlead = `Effective School Leadership Score`) %>%
+  rename(rig_instruction = `Rigorous Instruction Score`) %>%
+  rename(supp_env = `Supportive Environment Score`) %>%
+  rename(family_communityties = `Strong Family-Community Ties Score`)
+plot_missing(overview, percent = TRUE)
+```
+
+> In most cases, the dataset is missing the variable 'Supportive Environment Score', in fact this variable is completely missing, which indicates this score might not be measured during the year of 2019. There is no complete cases in this dataset as we know that one variable is completely void. However, more than 1/3 of the data only have the 'Supportive Environment Score' missing. Besides 'Supportive Environment Score', 'Total Student Response Rate' has the second most NAs. As we can observe from this graph, these are the two most common cases of the dataset, around 80% to 90% of the data lies in this category. This dataset does not contains complete cases, which means for certain observations all variables do not tontain NAs. However, we can see that the columns 'DBN', 'School Name', Total Parent Response Rate, and 'Total Teacher Reponse Rate' are complete with no missing values.
