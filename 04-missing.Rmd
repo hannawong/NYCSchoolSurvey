@@ -33,6 +33,7 @@ plot_missing <- function(dataset, percent){
     group_by(type) %>%
     summarise(col_na = sum(count)) %>%
     rename(col_name = type)
+
   data_m  <- data_m %>%
     left_join(missing_patterns_long) %>%
     mutate(col_na = replace(col_na, is.na(col_na), 0))
@@ -55,20 +56,33 @@ plot_missing <- function(dataset, percent){
   geom_text(x = 0.5 + length(unique(data_m$col_name))/2, aes(label = ifelse(complete != 0.00 & !duplicated(id), paste("complete cases"), "")))
   
   # vertical graph
-  p1 <- ggplot(missing_patterns, aes(fct_relevel(id,rev), count)) +
+  if (percent == TRUE){
+    p1 <- ggplot(missing_patterns, aes(fct_relevel(id,rev), 100*(count/sum(count)))) +
+    geom_col(fill = "blue",alpha = missing_patterns$complete + 0.4) +
+    coord_flip() +
+    xlab("") +
+    ylab("% rows") +
+    scale_y_continuous(limits = c(0, 100)) +
+    theme_gray(8) +
+    theme(legend.position = "none")
+  }
+  else if (percent == FALSE){
+    p1 <- ggplot(missing_patterns, aes(fct_relevel(id,rev), count)) +
     geom_col(fill = "blue",alpha = missing_patterns$complete + 0.4) +
     coord_flip() +
     xlab("") +
     ylab("row count") +
     theme_gray(8) +
     theme(legend.position = "none")
+  }
   
   # horizontal graph
   if (percent == TRUE){
-    p2 <- ggplot(data_perc, aes(x = fct_reorder(col_name, col_na, .desc = TRUE), y = perc)) +
+    p2 <- ggplot(data_perc, aes(x = fct_reorder(col_name, col_na, .desc = TRUE), y = perc*100)) +
       geom_col(fill = "steel blue") +
       xlab("") +
-      ylab(" %row missing:") +
+      ylab(" % rows \n missing:") +
+      scale_y_continuous(limits = c(0, 100)) +
       theme_gray(8) +
       theme(legend.position = "none") +
       ggtitle("Missing value patterns")
@@ -77,11 +91,12 @@ plot_missing <- function(dataset, percent){
     p2 <- ggplot(data_perc, aes(x = fct_reorder(col_name, col_na, .desc = TRUE), y = col_na)) +
       geom_col(fill = "steel blue") +
       xlab("") +
-      ylab("num row missing:") +
+      ylab("num row \n missing:") +
       theme_gray(8) +
-      theme(legend.position = "none") +
+      theme(legend.position = "none")+
       ggtitle("Missing value patterns")
   }
+
   layout <- 
   "
   CCC#
@@ -117,4 +132,4 @@ overview <- overview %>%
 plot_missing(overview, percent = TRUE)
 ```
 
-> In most cases, the dataset is missing the variable 'Supportive Environment Score', in fact this variable is completely missing, which indicates this score might not be measured during the year of 2019. There is no complete cases in this dataset as we know that one variable is completely void. However, more than 1/3 of the data only have the 'Supportive Environment Score' missing. Besides 'Supportive Environment Score', 'Total Student Response Rate' has the second most NAs. As we can observe from this graph, these are the two most common cases of the dataset, around 80% to 90% of the data lies in this category. This dataset does not contains complete cases, which means for certain observations all variables do not tontain NAs. However, we can see that the columns 'DBN', 'School Name', Total Parent Response Rate, and 'Total Teacher Reponse Rate' are complete with no missing values.
+> In most cases, the dataset is missing the variable 'Supportive Environment Score', in fact this variable is completely missing, which indicates this score might not be measured during the year of 2019. There is no complete cases in this dataset as we know that one variable is completely void. However, more than 1/2 of the data only have the 'Supportive Environment Score' missing. Besides 'Supportive Environment Score', 'Total Student Response Rate' has the second most NAs. As we can observe from this graph, these are the two most common cases of the dataset, around 80% to 90% of the data lies in this category. This dataset does not contains complete cases, which means for certain observations all variables do not contain NAs. However, we can see that the columns 'DBN', 'School Name', 'Total Parent Response Rate', and 'Total Teacher Reponse Rate' are complete with no missing values.
