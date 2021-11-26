@@ -7,3 +7,19 @@ site: bookdown::bookdown_site
 
 # Introduction
 
+Every year, all parents, all teachers, and students take the NYC School Survey. The survey ranks among the largest surveys of any kind ever conducted nationally. 
+
+The NYC School Survey consists of three separate survey instruments: The “parent/guardian
+survey”, the “teacher survey”, and the “student survey” (for students in grades 6 – 12 only).
+To review 2021 NYC School Survey instruments, see the links below:
+https://infohub.nyced.org/docs/default-source/default-document-library/student-instrument_08312021_accessible.pdf
+
+https://infohub.nyced.org/docs/default-source/default-document-library/family-instrument_083121_accessible.pdf
+
+https://infohub.nyced.org/docs/default-source/default-document-library/teacher-instrument_aug-2021_accessible.pdf
+
+
+Survey results provide insight into a school's learning environment and contribute a measure of diversification that goes beyond test scores on the Progress Report. Survey questions assess the community's opinions on academic expectations, communication, engagement, and safety and respect. School leaders can use survey results to better understand their own school's strengths and target areas for improvement.
+
+
+

@@ -24,7 +24,7 @@
 <meta name="author" content="Ziheng Ru, Zihan Wang" />
 
 
-<meta name="date" content="2021-11-19" />
+<meta name="date" content="2021-11-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -101,6 +101,22 @@
             <section class="normal" id="section-">
 <div id="data-sources" class="section level1" number="2">
 <h1><span class="header-section-number">Chapter 2</span> Data sources</h1>
+<p>data sources:</p>
+<p><a href="https://www.schools.nyc.gov/about-us/reports/school-quality/nyc-school-survey" class="uri">https://www.schools.nyc.gov/about-us/reports/school-quality/nyc-school-survey</a> <a href="https://data.cityofnewyork.us/Education/2019-NYC-School-Survey-Teachers/uzmq-2khh" class="uri">https://data.cityofnewyork.us/Education/2019-NYC-School-Survey-Teachers/uzmq-2khh</a> <a href="https://data.cityofnewyork.us/Education/2019-NYC-School-Survey-Parents/4fcz-jias" class="uri">https://data.cityofnewyork.us/Education/2019-NYC-School-Survey-Parents/4fcz-jias</a> <a href="https://data.cityofnewyork.us/Education/2019-NYC-School-Survey-Student/k2zg-756q" class="uri">https://data.cityofnewyork.us/Education/2019-NYC-School-Survey-Student/k2zg-756q</a></p>
+<p>We download the dataset as <code>xlsx</code> format from the aforementioned websites.</p>
+<pre><code>## # A tibble: 6 x 11
+##   DBN    `School Name`    `Total Parent \r\~ `Total Teacher R~ `Total Student R~
+##   &lt;chr&gt;  &lt;chr&gt;                         &lt;dbl&gt;             &lt;dbl&gt; &lt;chr&gt;            
+## 1 &lt;NA&gt;   &lt;NA&gt;                             NA                NA &lt;NA&gt;             
+## 2 &lt;NA&gt;   &lt;NA&gt;                             NA                NA &lt;NA&gt;             
+## 3 01M015 P.S. 015 ROBERT~                 91               100 N/A              
+## 4 01M019 P.S. 019 ASHER ~                100                93 N/A              
+## 5 01M020 P.S. 020 ANNA S~                 58                90 N/A              
+## 6 01M034 P.S. 034 FRANKL~                 29               100 95               
+## # ... with 6 more variables: Collaborative Teachers Score &lt;chr&gt;,
+## #   Effective School Leadership Score &lt;chr&gt;, Rigorous Instruction Score &lt;chr&gt;,
+## #   Supportive Environment Score &lt;chr&gt;,
+## #   Strong Family-Community Ties Score &lt;chr&gt;, Trust Score &lt;chr&gt;</code></pre>
 
 </div>
             </section>

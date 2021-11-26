@@ -1,2 +1,21 @@
 # Data sources
 
+
+data sources: 
+
+https://data.cityofnewyork.us/Education/2019-NYC-School-Survey-Teachers/uzmq-2khh
+
+https://data.cityofnewyork.us/Education/2019-NYC-School-Survey-Parents/4fcz-jias
+
+https://data.cityofnewyork.us/Education/2019-NYC-School-Survey-Student/k2zg-756q
+
+We download the dataset as `xlsx` format from the aforementioned websites.
+
+
+```{r}
+library(readxl)
+library(tidyverse)
+student <- read_excel("Student.xlsx")
+head(student)
+```
+
