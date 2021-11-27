@@ -24,7 +24,7 @@
 <meta name="author" content="Ziheng Ru, Zihan Wang" />
 
 
-<meta name="date" content="2021-11-19" />
+<meta name="date" content="2021-11-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -73,9 +73,26 @@
 <li><a href="./">NYCSchoolSurvey</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
-<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a></li>
-<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#introduction-to-nyc-school-survey"><i class="fa fa-check"></i><b>1.1</b> Introduction to NYC School Survey</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#our-goal-in-this-project"><i class="fa fa-check"></i><b>1.2</b> Our goal in this project</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-sources.html"><a href="data-sources.html#data-source-links"><i class="fa fa-check"></i><b>2.1</b> Data source links</a></li>
+<li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#a-glimpse-at-our-dataset"><i class="fa fa-check"></i><b>2.2</b> A glimpse at our dataset</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="data-sources.html"><a href="data-sources.html#student-reponse-dataset"><i class="fa fa-check"></i><b>2.2.1</b> Student Reponse dataset</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data-sources.html"><a href="data-sources.html#teacher-reponse-dataset"><i class="fa fa-check"></i><b>2.2.2</b> Teacher Reponse dataset</a></li>
+<li class="chapter" data-level="2.2.3" data-path="data-sources.html"><a href="data-sources.html#parent-reponse-dataset"><i class="fa fa-check"></i><b>2.2.3</b> Parent Reponse dataset</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data-sources.html"><a href="data-sources.html#meanings-of-columns"><i class="fa fa-check"></i><b>2.3</b> Meanings of columns</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-transformation.html"><a href="data-transformation.html#step1-merge-three-dataframes"><i class="fa fa-check"></i><b>3.1</b> Step1: Merge Three DataFrames</a></li>
+</ul></li>
 <li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a></li>
 <li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a></li>
 <li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a></li>
@@ -101,7 +118,15 @@
             <section class="normal" id="section-">
 <div id="data-transformation" class="section level1" number="3">
 <h1><span class="header-section-number">Chapter 3</span> Data transformation</h1>
+<div id="step1-merge-three-dataframes" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Step1: Merge Three DataFrames</h2>
+<p>From Chapter 2, we read in parent, student and teacher response datasets. However, these three datasets do not have the same row numbers, suggesting that some schools in one dataset may not exist in other datasets.</p>
+<pre><code>## dim of student is: 1831 11</code></pre>
+<pre><code>## dim of parent is: 2946 11</code></pre>
+<pre><code>## dim of teacher is: 1903 11</code></pre>
+<p>In order to be consistent, we firstly merge the three datasets and only keep those schools who exists in all of these three datasets.</p>
 
+</div>
 </div>
             </section>
 

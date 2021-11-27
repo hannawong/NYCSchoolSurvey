@@ -1,1 +1,20 @@
 # Data transformation
+
+## Step1: Merge Three DataFrames
+
+From Chapter 2, we read in parent, student and teacher response datasets. However, these three datasets do not have the same row numbers, suggesting that some schools in one dataset may not exist in other datasets. 
+
+```{r}
+library(readxl)
+library(tidyverse)
+student <- read_excel("Student.xlsx")
+teacher<-read_excel("Teacher.xlsx")
+parent<-read_excel("Parent.xlsx")
+
+cat("dim of student is:",dim(student))
+cat("dim of parent is:",dim(parent))
+cat("dim of teacher is:",dim(teacher))
+```
+In order to be consistent, we firstly merge the three datasets and only keep those schools who exists in all of these three datasets. 
+
+

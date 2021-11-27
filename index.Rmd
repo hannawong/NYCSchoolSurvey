@@ -7,7 +7,7 @@ site: bookdown::bookdown_site
 
 # Introduction
 
-### Introduction to NYC School Survey
+## Introduction to NYC School Survey
 
 Every year, all parents, all teachers, and students take the [NYC School Survey](https://infohub.nyced.org/reports/school-quality/nyc-school-survey). The survey ranks among the largest surveys of any kind ever conducted nationally. 
 
@@ -27,7 +27,7 @@ Survey questions assess the community's opinions on academic expectations, commu
 The NYC School Quality Reports includes six elements -- Rigorous Instruction, Collaborative
 Teachers, Supportive Environment, Effective School Leadership, Strong Family Community Ties, and Trust. The meanings of these six elements are illustrated in Chapter 2. 
 
-### Our goal in this project
+## Our goal in this project
 In this project, we will take a look at the NYC School Quality Reports that reflect the opinion of parents, teachers and students, and answer the questions listed below:
 
 - What are the top 10 schools with the highest survey performance? What are their characteristics?

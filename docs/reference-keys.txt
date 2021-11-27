@@ -8,3 +8,11 @@ conclusion
 introduction-to-nyc-school-survey
 what-are-we-going-to-do-in-this-project
 our-goal-in-this-project
+data-source-links
+a-glimpse-at-the-dataset
+student-reponse-dataset
+teacher-reponse-dataset
+parent-reponse-dataset
+a-glimpse-at-our-dataset
+meanings-of-columns
+step1-merge-three-dataframes

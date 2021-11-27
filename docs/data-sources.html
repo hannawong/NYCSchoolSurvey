@@ -24,7 +24,7 @@
 <meta name="author" content="Ziheng Ru, Zihan Wang" />
 
 
-<meta name="date" content="2021-11-26" />
+<meta name="date" content="2021-11-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -73,8 +73,22 @@
 <li><a href="./">NYCSchoolSurvey</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
-<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#introduction-to-nyc-school-survey"><i class="fa fa-check"></i><b>1.1</b> Introduction to NYC School Survey</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#our-goal-in-this-project"><i class="fa fa-check"></i><b>1.2</b> Our goal in this project</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-sources.html"><a href="data-sources.html#data-source-links"><i class="fa fa-check"></i><b>2.1</b> Data source links</a></li>
+<li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#a-glimpse-at-our-dataset"><i class="fa fa-check"></i><b>2.2</b> A glimpse at our dataset</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="data-sources.html"><a href="data-sources.html#student-reponse-dataset"><i class="fa fa-check"></i><b>2.2.1</b> Student Reponse dataset</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data-sources.html"><a href="data-sources.html#teacher-reponse-dataset"><i class="fa fa-check"></i><b>2.2.2</b> Teacher Reponse dataset</a></li>
+<li class="chapter" data-level="2.2.3" data-path="data-sources.html"><a href="data-sources.html#parent-reponse-dataset"><i class="fa fa-check"></i><b>2.2.3</b> Parent Reponse dataset</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data-sources.html"><a href="data-sources.html#meanings-of-columns"><i class="fa fa-check"></i><b>2.3</b> Meanings of columns</a></li>
+</ul></li>
 <li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
 <li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a></li>
 <li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a></li>
@@ -101,35 +115,85 @@
             <section class="normal" id="section-">
 <div id="data-sources" class="section level1" number="2">
 <h1><span class="header-section-number">Chapter 2</span> Data sources</h1>
-<p>data sources:</p>
+<div id="data-source-links" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Data source links</h2>
+<p>The result of parent, teacher and student response of the NYC school survey can be found in the links listed below:</p>
 <p><a href="https://data.cityofnewyork.us/Education/2019-NYC-School-Survey-Teachers/uzmq-2khh" class="uri">https://data.cityofnewyork.us/Education/2019-NYC-School-Survey-Teachers/uzmq-2khh</a></p>
 <p><a href="https://data.cityofnewyork.us/Education/2019-NYC-School-Survey-Parents/4fcz-jias" class="uri">https://data.cityofnewyork.us/Education/2019-NYC-School-Survey-Parents/4fcz-jias</a></p>
 <p><a href="https://data.cityofnewyork.us/Education/2019-NYC-School-Survey-Student/k2zg-756q" class="uri">https://data.cityofnewyork.us/Education/2019-NYC-School-Survey-Student/k2zg-756q</a></p>
 <p>We download the dataset as <code>xlsx</code> format from the aforementioned websites.</p>
-<pre><code>## # A tibble: 6 x 11
-##   DBN    `School Name`    `Total Parent \r\~ `Total Teacher R~ `Total Student R~
-##   &lt;chr&gt;  &lt;chr&gt;                         &lt;dbl&gt;             &lt;dbl&gt; &lt;chr&gt;            
-## 1 &lt;NA&gt;   &lt;NA&gt;                             NA                NA &lt;NA&gt;             
-## 2 &lt;NA&gt;   &lt;NA&gt;                             NA                NA &lt;NA&gt;             
-## 3 01M015 P.S. 015 ROBERT~                 91               100 N/A              
-## 4 01M019 P.S. 019 ASHER ~                100                93 N/A              
-## 5 01M020 P.S. 020 ANNA S~                 58                90 N/A              
-## 6 01M034 P.S. 034 FRANKL~                 29               100 95               
-## # ... with 6 more variables: Collaborative Teachers Score &lt;chr&gt;,
-## #   Effective School Leadership Score &lt;chr&gt;, Rigorous Instruction Score &lt;chr&gt;,
-## #   Supportive Environment Score &lt;chr&gt;,
-## #   Strong Family-Community Ties Score &lt;chr&gt;, Trust Score &lt;chr&gt;</code></pre>
+</div>
+<div id="a-glimpse-at-our-dataset" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> A glimpse at our dataset</h2>
+<div id="student-reponse-dataset" class="section level3" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Student Reponse dataset</h3>
+<p>The student response result is a dataframe with 1831 observations and 11 columns. Some important information are shown as below:</p>
+<pre><code>## tibble [1,831 x 11] (S3: tbl_df/tbl/data.frame)
+##  $ DBN                               : chr [1:1831] NA NA &quot;01M015&quot; &quot;01M019&quot; ...
+##  $ School Name                       : chr [1:1831] NA NA &quot;P.S. 015 ROBERTO CLEMENTE&quot; &quot;P.S. 019 ASHER LEVY&quot; ...
+##  $ Total Parent 
+## Response Rate    : num [1:1831] NA NA 91 100 58 29 80 52 79 46 ...
+##  $ Total Teacher Response Rate       : num [1:1831] NA NA 100 93 90 100 100 96 77 93 ...
+##  $ Total Student Response Rate       : chr [1:1831] NA NA &quot;N/A&quot; &quot;N/A&quot; ...
+##  $ Collaborative Teachers Score      : chr [1:1831] NA NA &quot;4.0999999999999996&quot; &quot;4.53&quot; ...
+##  $ Effective School Leadership Score : chr [1:1831] NA NA &quot;4.1900000000000004&quot; &quot;4.51&quot; ...
+##  $ Rigorous Instruction Score        : chr [1:1831] NA NA &quot;4.0199999999999996&quot; &quot;4.8&quot; ...
+##  $ Supportive Environment Score      : chr [1:1831] NA NA &quot;N/A&quot; &quot;N/A&quot; ...
+##  $ Strong Family-Community Ties Score: chr [1:1831] NA NA &quot;4.18&quot; &quot;4.66&quot; ...
+##  $ Trust Score                       : chr [1:1831] NA NA &quot;3.96&quot; &quot;3.76&quot; ...</code></pre>
+</div>
+<div id="teacher-reponse-dataset" class="section level3" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Teacher Reponse dataset</h3>
+<p>Similarly, the teacher response result is a dataframe of 1,903 observations and 11 columns. Some important information are shown as below:</p>
+<pre><code>## tibble [1,903 x 11] (S3: tbl_df/tbl/data.frame)
+##  $ DBN                               : chr [1:1903] &quot;01M015&quot; &quot;01M019&quot; &quot;01M020&quot; &quot;01M034&quot; ...
+##  $ School Name                       : chr [1:1903] &quot;P.S. 015 ROBERTO CLEMENTE&quot; &quot;P.S. 019 ASHER LEVY&quot; &quot;P.S. 020 ANNA SILVER&quot; &quot;P.S. 034 FRANKLIN D. ROOSEVELT&quot; ...
+##  $ Total Parent 
+## Response Rate    : num [1:1903] 91 100 58 29 80 52 79 46 57 100 ...
+##  $ Total Teacher Response Rate       : num [1:1903] 100 93 90 100 100 96 77 93 89 100 ...
+##  $ Total Student Response Rate       : chr [1:1903] &quot;N/A&quot; &quot;N/A&quot; &quot;N/A&quot; &quot;95&quot; ...
+##  $ Collaborative Teachers Score      : chr [1:1903] &quot;4.0999999999999996&quot; &quot;4.53&quot; &quot;2.71&quot; &quot;2.69&quot; ...
+##  $ Effective School Leadership Score : chr [1:1903] &quot;4.1900000000000004&quot; &quot;4.51&quot; &quot;2.98&quot; &quot;2.59&quot; ...
+##  $ Rigorous Instruction Score        : chr [1:1903] &quot;4.0199999999999996&quot; &quot;4.8&quot; &quot;1.92&quot; &quot;2.14&quot; ...
+##  $ Supportive Environment Score      : chr [1:1903] &quot;N/A&quot; &quot;N/A&quot; &quot;N/A&quot; &quot;N/A&quot; ...
+##  $ Strong Family-Community Ties Score: chr [1:1903] &quot;4.18&quot; &quot;4.66&quot; &quot;3.84&quot; &quot;3.67&quot; ...
+##  $ Trust Score                       : chr [1:1903] &quot;3.96&quot; &quot;3.76&quot; &quot;3.14&quot; &quot;2.38&quot; ...</code></pre>
+</div>
+<div id="parent-reponse-dataset" class="section level3" number="2.2.3">
+<h3><span class="header-section-number">2.2.3</span> Parent Reponse dataset</h3>
+<p>The parent response result is a dataframe of 2,946 observations and 11 columns. Some important information are shown as below:</p>
+<pre><code>## tibble [2,946 x 11] (S3: tbl_df/tbl/data.frame)
+##  $ DBN                               : chr [1:2946] &quot;01M015&quot; &quot;01M019&quot; &quot;01M020&quot; &quot;01M034&quot; ...
+##  $ School Name                       : chr [1:2946] &quot;P.S. 015 ROBERTO CLEMENTE&quot; &quot;P.S. 019 ASHER LEVY&quot; &quot;P.S. 020 ANNA SILVER&quot; &quot;P.S. 034 FRANKLIN D. ROOSEVELT&quot; ...
+##  $ Total Parent 
+## Response Rate    : num [1:2946] 91 100 58 29 80 52 79 46 57 100 ...
+##  $ Total Teacher Response Rate       : num [1:2946] 100 93 90 100 100 96 77 93 89 100 ...
+##  $ Total Student Response Rate       : chr [1:2946] &quot;N/A&quot; &quot;N/A&quot; &quot;N/A&quot; &quot;95&quot; ...
+##  $ Collaborative Teachers Score      : chr [1:2946] &quot;4.0999999999999996&quot; &quot;4.53&quot; &quot;2.71&quot; &quot;2.69&quot; ...
+##  $ Effective School Leadership Score : chr [1:2946] &quot;4.1900000000000004&quot; &quot;4.51&quot; &quot;2.98&quot; &quot;2.59&quot; ...
+##  $ Rigorous Instruction Score        : chr [1:2946] &quot;4.0199999999999996&quot; &quot;4.8&quot; &quot;1.92&quot; &quot;2.14&quot; ...
+##  $ Supportive Environment Score      : chr [1:2946] &quot;N/A&quot; &quot;N/A&quot; &quot;N/A&quot; &quot;N/A&quot; ...
+##  $ Strong Family-Community Ties Score: chr [1:2946] &quot;4.18&quot; &quot;4.66&quot; &quot;3.84&quot; &quot;3.67&quot; ...
+##  $ Trust Score                       : chr [1:2946] &quot;3.96&quot; &quot;3.76&quot; &quot;3.14&quot; &quot;2.38&quot; ...</code></pre>
+</div>
+</div>
+<div id="meanings-of-columns" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Meanings of columns</h2>
+<p>Before we start to perform any exploratory data analysis and visualization , we need to understand what does each column mean in our dataset. The three dataframes we mentioned above – Student, Teacher and Parent survey result – contains 11 columns:</p>
 <ul>
-<li><p>Rigorous Instruction: This element reflects how well the curriculum and instruction engage students and build critical-thinking skills. This section uses
+<li><p>DBN: a character code used to identify a school and its location. It is formed by concatenating the school district code, the school borough code, and the school number.</p></li>
+<li><p>School Name: School Name</p></li>
+<li><p>Total Parent/Teacher/Student Response Rate: Percentage rate of parent/teacher/student response. The response rate should be the same in three datasets.</p></li>
+<li><p>Collaborative Teachers Score: This element reflects how well teachers participate in opportunities to develop, grow, and contribute to the continuous improvement of the school community. This section uses data from the Quality Review and the NYC School Survey.</p></li>
+<li><p>Effective School Leadership Score: This element reflects how well school leadership inspires the school community with a clear instructional vision and effectively distributes leadership to realize this vision. This section uses data from the Quality Review and the NYC School Survey.</p></li>
+<li><p>Rigorous Instruction Score: This element reflects how well the curriculum and instruction engage students and build critical-thinking skills. This section uses
 NYC Department of Education data from the Quality Review and the NYC School Survey.</p></li>
-<li><p>Collaborative Teachers: This element reflects how well teachers participate in opportunities to develop, grow, and contribute to the continuous improvement of the school community. This section uses data from the Quality Review and the NYC School Survey.</p></li>
-<li><p>Supportive Environment: This element reflects how well the school establishes a culture where students feel safe, challenged to grow, and supported to meet high expectations. This section uses data from the Quality Review, the NYC School Survey, the percentage of students with attendance rates of 90% or higher, and movement of students with disabilities to less restrictive environments.</p></li>
-<li><p>Effective School Leadership: This element reflects how well school leadership inspires the school community with a clear instructional vision and effectively distributes leadership to realize this vision. This section uses data from the Quality Review and the NYC School Survey.
-Strong Family-Community Ties: This element reflects how well the school forms effective partnerships with families to improve the school. This section uses data from the Quality Review and the NYC School Survey.</p></li>
-<li><p>Trust: This element reflects whether the relationships between administrators, educators, students, and families are based on trust and respect. This section uses data from the NYC School Survey.</p></li>
-<li><p>Student Achievement: This element reflects students’ progress towards graduation by accumulating credits graduation rates, college-and-career readiness of students based on their achievements in high school and their outcomes after leaving high school, and how students in higher-need groups performed.</p></li>
+<li><p>Supportive Environment Score: This element reflects how well the school establishes a culture where students feel safe, challenged to grow, and supported to meet high expectations. This section uses data from the Quality Review, the NYC School Survey, the percentage of students with attendance rates of 90% or higher, and movement of students with disabilities to less restrictive environments.</p></li>
+<li><p>Strong Family-Community Ties Score: This element reflects how well the school forms effective partnerships with families to improve the school. This section uses data from the Quality Review and the NYC School Survey.</p></li>
+<li><p>Trust Score: This element reflects whether the relationships between administrators, educators, students, and families are based on trust and respect. This section uses data from the NYC School Survey.</p></li>
 </ul>
 
+</div>
 </div>
             </section>
 

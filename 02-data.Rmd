@@ -1,7 +1,8 @@
 # Data sources
 
+## Data source links
 
-data sources: 
+The result of parent, teacher and student response of the NYC school survey can be found in the links listed below:
 
 https://data.cityofnewyork.us/Education/2019-NYC-School-Survey-Teachers/uzmq-2khh
 
@@ -11,24 +12,59 @@ https://data.cityofnewyork.us/Education/2019-NYC-School-Survey-Student/k2zg-756q
 
 We download the dataset as `xlsx` format from the aforementioned websites.
 
+## A glimpse at our dataset
+
+### Student Reponse dataset
+
+The student response result is a dataframe with 1831 observations and 11 columns. Some important information are shown as below: 
 
 ```{r}
 library(readxl)
 library(tidyverse)
 student <- read_excel("Student.xlsx")
-head(student)
+str(student)
 ```
 
-- Rigorous Instruction: This element reflects how well the curriculum and instruction engage students and build critical-thinking skills. This section uses 
+### Teacher Reponse dataset
+
+Similarly, the teacher response result is a dataframe of 1,903 observations and 11 columns. Some important information are shown as below:
+
+```{r}
+teacher <- read_excel("Teacher.xlsx")
+str(teacher)
+```
+
+### Parent Reponse dataset
+
+The parent response result is a dataframe of 2,946 observations and 11 columns. Some important information are shown as below:
+
+```{r}
+parents <- read_excel("Parent.xlsx")
+str(parents)
+```
+
+
+## Meanings of columns
+
+Before we start to perform any exploratory data analysis and visualization , we need to understand what does each column mean in our dataset. The three dataframes we mentioned above -- Student, Teacher and Parent survey result -- contains 11 columns:
+
+- DBN: a character code used to identify a school and its location. It is formed by concatenating the school district code, the school borough code, and the school number.
+
+- School Name: School Name
+
+- Total Parent/Teacher/Student Response Rate: Percentage rate of parent/teacher/student response. The response rate should be the same in three datasets. 
+
+- Collaborative Teachers Score: This element reflects how well teachers participate in opportunities to develop, grow, and contribute to the continuous improvement of the school community. This section uses data from the Quality Review and the NYC School Survey.
+
+- Effective School Leadership Score: This element reflects how well school leadership inspires the school community with a clear instructional vision and effectively distributes leadership to realize this vision. This section uses data from the Quality Review and the NYC School Survey.
+
+- Rigorous Instruction Score: This element reflects how well the curriculum and instruction engage students and build critical-thinking skills. This section uses 
 NYC Department of Education data from the Quality Review and the NYC School Survey.
 
-- Collaborative Teachers: This element reflects how well teachers participate in opportunities to develop, grow, and contribute to the continuous improvement of the school community. This section uses data from the Quality Review and the NYC School Survey.
 
-- Supportive Environment: This element reflects how well the school establishes a culture where students feel safe, challenged to grow, and supported to meet high expectations. This section uses data from the Quality Review, the NYC School Survey, the percentage of students with attendance rates of 90% or higher, and movement of students with disabilities to less restrictive environments.
+- Supportive Environment Score: This element reflects how well the school establishes a culture where students feel safe, challenged to grow, and supported to meet high expectations. This section uses data from the Quality Review, the NYC School Survey, the percentage of students with attendance rates of 90% or higher, and movement of students with disabilities to less restrictive environments.
 
-- Effective School Leadership: This element reflects how well school leadership inspires the school community with a clear instructional vision and effectively distributes leadership to realize this vision. This section uses data from the Quality Review and the NYC School Survey.
-Strong Family-Community Ties: This element reflects how well the school forms effective partnerships with families to improve the school. This section uses data from the Quality Review and the NYC School Survey.
 
-- Trust: This element reflects whether the relationships between administrators, educators, students, and families are based on trust and respect. This section uses data from the NYC School Survey. 
+- Strong Family-Community Ties Score: This element reflects how well the school forms effective partnerships with families to improve the school. This section uses data from the Quality Review and the NYC School Survey.
 
-- Student Achievement: This element reflects students’ progress towards graduation by accumulating credits graduation rates, college-and-career readiness of students based on their achievements in high school and their outcomes after leaving high school, and how students in higher-need groups performed. 
+- Trust Score: This element reflects whether the relationships between administrators, educators, students, and families are based on trust and respect. This section uses data from the NYC School Survey. 
