@@ -19,3 +19,16 @@ student <- read_excel("Student.xlsx")
 head(student)
 ```
 
+- Rigorous Instruction: This element reflects how well the curriculum and instruction engage students and build critical-thinking skills. This section uses 
+NYC Department of Education data from the Quality Review and the NYC School Survey.
+
+- Collaborative Teachers: This element reflects how well teachers participate in opportunities to develop, grow, and contribute to the continuous improvement of the school community. This section uses data from the Quality Review and the NYC School Survey.
+
+- Supportive Environment: This element reflects how well the school establishes a culture where students feel safe, challenged to grow, and supported to meet high expectations. This section uses data from the Quality Review, the NYC School Survey, the percentage of students with attendance rates of 90% or higher, and movement of students with disabilities to less restrictive environments.
+
+- Effective School Leadership: This element reflects how well school leadership inspires the school community with a clear instructional vision and effectively distributes leadership to realize this vision. This section uses data from the Quality Review and the NYC School Survey.
+Strong Family-Community Ties: This element reflects how well the school forms effective partnerships with families to improve the school. This section uses data from the Quality Review and the NYC School Survey.
+
+- Trust: This element reflects whether the relationships between administrators, educators, students, and families are based on trust and respect. This section uses data from the NYC School Survey. 
+
+- Student Achievement: This element reflects students’ progress towards graduation by accumulating credits graduation rates, college-and-career readiness of students based on their achievements in high school and their outcomes after leaving high school, and how students in higher-need groups performed. 

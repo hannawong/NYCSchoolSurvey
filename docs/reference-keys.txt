@@ -5,3 +5,6 @@ missing-values
 results
 interactive-component
 conclusion
+introduction-to-nyc-school-survey
+what-are-we-going-to-do-in-this-project
+our-goal-in-this-project
