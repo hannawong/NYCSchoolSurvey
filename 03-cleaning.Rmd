@@ -1,4 +1,69 @@
 # Data transformation
+```{r}
+library(readxl)
+library(tidyverse)
+student <- read_excel("Student.xlsx")
+teacher<-read_excel("Teacher.xlsx")
+parent<-read_excel("Parent.xlsx")
+```
+
+
+## Step1: Change column names
+
+The column names in the original dataset are too long and contain white spaces, which is inconvenient for future development. Moreover, all the column names are the same for student, teacher and parent dataset, thus we cannot discriminate among them after merging these three dataframes in Step2. 
+
+Therefore, for the first step, we change each long column name to a shorter yet clear name, with prefix "s_","t_", and "p_" for student, teacher and parent respectively.
+
+The column names of students response result after transformation is:
+
+```{r}
+student_ <- student %>%
+  rename(student_rr = `Total Student Response Rate`) %>%
+  rename(parent_rr = `Total Parent \r\nResponse Rate`) %>%
+  rename(teacher_rr = `Total Teacher Response Rate`) %>%
+  rename(name = `School Name`) %>%
+  rename(s_trust = `Trust Score`) %>%
+  rename(s_collab_teachers = `Collaborative Teachers Score`) %>%
+  rename(s_effective_schlead = `Effective School Leadership Score`) %>%
+  rename(s_rig_instruction = `Rigorous Instruction Score`) %>%
+  rename(s_supp_env = `Supportive Environment Score`) %>%
+  rename(s_family_communityties = `Strong Family-Community Ties Score`)
+colnames(student_)
+```
+
+The column names of teacher response result after transformation is:
+
+```{r}
+teacher_ <- teacher %>%
+  rename(student_rr = `Total Student Response Rate`) %>%
+  rename(parent_rr = `Total Parent \r\nResponse Rate`) %>%
+  rename(teacher_rr = `Total Teacher Response Rate`) %>%
+  rename(name = `School Name`) %>%
+  rename(t_trust = `Trust Score`) %>%
+  rename(t_collab_teachers = `Collaborative Teachers Score`) %>%
+  rename(t_effective_schlead = `Effective School Leadership Score`) %>%
+  rename(t_rig_instruction = `Rigorous Instruction Score`) %>%
+  rename(t_supp_env = `Supportive Environment Score`) %>%
+  rename(t_family_communityties = `Strong Family-Community Ties Score`)
+colnames(teacher_)
+```
+
+The column names of parent response result after transformation is:
+
+```{r}
+parent_ <- parent %>%
+  rename(student_rr = `Total Student Response Rate`) %>%
+  rename(parent_rr = `Total Parent \r\nResponse Rate`) %>%
+  rename(teacher_rr = `Total Teacher Response Rate`) %>%
+  rename(name = `School Name`) %>%
+  rename(p_trust = `Trust Score`) %>%
+  rename(p_collab_teachers = `Collaborative Teachers Score`) %>%
+  rename(p_effective_schlead = `Effective School Leadership Score`) %>%
+  rename(p_rig_instruction = `Rigorous Instruction Score`) %>%
+  rename(p_supp_env = `Supportive Environment Score`) %>%
+  rename(p_family_communityties = `Strong Family-Community Ties Score`)
+colnames(parent_)
+```
 
 ## Step1: Merge Three DataFrames
 
@@ -16,5 +81,9 @@ cat("dim of parent is:",dim(parent))
 cat("dim of teacher is:",dim(teacher))
 ```
 In order to be consistent, we firstly merge the three datasets and only keep those schools who exists in all of these three datasets. 
+
+```{r}
+
+```
 
 

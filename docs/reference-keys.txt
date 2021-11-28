@@ -16,3 +16,8 @@ parent-reponse-dataset
 a-glimpse-at-our-dataset
 meanings-of-columns
 step1-merge-three-dataframes
+step1-change-column-names
+step2-merge-three-dataframes
+step3-change-data-types
+step4
+step4-tidying-data-with-pivot_longer
