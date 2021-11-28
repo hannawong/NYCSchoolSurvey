@@ -21,3 +21,6 @@ step2-merge-three-dataframes
 step3-change-data-types
 step4
 step4-tidying-data-with-pivot_longer
+distribution-of-six-components
+distribution-of-five-components
+density-plots

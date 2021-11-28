@@ -1,1 +1,121 @@
 # Results
+```{r}
+library(readxl)
+library(tidyverse)
+student <- read_excel("Student.xlsx")
+teacher<-read_excel("Teacher.xlsx")
+parent<-read_excel("Parent.xlsx")
+
+student_ <- student %>%
+  rename(student_rr = `Total Student Response Rate`) %>%
+  rename(parent_rr = `Total Parent \r\nResponse Rate`) %>%
+  rename(teacher_rr = `Total Teacher Response Rate`) %>%
+  rename(name = `School Name`) %>%
+  rename(s_trust = `Trust Score`) %>%
+  rename(s_collab_teachers = `Collaborative Teachers Score`) %>%
+  rename(s_effective_schlead = `Effective School Leadership Score`) %>%
+  rename(s_rig_instruction = `Rigorous Instruction Score`) %>%
+  rename(s_supp_env = `Supportive Environment Score`) %>%
+  rename(s_family_communityties = `Strong Family-Community Ties Score`)
+
+teacher_ <- teacher %>%
+  rename(student_rr = `Total Student Response Rate`) %>%
+  rename(parent_rr = `Total Parent \r\nResponse Rate`) %>%
+  rename(teacher_rr = `Total Teacher Response Rate`) %>%
+  rename(name = `School Name`) %>%
+  rename(t_trust = `Trust Score`) %>%
+  rename(t_collab_teachers = `Collaborative Teachers Score`) %>%
+  rename(t_effective_schlead = `Effective School Leadership Score`) %>%
+  rename(t_rig_instruction = `Rigorous Instruction Score`) %>%
+  rename(t_supp_env = `Supportive Environment Score`) %>%
+  rename(t_family_communityties = `Strong Family-Community Ties Score`)
+
+parent_ <- parent %>%
+  rename(student_rr = `Total Student Response Rate`) %>%
+  rename(parent_rr = `Total Parent \r\nResponse Rate`) %>%
+  rename(teacher_rr = `Total Teacher Response Rate`) %>%
+  rename(name = `School Name`) %>%
+  rename(p_trust = `Trust Score`) %>%
+  rename(p_collab_teachers = `Collaborative Teachers Score`) %>%
+  rename(p_effective_schlead = `Effective School Leadership Score`) %>%
+  rename(p_rig_instruction = `Rigorous Instruction Score`) %>%
+  rename(p_supp_env = `Supportive Environment Score`) %>%
+  rename(p_family_communityties = `Strong Family-Community Ties Score`)
+
+
+st = merge(student_, teacher_,by = c("DBN","name","parent_rr","teacher_rr","student_rr"))
+stp = merge(st,parent_,by = c("DBN","name","parent_rr","teacher_rr","student_rr"))
+
+stp$s_collab_teachers <- as.numeric(stp$s_collab_teachers)
+stp$s_effective_schlead<- as.numeric(stp$s_effective_schlead)
+stp$s_rig_instruction <- as.numeric(stp$s_rig_instruction)
+stp$s_supp_env <- as.numeric(stp$s_supp_env)
+stp$s_family_communityties <- as.numeric(stp$s_family_communityties)
+stp$s_trust <- as.numeric(stp$s_trust)
+
+stp$t_collab_teachers <- as.numeric(stp$t_collab_teachers)
+stp$t_effective_schlead<- as.numeric(stp$t_effective_schlead)
+stp$t_rig_instruction <- as.numeric(stp$t_rig_instruction)
+stp$t_supp_env <- as.numeric(stp$t_supp_env)
+stp$t_family_communityties <- as.numeric(stp$t_family_communityties)
+stp$t_trust <- as.numeric(stp$t_trust)
+
+stp$p_collab_teachers <- as.numeric(stp$p_collab_teachers)
+stp$p_effective_schlead<- as.numeric(stp$p_effective_schlead)
+stp$p_rig_instruction <- as.numeric(stp$p_rig_instruction)
+stp$p_supp_env <- as.numeric(stp$p_supp_env)
+stp$p_family_communityties <- as.numeric(stp$p_family_communityties)
+stp$p_trust <- as.numeric(stp$p_trust)
+
+stp$student_rr<-as.numeric(stp$student_rr)
+tidydata<-stp %>%
+  pivot_longer(cols =!c(name,DBN,parent_rr,student_rr,teacher_rr), names_to = "aspect",values_to = "score")
+
+```
+
+## Distribution of Five Components
+
+Before we make any comparison between NYC schools, we firstly have a look at the distribution of our dataset, i.e. the distribution of five components from students', teachers' and parents' perspective (we drop `supportive environment score` because we know from chapter 4 that it has more than 50% missing values). 
+
+### Density Plots
+
+Firstly, we make density plots of the scores faceted by these five components for student, teacher and parent respectively.
+
+```{r}
+library(ggplot2)
+
+tidydata_s <- tidydata %>%
+              filter(aspect =="s_collab_teachers"|aspect =="s_effective_schlead"|aspect =="s_rig_instruction"|aspect == "s_family_communityties"|aspect == "s_trust")
+
+ggplot(tidydata_s,aes(x = score,y = ..density..))+
+  geom_histogram(bins = 20, colour = "#80593D",fill = "#9FC29F")+
+  geom_density(color = "#3D6480")+
+  facet_wrap(~aspect)+
+  ggtitle("Students' Survey Result in School Quality")
+```
+```{r}
+tidydata_t <- tidydata %>%
+              filter(aspect =="t_collab_teachers"|aspect =="t_effective_schlead"|aspect =="t_rig_instruction"|aspect == "t_family_communityties"|aspect == "t_trust")
+
+ggplot(tidydata_t,aes(x = score,y = ..density..))+
+  geom_histogram(bins = 40, colour = "#80593D",fill = "#9FC29F")+
+  geom_density(color = "#3D6480")+
+  facet_wrap(~aspect)+
+  ggtitle("Teachers' Survey Result in School Quality")
+```
+```{r}
+tidydata_p <- tidydata %>%
+              filter(aspect =="p_collab_teachers"|aspect =="p_effective_schlead"|aspect =="p_rig_instruction"|aspect == "p_family_communityties"|aspect == "p_trust")
+
+ggplot(tidydata_p,aes(x = score,y = ..density..))+
+  geom_histogram(bins = 40, colour = "#80593D",fill = "#9FC29F")+
+  geom_density(color = "#3D6480")+
+  facet_wrap(~aspect)+
+  ggtitle("Parents' Survey Result in School Quality")
+```
+
+```{r}
+tidydata_p
+tidydata_s
+```
+

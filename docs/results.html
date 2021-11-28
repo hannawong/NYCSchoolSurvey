@@ -24,7 +24,7 @@
 <meta name="author" content="Ziheng Ru, Zihan Wang" />
 
 
-<meta name="date" content="2021-11-19" />
+<meta name="date" content="2021-11-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -73,11 +73,37 @@
 <li><a href="./">NYCSchoolSurvey</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
-<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a></li>
-<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#introduction-to-nyc-school-survey"><i class="fa fa-check"></i><b>1.1</b> Introduction to NYC School Survey</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#our-goal-in-this-project"><i class="fa fa-check"></i><b>1.2</b> Our goal in this project</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-sources.html"><a href="data-sources.html#data-source-links"><i class="fa fa-check"></i><b>2.1</b> Data source links</a></li>
+<li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#a-glimpse-at-our-dataset"><i class="fa fa-check"></i><b>2.2</b> A glimpse at our dataset</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="data-sources.html"><a href="data-sources.html#student-reponse-dataset"><i class="fa fa-check"></i><b>2.2.1</b> Student Reponse dataset</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data-sources.html"><a href="data-sources.html#teacher-reponse-dataset"><i class="fa fa-check"></i><b>2.2.2</b> Teacher Reponse dataset</a></li>
+<li class="chapter" data-level="2.2.3" data-path="data-sources.html"><a href="data-sources.html#parent-reponse-dataset"><i class="fa fa-check"></i><b>2.2.3</b> Parent Reponse dataset</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data-sources.html"><a href="data-sources.html#meanings-of-columns"><i class="fa fa-check"></i><b>2.3</b> Meanings of columns</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-transformation.html"><a href="data-transformation.html#step1-change-column-names"><i class="fa fa-check"></i><b>3.1</b> Step1: Change column names</a></li>
+<li class="chapter" data-level="3.2" data-path="data-transformation.html"><a href="data-transformation.html#step2-merge-three-dataframes"><i class="fa fa-check"></i><b>3.2</b> Step2: Merge Three DataFrames</a></li>
+<li class="chapter" data-level="3.3" data-path="data-transformation.html"><a href="data-transformation.html#step3-change-data-types"><i class="fa fa-check"></i><b>3.3</b> Step3: Change Data Types</a></li>
+<li class="chapter" data-level="3.4" data-path="data-transformation.html"><a href="data-transformation.html#step4-tidying-data-with-pivot_longer"><i class="fa fa-check"></i><b>3.4</b> Step4: Tidying data with pivot_longer</a></li>
+</ul></li>
 <li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a></li>
-<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a></li>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#distribution-of-five-components"><i class="fa fa-check"></i><b>5.1</b> Distribution of Five Components</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="results.html"><a href="results.html#density-plots"><i class="fa fa-check"></i><b>5.1.1</b> Density Plots</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a></li>
 <li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="divider"></li>
@@ -101,7 +127,18 @@
             <section class="normal" id="section-">
 <div id="results" class="section level1" number="5">
 <h1><span class="header-section-number">Chapter 5</span> Results</h1>
+<div id="distribution-of-five-components" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Distribution of Five Components</h2>
+<p>Before we make any comparison between NYC schools, we firstly have a look at the distribution of our dataset, i.e. the distribution of five components from students’, teachers’ and parents’ perspective (we drop <code>supportive environment score</code> because we know from chapter 4 that it has more than 50% missing values).</p>
+<div id="density-plots" class="section level3" number="5.1.1">
+<h3><span class="header-section-number">5.1.1</span> Density Plots</h3>
+<p>Firstly, we make density plots of the scores faceted by these five components for student, teacher and parent respectively.</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+<img src="finalproj_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+<img src="finalproj_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 
+</div>
+</div>
 </div>
             </section>
 
