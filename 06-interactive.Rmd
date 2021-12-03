@@ -1,10 +1,11 @@
 # Interactive component
 
+## The relationship between parents' and teachers' feeling about family-community bonds
+
 ```{r}
 library(readxl)
 library(tidyverse)
 family<-read_rds("family")
-family
 
 library(parcoords)
 library(webshot)
