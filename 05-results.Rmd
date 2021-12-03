@@ -1,23 +1,28 @@
+
+
 # Results
+
+## Distribution of School Scores
+
+Before we make any comparison between NYC schools, we firstly have a look at the distribution of our dataset, i.e. the distribution of school scores from students', teachers' and parents' perspective. In order to do that, we make density plots of the scores faceted by these five components.(we drop `supportive environment score` because we know from chapter 4 that it has nearly 100% missing values)
+
 ```{r}
 library(readxl)
 library(tidyverse)
 student <- read_excel("Student.xlsx")
 teacher<-read_excel("Teacher.xlsx")
 parent<-read_excel("Parent.xlsx")
-
 student_ <- student %>%
   rename(student_rr = `Total Student Response Rate`) %>%
   rename(parent_rr = `Total Parent \r\nResponse Rate`) %>%
   rename(teacher_rr = `Total Teacher Response Rate`) %>%
   rename(name = `School Name`) %>%
-  rename(s_trust = `Trust Score`) %>%
-  rename(s_collab_teachers = `Collaborative Teachers Score`) %>%
-  rename(s_effective_schlead = `Effective School Leadership Score`) %>%
-  rename(s_rig_instruction = `Rigorous Instruction Score`) %>%
-  rename(s_supp_env = `Supportive Environment Score`) %>%
-  rename(s_family_communityties = `Strong Family-Community Ties Score`)
-
+  rename(trust = `Trust Score`) %>%
+  rename(collab_teachers = `Collaborative Teachers Score`) %>%
+  rename(effective_schlead = `Effective School Leadership Score`) %>%
+  rename(rig_instruction = `Rigorous Instruction Score`) %>%
+  rename(supp_env = `Supportive Environment Score`) %>%
+  rename(family_communityties = `Strong Family-Community Ties Score`)
 teacher_ <- teacher %>%
   rename(student_rr = `Total Student Response Rate`) %>%
   rename(parent_rr = `Total Parent \r\nResponse Rate`) %>%
@@ -29,7 +34,6 @@ teacher_ <- teacher %>%
   rename(t_rig_instruction = `Rigorous Instruction Score`) %>%
   rename(t_supp_env = `Supportive Environment Score`) %>%
   rename(t_family_communityties = `Strong Family-Community Ties Score`)
-
 parent_ <- parent %>%
   rename(student_rr = `Total Student Response Rate`) %>%
   rename(parent_rr = `Total Parent \r\nResponse Rate`) %>%
@@ -41,81 +45,145 @@ parent_ <- parent %>%
   rename(p_rig_instruction = `Rigorous Instruction Score`) %>%
   rename(p_supp_env = `Supportive Environment Score`) %>%
   rename(p_family_communityties = `Strong Family-Community Ties Score`)
-
-
 st = merge(student_, teacher_,by = c("DBN","name","parent_rr","teacher_rr","student_rr"))
 stp = merge(st,parent_,by = c("DBN","name","parent_rr","teacher_rr","student_rr"))
-
-stp$s_collab_teachers <- as.numeric(stp$s_collab_teachers)
-stp$s_effective_schlead<- as.numeric(stp$s_effective_schlead)
-stp$s_rig_instruction <- as.numeric(stp$s_rig_instruction)
-stp$s_supp_env <- as.numeric(stp$s_supp_env)
-stp$s_family_communityties <- as.numeric(stp$s_family_communityties)
-stp$s_trust <- as.numeric(stp$s_trust)
-
+stp$collab_teachers <- as.numeric(stp$collab_teachers)
+stp$effective_schlead<- as.numeric(stp$effective_schlead)
+stp$rig_instruction <- as.numeric(stp$rig_instruction)
+stp$supp_env <- as.numeric(stp$supp_env)
+stp$family_communityties <- as.numeric(stp$family_communityties)
+stp$trust <- as.numeric(stp$trust)
 stp$t_collab_teachers <- as.numeric(stp$t_collab_teachers)
 stp$t_effective_schlead<- as.numeric(stp$t_effective_schlead)
 stp$t_rig_instruction <- as.numeric(stp$t_rig_instruction)
 stp$t_supp_env <- as.numeric(stp$t_supp_env)
 stp$t_family_communityties <- as.numeric(stp$t_family_communityties)
 stp$t_trust <- as.numeric(stp$t_trust)
-
 stp$p_collab_teachers <- as.numeric(stp$p_collab_teachers)
 stp$p_effective_schlead<- as.numeric(stp$p_effective_schlead)
 stp$p_rig_instruction <- as.numeric(stp$p_rig_instruction)
 stp$p_supp_env <- as.numeric(stp$p_supp_env)
 stp$p_family_communityties <- as.numeric(stp$p_family_communityties)
 stp$p_trust <- as.numeric(stp$p_trust)
-
 stp$student_rr<-as.numeric(stp$student_rr)
 tidydata<-stp %>%
   pivot_longer(cols =!c(name,DBN,parent_rr,student_rr,teacher_rr), names_to = "aspect",values_to = "score")
 
 ```
-
-## Distribution of Five Components
-
-Before we make any comparison between NYC schools, we firstly have a look at the distribution of our dataset, i.e. the distribution of five components from students', teachers' and parents' perspective (we drop `supportive environment score` because we know from chapter 4 that it has more than 50% missing values). 
-
-### Density Plots
-
-Firstly, we make density plots of the scores faceted by these five components for student, teacher and parent respectively.
-
-```{r}
-library(ggplot2)
-
-tidydata_s <- tidydata %>%
-              filter(aspect =="s_collab_teachers"|aspect =="s_effective_schlead"|aspect =="s_rig_instruction"|aspect == "s_family_communityties"|aspect == "s_trust")
-
-ggplot(tidydata_s,aes(x = score,y = ..density..))+
-  geom_histogram(bins = 20, colour = "#80593D",fill = "#9FC29F")+
-  geom_density(color = "#3D6480")+
-  facet_wrap(~aspect)+
-  ggtitle("Students' Survey Result in School Quality")
-```
 ```{r}
 tidydata_t <- tidydata %>%
-              filter(aspect =="t_collab_teachers"|aspect =="t_effective_schlead"|aspect =="t_rig_instruction"|aspect == "t_family_communityties"|aspect == "t_trust")
-
+              filter(aspect =="collab_teachers"|aspect =="effective_schlead"|aspect =="rig_instruction"|aspect == "family_communityties"|aspect == "trust")
 ggplot(tidydata_t,aes(x = score,y = ..density..))+
   geom_histogram(bins = 40, colour = "#80593D",fill = "#9FC29F")+
   geom_density(color = "#3D6480")+
   facet_wrap(~aspect)+
-  ggtitle("Teachers' Survey Result in School Quality")
+  ggtitle("Result in School Quality")
 ```
-```{r}
-tidydata_p <- tidydata %>%
-              filter(aspect =="p_collab_teachers"|aspect =="p_effective_schlead"|aspect =="p_rig_instruction"|aspect == "p_family_communityties"|aspect == "p_trust")
+We know from the plot that the distribution of school scores in these five aspects are not normally distributed, in fact, they are left-skewed, with long-tail data distributing in the left side of the plot. 
 
-ggplot(tidydata_p,aes(x = score,y = ..density..))+
-  geom_histogram(bins = 40, colour = "#80593D",fill = "#9FC29F")+
-  geom_density(color = "#3D6480")+
-  facet_wrap(~aspect)+
-  ggtitle("Parents' Survey Result in School Quality")
-```
+## Top 10 performance schools
+
+### Top 10 schools in five aspects
+
+Firstly, we sort the schools according to the five aforementioned aspects. In this way, we made a leaderboard for Top 10 Schools with the most collaborative teachers, Top 10 Schools with the most effective School Leadership, Top 10 Schools with the most Trust beween people, Top 10 Schools with the most rigid instructions, and Top 10 Schools with the Strongest Family Community Ties
 
 ```{r}
-tidydata_p
-tidydata_s
+library(dplyr)
+library(ggplot2)
+student_$collab_teachers<-as.numeric(student_$collab_teachers)
+score_sorted <- student_ %>% arrange(desc(collab_teachers))
+top10<-head(score_sorted,10)
+
+p<-ggplot(data = top10, aes(fct_rev(fct_reorder(name,collab_teachers)),y = collab_teachers,label = collab_teachers))+
+         geom_col(fill = "#9FC29F")
+  
+p+geom_label()+xlab("School Names")+theme(axis.text.x=element_text(angle=20, hjust=1))+ggtitle("Top 10 Schools with the most collaborative teachers")
+
 ```
+```{r}
+student_$effective_schlead<-as.numeric(student_$effective_schlead)
+score_sorted_1 <- student_ %>% arrange(desc(effective_schlead))
+top10_1<-head(score_sorted_1,10)
+
+p<-ggplot(data = top10_1, aes(fct_rev(fct_reorder(name,effective_schlead)),y = effective_schlead,label = effective_schlead))+
+         geom_col(fill = "#9FC29F")
+  
+p+geom_label()+xlab("School Names")+theme(axis.text.x=element_text(angle=20, hjust=1))+ggtitle("Top 10 Schools with the most effective School Leadership")
+```
+```{r}
+student_$trust<-as.numeric(student_$trust)
+score_sorted_1 <- student_ %>% arrange(desc(trust))
+top10_1<-head(score_sorted_1,10)
+
+p<-ggplot(data = top10_1, aes(fct_rev(fct_reorder(name,trust)),y = trust,label = trust))+
+         geom_col(fill = "#9FC29F")
+  
+p+geom_label()+xlab("School Names")+theme(axis.text.x=element_text(angle=20, hjust=1))+ggtitle("Top 10 Schools with the most Trust beween people")
+```
+```{r}
+student_$rig_instruction<-as.numeric(student_$rig_instruction)
+score_sorted_1 <- student_ %>% arrange(desc(rig_instruction))
+top10_1<-head(score_sorted_1,10)
+
+p<-ggplot(data = top10_1, aes(fct_rev(fct_reorder(name,rig_instruction)),y = rig_instruction,label = rig_instruction))+
+         geom_col(fill = "#9FC29F")
+  
+p+geom_label()+xlab("School Names")+theme(axis.text.x=element_text(angle=20, hjust=1))+ggtitle("Top 10 Schools with the most rigid instructions")
+```
+
+```{r}
+student_$family_communityties<-as.numeric(student_$family_communityties)
+score_sorted_1 <- student_ %>% arrange(desc(family_communityties))
+top10_1<-head(score_sorted_1,10)
+
+p<-ggplot(data = top10_1, aes(fct_rev(fct_reorder(name,family_communityties)),y = family_communityties,label = family_communityties))+
+         geom_col(fill = "#9FC29F")
+  
+p+geom_label()+xlab("School Names")+theme(axis.text.x=element_text(angle=20, hjust=1))+ggtitle("Top 10 Schools with the Strongest Family Community Ties")
+```
+
+### Top 10 Schools with the highest comprehensive scores
+
+Sometimes it is necessary to evaluate the schools in a more comprehensive way. Therefore, we take all the five aspects into consideration and calculate a comprehensive school performance score by taking the average of all the scores in five aspects. Then we made a leaderboard of the "Best" 10 Schools in NYC. 
+
+```{r}
+library(tidyverse)
+avg <- student_ %>% mutate(total_score = (collab_teachers+effective_schlead+rig_instruction+family_communityties+trust)/5) %>%
+  arrange(desc(total_score))
+top10_1<-head(avg,10)
+
+
+p<-ggplot(data = top10_1, aes(fct_rev(fct_reorder(name,total_score)),y = total_score,label = total_score))+
+         geom_col(fill = "#9FC29F")
+  
+p+geom_label()+xlab("School Names")+theme(axis.text.x=element_text(angle=20, hjust=1))+ggtitle("Top 10 Schools with the highest comprehensive scores")
+```
+
+The best 10 schools in NYC are:
+```{r}
+top10_1$name
+```
+
+## Dependency Relationships analysis
+
+Apart from the scores derived from the result given by  Department of Education of NYC, we also evaluate the performance of each school from the perspective of students, teachers and parents according to their answers to the questionnaire directly. In this section, we are going to look at the relationship of school scores given from different perspectives. 
+
+### Do Teachers and Parents feel the same about Family-Community bond?
+
+Both teachers and parents have answered some questions about their feelings about the family-community bond in their schools. For example, in the questionnaire for teachers, there are several statements like "teachers understand families' problems and concerns."; in the questionnaire for parents, there are statements like "School staff regularly communicate with me about how I can help my child learn.". Parents and teachers are asked to give the degree in which they agree to such statements, such as "strongly agree","agree","disagree","strongly disagree","idk". In this way, we are able to analysis whether teachers and parents feel the same about the family-community bond in their schools. 
+
+In order to make our analysis easier, we firstly derive a family-community bond score for each school from parents' and teachers' point of view respectively. More specifically, we calculate the percentage of `strongly agree`,`agree`,`disagree`,`strongly disagree`,`idk`, and add +2 points for `strongly agree`, +1 point for `agree`, -1 point for `disagree`, -2 points for `strongly disagree` and +0 point for `idk`. 
+
+```{r}
+family<-read_rds("family")
+family_<-family %>% mutate(t_s_disagree_percent = t_s_disagree/(t_s_disagree+t_s_agree+t_agree+t_disagree)) %>% mutate(t_disagree_percent = t_disagree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>% mutate(t_agree_percent = t_agree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>% mutate(t_s_agree_percent = t_s_agree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>% mutate(t_score = 2*t_s_agree_percent+1*t_agree_percent-1*t_disagree_percent-2*t_s_disagree_percent) %>% mutate(p_s_disagree_percent = p_s_disagree/(p_s_disagree+p_s_agree+p_agree+p_disagree)) %>% mutate(p_disagree_percent = p_disagree/(p_s_disagree+p_s_agree+p_agree+p_disagree))%>% mutate(p_agree_percent = p_agree/(p_s_disagree+p_s_agree+p_agree+p_disagree))%>% mutate(p_s_agree_percent = p_s_agree/(p_s_disagree+p_s_agree+p_agree+p_disagree))%>% mutate(p_score = 2*p_s_agree_percent+1*p_agree_percent-1*p_disagree_percent-2*p_s_disagree_percent)
+
+ggplot(data = family_,aes(x = t_score,y = p_score))+
+  geom_point(color = "#9FC29F")+theme_grey(18)+xlab("score given by teachers")+ylab("score given by parents")
+```
+
+The scores given by teachers and parents are clearly positively correlated. 
+
+
+
 

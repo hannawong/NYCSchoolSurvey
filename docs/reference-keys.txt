@@ -32,3 +32,12 @@ distribution-of-five-components
 density-plots
 interactive-component
 conclusion
+distribution-of-school-scores
+top-10-performance-schools
+results-1
+distribution-of-school-scores-1
+top-10-performance-schools-1
+top-10-schools-in-five-aspects
+top-10-schools-with-the-highest-comprehensive-scores
+dependency-relationships-analysis
+do-teachers-and-parents-feel-the-same-about-family-community-bond

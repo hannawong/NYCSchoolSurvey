@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 5 Results | NYC School Survey</title>
-  <meta name="description" content="Chapter 5 Results | NYC School Survey" />
+  <title>Chapter 6 Results | NYC School Survey</title>
+  <meta name="description" content="Chapter 6 Results | NYC School Survey" />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 5 Results | NYC School Survey" />
+  <meta property="og:title" content="Chapter 6 Results | NYC School Survey" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 5 Results | NYC School Survey" />
+  <meta name="twitter:title" content="Chapter 6 Results | NYC School Survey" />
   
   
   
@@ -31,7 +31,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="missing-values.html"/>
+<link rel="prev" href="results.html"/>
 <link rel="next" href="interactive-component.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -110,18 +110,15 @@
 <li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#distribution-of-school-scores"><i class="fa fa-check"></i><b>5.1</b> Distribution of School Scores</a></li>
-<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#top-10-performance-schools"><i class="fa fa-check"></i><b>5.2</b> Top 10 performance schools</a>
+<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#top-10-performance-schools"><i class="fa fa-check"></i><b>5.2</b> Top 10 performance schools</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="results-1.html"><a href="results-1.html"><i class="fa fa-check"></i><b>6</b> Results</a>
 <ul>
-<li class="chapter" data-level="5.2.1" data-path="results.html"><a href="results.html#top-10-schools-in-five-aspects"><i class="fa fa-check"></i><b>5.2.1</b> Top 10 schools in five aspects</a></li>
-<li class="chapter" data-level="5.2.2" data-path="results.html"><a href="results.html#top-10-schools-with-the-highest-comprehensive-scores"><i class="fa fa-check"></i><b>5.2.2</b> Top 10 Schools with the highest comprehensive scores</a></li>
+<li class="chapter" data-level="6.1" data-path="results-1.html"><a href="results-1.html#distribution-of-school-scores-1"><i class="fa fa-check"></i><b>6.1</b> Distribution of School Scores</a></li>
+<li class="chapter" data-level="6.2" data-path="results-1.html"><a href="results-1.html#top-10-performance-schools-1"><i class="fa fa-check"></i><b>6.2</b> Top 10 performance schools</a></li>
 </ul></li>
-<li class="chapter" data-level="5.3" data-path="results.html"><a href="results.html#dependency-relationships-analysis"><i class="fa fa-check"></i><b>5.3</b> Dependency Relationships analysis</a>
-<ul>
-<li class="chapter" data-level="5.3.1" data-path="results.html"><a href="results.html#do-teachers-and-parents-feel-the-same-about-family-community-bond"><i class="fa fa-check"></i><b>5.3.1</b> Do Teachers and Parents feel the same about Family-Community bond?</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a></li>
-<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
+<li class="chapter" data-level="7" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>7</b> Interactive component</a></li>
+<li class="chapter" data-level="8" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>8</b> Conclusion</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -141,47 +138,52 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="results" class="section level1" number="5">
-<h1><span class="header-section-number">Chapter 5</span> Results</h1>
-<div id="distribution-of-school-scores" class="section level2" number="5.1">
-<h2><span class="header-section-number">5.1</span> Distribution of School Scores</h2>
+<div id="results-1" class="section level1" number="6">
+<h1><span class="header-section-number">Chapter 6</span> Results</h1>
+<div id="distribution-of-school-scores-1" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Distribution of School Scores</h2>
 <p>Before we make any comparison between NYC schools, we firstly have a look at the distribution of our dataset, i.e. the distribution of school scores from students’, teachers’ and parents’ perspective. In order to do that, we make density plots of the scores faceted by these five components.(we drop <code>supportive environment score</code> because we know from chapter 4 that it has nearly 100% missing values)</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+<p><img src="finalproj_files/figure-html/unnamed-chunk-7-1.png" width="672" />
 We know from the plot that the distribution of school scores in these five aspects are not normally distributed, in fact, they are left-skewed, with long-tail data distributing in the left side of the plot.</p>
 </div>
-<div id="top-10-performance-schools" class="section level2" number="5.2">
-<h2><span class="header-section-number">5.2</span> Top 10 performance schools</h2>
-<div id="top-10-schools-in-five-aspects" class="section level3" number="5.2.1">
-<h3><span class="header-section-number">5.2.1</span> Top 10 schools in five aspects</h3>
-<p>Firstly, we sort the schools according to the five aforementioned aspects. In this way, we made a leaderboard for Top 10 Schools with the most collaborative teachers, Top 10 Schools with the most effective School Leadership, Top 10 Schools with the most Trust beween people, Top 10 Schools with the most rigid instructions, and Top 10 Schools with the Strongest Family Community Ties</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-4-1.png" width="672" />
-<img src="finalproj_files/figure-html/unnamed-chunk-5-1.png" width="672" />
-<img src="finalproj_files/figure-html/unnamed-chunk-6-1.png" width="672" />
-<img src="finalproj_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-</div>
-<div id="top-10-schools-with-the-highest-comprehensive-scores" class="section level3" number="5.2.2">
-<h3><span class="header-section-number">5.2.2</span> Top 10 Schools with the highest comprehensive scores</h3>
-<p>Sometimes it is necessary to evaluate the schools in a more comprehensive way. Therefore, we take all the five aspects into consideration and calculate a comprehensive school performance score by taking the average of all the scores in five aspects. Then we made a leaderboard of the “Best” 10 Schools in NYC.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
-<p>The best 10 schools in NYC are:</p>
-<pre><code>##  [1] &quot;COMMUNITY SCHOOL FOR SOCIAL JUSTICE&quot; &quot;P.S. 321 WILLIAM PENN&quot;              
-##  [3] &quot;THE BROOKLYN NEW SCHOOL, P.S. 146&quot;   &quot;KENNEDY YABC&quot;                       
-##  [5] &quot;HELLENIC CLASSICAL CHARTER SCHOOL&quot;   &quot;P.S. 253&quot;                           
-##  [7] &quot;P.S. 041 CROCHERON&quot;                  &quot;HS ARTS &amp; BUSINESS YABC&quot;            
-##  [9] &quot;P.S. 065&quot;                            &quot;P.S. 112 LEFFERTS PARK&quot;</code></pre>
-</div>
-</div>
-<div id="dependency-relationships-analysis" class="section level2" number="5.3">
-<h2><span class="header-section-number">5.3</span> Dependency Relationships analysis</h2>
-<p>Apart from the scores derived from the result given by Department of Education of NYC, we also evaluate the performance of each school from the perspective of students, teachers and parents according to their answers to the questionnaire directly. In this section, we are going to look at the relationship of school scores given from different perspectives.</p>
-<div id="do-teachers-and-parents-feel-the-same-about-family-community-bond" class="section level3" number="5.3.1">
-<h3><span class="header-section-number">5.3.1</span> Do Teachers and Parents feel the same about Family-Community bond?</h3>
-<p>Both teachers and parents have answered some questions about their feelings about the family-community bond in their schools. For example, in the questionnaire for teachers, there are several statements like “teachers understand families’ problems and concerns.”; in the questionnaire for parents, there are statements like “School staff regularly communicate with me about how I can help my child learn.”. Parents and teachers are asked to give the degree in which they agree to such statements, such as “strongly agree”,“agree”,“disagree”,“strongly disagree”,“idk”. In this way, we are able to analysis whether teachers and parents feel the same about the family-community bond in their schools.</p>
-<p>In order to make our analysis easier, we firstly derive a family-community bond score for each school from parents’ and teachers’ point of view respectively. More specifically, we calculate the percentage of <code>strongly agree</code>,<code>agree</code>,<code>disagree</code>,<code>strongly disagree</code>,<code>idk</code>, and add +2 points for <code>strongly agree</code>, +1 point for <code>agree</code>, -1 point for <code>disagree</code>, -2 points for <code>strongly disagree</code> and +0 point for <code>idk</code>.</p>
+<div id="top-10-performance-schools-1" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> Top 10 performance schools</h2>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-8-1.png" width="672" />
+<img src="finalproj_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+<img src="finalproj_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre><code>## # A tibble: 1,831 x 11
+##    DBN    name  parent_rr teacher_rr student_rr collab_teachers effective_schle~
+##    &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                &lt;dbl&gt;            &lt;dbl&gt;
+##  1 &lt;NA&gt;   &lt;NA&gt;         NA         NA &lt;NA&gt;                 NA               NA   
+##  2 &lt;NA&gt;   &lt;NA&gt;         NA         NA &lt;NA&gt;                 NA               NA   
+##  3 01M015 P.S.~        91        100 N/A                   4.1              4.19
+##  4 01M019 P.S.~       100         93 N/A                   4.53             4.51
+##  5 01M020 P.S.~        58         90 N/A                   2.71             2.98
+##  6 01M034 P.S.~        29        100 95                    2.69             2.59
+##  7 01M063 THE ~        80        100 N/A                  NA               NA   
+##  8 01M064 P.S.~        52         96 N/A                   4.56             4.09
+##  9 01M110 P.S.~        79         77 N/A                   3.11             3.15
+## 10 01M134 P.S.~        46         93 N/A                   2.51             1.53
+## # ... with 1,821 more rows, and 4 more variables: rig_instruction &lt;chr&gt;,
+## #   supp_env &lt;chr&gt;, family_communityties &lt;chr&gt;, trust &lt;dbl&gt;</code></pre>
 <p><img src="finalproj_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<pre><code>## # A tibble: 1,831 x 11
+##    DBN    name  parent_rr teacher_rr student_rr collab_teachers effective_schle~
+##    &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                &lt;dbl&gt;            &lt;dbl&gt;
+##  1 10X504 KENN~        28         63 59                    4.56             4.84
+##  2 18K922 SOUT~        58         71 2                     4.71             4.99
+##  3 84M337 NEW ~        94        100 N/A                   4.72             4.96
+##  4 07X495 UNIV~        83         92 97                    3.94             4.75
+##  5 14K319 P.S.~        98        100 N/A                   4.95             4.52
+##  6 07X427 COMM~        58         96 90                    4.93             4.87
+##  7 84X610 URBA~        79         88 62                    3.87             3.89
+##  8 17K543 SCIE~        87         82 93                    4.69             4.49
+##  9 12X682 FANN~        57         95 78                    3.95             4.3 
+## 10 12X458 SAMA~       100         86 N/A                   4.79             4.63
+## # ... with 1,821 more rows, and 4 more variables: rig_instruction &lt;dbl&gt;,
+## #   supp_env &lt;chr&gt;, family_communityties &lt;dbl&gt;, trust &lt;dbl&gt;</code></pre>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 
-</div>
 </div>
 </div>
             </section>
@@ -189,7 +191,7 @@ We know from the plot that the distribution of school scores in these five aspec
           </div>
         </div>
       </div>
-<a href="missing-values.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="results.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="interactive-component.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
