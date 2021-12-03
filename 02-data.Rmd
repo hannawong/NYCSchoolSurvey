@@ -14,37 +14,11 @@ We download the dataset as `xlsx` format from the aforementioned websites.
 
 ## A glimpse at our dataset
 
-### Student Reponse dataset
+### Dataframe on Aggregated Data
 
-The student response result is a dataframe with 1831 observations and 11 columns. Some important information are shown as below: 
+The survey contains a aggregated dataframe in which scores evaluating different dimensions of school performance are calculated based on students, teachers, and parents' responses.
 
-```{r}
-library(readxl)
-library(tidyverse)
-student <- read_excel("Student.xlsx")
-str(student)
-```
-
-### Teacher Reponse dataset
-
-Similarly, the teacher response result is a dataframe of 1,903 observations and 11 columns. Some important information are shown as below:
-
-```{r}
-teacher <- read_excel("Teacher.xlsx")
-str(teacher)
-```
-
-### Parent Reponse dataset
-
-The parent response result is a dataframe of 2,946 observations and 11 columns. Some important information are shown as below:
-
-```{r}
-parents <- read_excel("Parent.xlsx")
-str(parents)
-```
-
-
-## Meanings of columns
+#### Meanings of columns
 
 Before we start to perform any exploratory data analysis and visualization , we need to understand what does each column mean in our dataset. The three dataframes we mentioned above -- Student, Teacher and Parent survey result -- contains 11 columns:
 
@@ -61,10 +35,70 @@ Before we start to perform any exploratory data analysis and visualization , we 
 - Rigorous Instruction Score: This element reflects how well the curriculum and instruction engage students and build critical-thinking skills. This section uses 
 NYC Department of Education data from the Quality Review and the NYC School Survey.
 
-
 - Supportive Environment Score: This element reflects how well the school establishes a culture where students feel safe, challenged to grow, and supported to meet high expectations. This section uses data from the Quality Review, the NYC School Survey, the percentage of students with attendance rates of 90% or higher, and movement of students with disabilities to less restrictive environments.
-
 
 - Strong Family-Community Ties Score: This element reflects how well the school forms effective partnerships with families to improve the school. This section uses data from the Quality Review and the NYC School Survey.
 
 - Trust Score: This element reflects whether the relationships between administrators, educators, students, and families are based on trust and respect. This section uses data from the NYC School Survey. 
+
+Despite the aggregated dataframe should be exactly the same for all three datasets, it is different within each dataset The exact information on this dataframe from each dataset is displayed below. In summary, we concluded that the aggregated dataframe of teacher and parents' consists of DBNs where evaluation scores are completely void. Thus, we decide to look into the aggregated dataframe provided in the student response dataset.
+
+#### Student Reponse dataset
+
+The student response result is a dataframe with 1831 observations and 11 columns. As the first two rows of the dataframe is completely empty, the dataset actually consists of 1829 observations. Some important information are shown below: 
+
+```{r}
+library(readxl)
+library(tidyverse)
+student <- read_excel("Student.xlsx")
+str(student)
+```
+
+#### Teacher Reponse dataset
+
+Similarly, the teacher response result is a dataframe of 1,903 observations and 11 columns. Some important information are shown below:
+
+```{r}
+teacher <- read_excel("Teacher.xlsx")
+str(teacher)
+```
+
+#### Parent Reponse dataset
+
+The parent response result is a dataframe of 2,946 observations and 11 columns. Some important information are shown below:
+
+```{r}
+parents <- read_excel("Parent.xlsx")
+str(parents)
+```
+
+### Data on Specific Question Responses
+These dataframes shows the survey questions (all questions are multiple choice) and counts the number of responses that falls into each categories. Currently, each dataframe has questions as the column name, while the answers falls into the first row. Additionally, as each question may take up to five or 6 columns, there are hundreds of variables within each dataframe. Thus, after data cleaning, we have made choices to focus on some specific questions within each dataframe.
+
+#### Student Reponse dataset
+
+Student Reponse dataset is a dataframe of 1,111 observations and 272 columns. Some examples of the dataset are shown below:
+
+```{r}
+qrstudent <- read_excel("Student.xlsx", 4)
+head(qrstudent)
+```
+
+#### Teacher Reponse dataset
+
+Student Reponse dataset is a dataframe of 1,905 observations and 579 columns. Some examples of the dataset are shown below:
+
+```{r}
+qrteacher <- read_excel("Teacher.xlsx", 2)
+head(qrteacher)
+```
+
+#### Parent Reponse dataset
+
+Student Reponse dataset is a dataframe of 2948 observations and 196 columns. Some examples of the dataset are shown below:
+
+```{r}
+qrparent <- read_excel("Parent.xlsx", 2)
+head(qrparent)
+```
+

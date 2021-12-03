@@ -41,7 +41,7 @@ plot_missing <- function(dataset, percent){
   # add percentage
   data_perc <- data_m %>%
     distinct(col_name, .keep_all = TRUE) %>%
-    mutate(perc = col_na/sum(col_na))
+    mutate(perc = col_na/nrow(dataset))
   
   # main graph
   p <- ggplot(data_m, aes(fct_reorder(col_name, col_na, .desc = TRUE), fct_relevel(id,rev), fill = is_nan)) +
@@ -111,6 +111,7 @@ plot_missing <- function(dataset, percent){
 }
 ```
 
+## Aggregated Dataframe
 ```{r, fig.height = 8, fig.width = 14, echo=FALSE}
 library(readxl)
 library(tidyverse)
@@ -133,3 +134,21 @@ plot_missing(overview, percent = TRUE)
 ```
 
 > In most cases, the dataset is missing the variable 'Supportive Environment Score', in fact this variable is completely missing, which indicates this score might not be measured during the year of 2019. There is no complete cases in this dataset as we know that one variable is completely void. However, more than 1/2 of the data only have the 'Supportive Environment Score' missing. Besides 'Supportive Environment Score', 'Total Student Response Rate' has the second most NAs. As we can observe from this graph, these are the two most common cases of the dataset, around 80% to 90% of the data lies in this category. This dataset does not contains complete cases, which means for certain observations all variables do not contain NAs. However, we can see that the columns 'DBN', 'School Name', 'Total Parent Response Rate', and 'Total Teacher Reponse Rate' are complete with no missing values.
+
+## Dataframe on inclusion and diversity & aggressive behaviors & teaching quality
+```{r}
+plot_missing(inclusion, percent = TRUE)
+plot_missing(aggresive_behavior, percent = TRUE)
+plot_missing(teachingquality, percent = TRUE)
+```
+
+> As we can see, for these three dataframes, all variables are complete, except that there are small amount of data missing on `Student Response Rate`
+
+## Dataframe on trust, collaboration, and respect & student performance & family communication
+```{r}
+plot_missing(teacher_tcr, percent = TRUE)
+plot_missing(t_sperformance, percent = TRUE)
+plot_missing(family, percent = TRUE)
+```
+
+> As we can see, these three dataframes are complete

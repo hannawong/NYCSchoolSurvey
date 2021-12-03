@@ -2,131 +2,765 @@
 ```{r}
 library(readxl)
 library(tidyverse)
-student <- read_excel("Student.xlsx")
-teacher<-read_excel("Teacher.xlsx")
-parent<-read_excel("Parent.xlsx")
+agg <- read_excel("Student.xlsx")
+student <- read_excel("Student.xlsx", 4)
+teacher <- read_excel("Teacher.xlsx", 4)
+parent <- read_excel("Parent.xlsx", 4)
 ```
 
 
 ## Step1: Change column names
 
-The column names in the original dataset are too long and contain white spaces, which is inconvenient for future development. Moreover, all the column names are the same for student, teacher and parent dataset, thus we cannot discriminate among them after merging these three dataframes in Step2. 
+The column names in the original dataset are too long and contain white spaces, which is inconvenient for future development. 
 
-Therefore, for the first step, we change each long column name to a shorter yet clear name, with prefix "s_","t_", and "p_" for student, teacher and parent respectively.
-
-The column names of students response result after transformation is:
+The column names of the aggregated datafrome after transformation is:
 
 ```{r}
-student_ <- student %>%
+agg <- agg %>%
   rename(student_rr = `Total Student Response Rate`) %>%
   rename(parent_rr = `Total Parent \r\nResponse Rate`) %>%
   rename(teacher_rr = `Total Teacher Response Rate`) %>%
   rename(name = `School Name`) %>%
-  rename(s_trust = `Trust Score`) %>%
-  rename(s_collab_teachers = `Collaborative Teachers Score`) %>%
-  rename(s_effective_schlead = `Effective School Leadership Score`) %>%
-  rename(s_rig_instruction = `Rigorous Instruction Score`) %>%
-  rename(s_supp_env = `Supportive Environment Score`) %>%
-  rename(s_family_communityties = `Strong Family-Community Ties Score`)
-colnames(student_)
+  rename(trust = `Trust Score`) %>%
+  rename(collab_teachers = `Collaborative Teachers Score`) %>%
+  rename(effective_schlead = `Effective School Leadership Score`) %>%
+  rename(rig_instruction = `Rigorous Instruction Score`) %>%
+  rename(supp_env = `Supportive Environment Score`) %>%
+  rename(family_communityties = `Strong Family-Community Ties Score`)
 ```
 
-The column names of teacher response result after transformation is:
+## Step 2: Transform survey response from student, teacher, and parents. 
+
+The original dataframe contains survey questions as the column names. After loading the data in r, the answer choices is read as values in the first row. Thus, we have combined the answer choices within the column name for data wrangling and for the uniequeness of column names. Additionally, for the convenience of data wrangling, we have replaced the survey questions to question index in the column names.
+
+Additionally, the data types of many columns are incorrect -- instead of character, they should be float. Therefore, we convert the data type of those columns to `numeric`.
 
 ```{r}
-teacher_ <- teacher %>%
+library(janitor)
+# Student
+student <- student %>%
   rename(student_rr = `Total Student Response Rate`) %>%
-  rename(parent_rr = `Total Parent \r\nResponse Rate`) %>%
+  rename(name = `School Name`)
+s_colnames1 <- rep(c("1a", "1b", "1c", "1d", "1e", "1f", "1g", "1h", "1i", "1j", "1k"), each = 5)
+s_colnames2 <- rep(c("2a", "2b", "2c", "2d", "2e", "3a", "3b", "3c", "3d", "3e", "4a", "4b", "4c", "4d", "4e", "4f", "4g", "4h", "4i", "5a", "5b", "5c", "5d", "5e", "6a", "6b", "6c", "6d", "6e", "6f", "6g", "6h", "6i", "7a", "7b", "7c", "7d", "8a", "8b", "8c", "8d", "8e", "8f", "8g", "8h", "9a", "9b", "10a", "10b", "10c", "10d"), each = 4)
+s_colnames3 <-rep(c("11a", "11b"), each = 5)
+s_colnames <- append(s_colnames1, s_colnames2)
+s_colnames <- data.frame(append(s_colnames, s_colnames3))
+colnames(s_colnames) <- "s_colnames"
+s_ans1 <- data.frame(rep(c("s_disagree", "disagree", "agree", "s_agree", "idk"), times = 11))
+colnames(s_ans1) <- "ans"
+s_ans2 <- data.frame(rep(c("none", "few", "most", "all"), times = 10))
+colnames(s_ans2) <- "ans"
+s_ans3 <- data.frame(rep(c("s_disagree", "disagree", "agree", "s_agree"), times = 9))
+colnames(s_ans3) <- "ans"
+s_ans4 <- data.frame(rep(c("none", "few", "most", "all"), times = 14))
+colnames(s_ans4) <- "ans"
+s_ans5 <- data.frame(rep(c("s_disagree", "disagree", "agree", "s_agree"), times = 4))
+colnames(s_ans5) <- "ans"
+s_ans6 <- data.frame(rep(c("none", "rarely", "some", "most"), times = 8))
+colnames(s_ans6) <- "ans"
+s_ans7 <- data.frame(rep(c("s_disagree", "disagree", "agree", "s_agree"), times = 6))
+colnames(s_ans7) <- "ans"
+s_ans8 <- data.frame(rep(c("s_disagree", "disagree", "agree", "s_agree", "N/A"), times = 2))
+colnames(s_ans8) <- "ans"
+s_ans <- do.call("rbind", list(s_ans1, s_ans2, s_ans3, s_ans4, s_ans5, s_ans6, s_ans7, s_ans8))
+s_colnames <- cbind(s_colnames, s_ans)
+s_col <- paste0(s_colnames$s_colnames, "-", s_colnames$ans)
+s <- c("DBN", "School Name", "student_rr")
+s_col <- append(s, s_col)
+colnames(student) <- s_col
+student <- replace(student, student == "N/A", NA)
+student <- student %>%
+  slice(-c(1,2))
+student[3:272] = as.data.frame(sapply(student[3:272], as.numeric))
+```
+
+A example of students' response after data wrangling:
+
+```{r}
+head(student)
+```
+
+```{r}
+# Parent
+parent <- parent %>%
+  rename(parent_rr = `Total Parent Response Rate`) %>%
+  rename(name = `School Name`)
+p_colnames1 <- data.frame(rep(c("1a", "1b", "1c", "1d", "1e", "1f", "1g", "1h", "1i", "1j", "1k", "1l"), each = 4))
+colnames(p_colnames1) <- "questions"
+p_colnames2 <- data.frame(rep(c("2a", "2b", "2c", "2d", "2e", "2f", "2g", "2h", "3a", "3b", "3c"), each = 5))
+colnames(p_colnames2) <- "questions"
+p_colnames3 <- data.frame(rep(c("4a", "4b"), each = 4))
+colnames(p_colnames3) <- "questions"
+p_colnames4 <- data.frame(rep(c("5a", "5b", "5c", "5d", "5e"), each = 5))
+colnames(p_colnames4) <- "questions"
+p_colnames5 <- data.frame(rep(c("6a", "6b"), each = 4))
+colnames(p_colnames5) <- "questions"
+p_colnames6 <- data.frame(rep("7", each = 9))
+colnames(p_colnames6) <- "questions"
+p_colnames7 <- data.frame(rep(c("8a", "8b", "9a", "9b", "9c", "10a", "10b", "10c", "10d", "10e"), each = 4))
+colnames(p_colnames7) <- "questions"
+p_colnames <- do.call("rbind", list(p_colnames1, p_colnames2, p_colnames3, p_colnames4, p_colnames5, p_colnames6, p_colnames7))
+p_ans1 <- data.frame(rep(c("s_disagree", "disagree", "agree", "s_agree"), times = 12))
+colnames(p_ans1) <- "ans"
+p_ans2 <- data.frame(rep(c("s_disagree", "disagree", "agree", "s_agree", "idk"), times = 11))
+colnames(p_ans2) <- "ans"
+p_ans3 <- data.frame(rep(c("never", "rarely", "sometimes", "often"), times = 2))
+colnames(p_ans3) <- "ans"
+p_ans4 <- data.frame(rep(c("v_dissatisfied", "dissatisfied", "satisfied", "v_satisfied", "idk"), times = 5))
+colnames(p_ans4) <- "ans"
+p_ans5 <- data.frame(rep(c("v_unlikely", "unlikely", "likely", "v_likely"), times = 2))
+colnames(p_ans5) <- "ans"
+p_ans6 <- data.frame(rep(c("leadership", "hands-on_learning", "enrichment_programs", "art_programs", "courses", "communication", "teaching", "class_size", "safety"), times = 1))
+colnames(p_ans6) <- "ans"
+p_ans7 <- data.frame(rep(c("s_disagree", "disagree", "agree", "s_agree"), times = 10))
+colnames(p_ans7) <- "ans"
+p_ans <- do.call("rbind", list(p_ans1, p_ans2, p_ans3, p_ans4, p_ans5, p_ans6, p_ans7))
+p_colnames <- cbind(p_colnames, p_ans)
+p_col <- paste0(p_colnames$questions, "-", p_colnames$ans)
+p <- c("DBN", "School Name", "parent_rr")
+p_col <- append(p, p_col)
+colnames(parent) <- p_col
+parent <- replace(parent, parent == "N/A", NA)
+parent <- parent %>%
+  slice(-c(1,2))
+parent[3:196] = as.data.frame(sapply(parent[3:196], as.numeric))
+```
+
+A example of parents' response after data wrangling:
+
+```{r}
+head(parent)
+```
+
+```{r}
+# Teacher
+teacher <- teacher %>%
   rename(teacher_rr = `Total Teacher Response Rate`) %>%
-  rename(name = `School Name`) %>%
-  rename(t_trust = `Trust Score`) %>%
-  rename(t_collab_teachers = `Collaborative Teachers Score`) %>%
-  rename(t_effective_schlead = `Effective School Leadership Score`) %>%
-  rename(t_rig_instruction = `Rigorous Instruction Score`) %>%
-  rename(t_supp_env = `Supportive Environment Score`) %>%
-  rename(t_family_communityties = `Strong Family-Community Ties Score`)
-colnames(teacher_)
+  rename(name = `School Name`)
+t_colnames1 <- data.frame(rep(c("1a", "1b", "1c", "1d", "1e"), each = 4))
+colnames(t_colnames1) <- "questions"
+t_colnames2 <- data.frame(rep(c("2a", "2b", "2c", "2d", "2e", "2f", "2g", "2h"), each = 5))
+colnames(t_colnames2) <- "questions"
+t_colnames3 <- data.frame(rep(c("3a", "3b", "3c", "3d", "3e", "4a", "4b", "4c", "4d", "4e", "4f", "4g", "4h", "5a", "5b", "5c", "5d", "5e", "5f", "5g", "5h", "5i", "6a", "6b", "6c", "6d", "6e", "6f", "6g", "6h", "7", "8", "9a", "9b", "9c", "9d", "9e", "9f", "10a", "10b", "10c", "10d", "10e", "11a", "11b", "11c", "11d", "12a", "12b", "12c", "12d", "12e", "13a", "13b", "13c", "13d", "13e", "14a", "14b", "14c", "14d", "14e"), each = 4))
+colnames(t_colnames3) <- "questions"
+t_colnames4 <- data.frame(rep(c("15a", "15b"), each = 5))
+colnames(t_colnames4) <- "questions"
+t_colnames5 <- data.frame(rep(c("16"), each = 7))
+colnames(t_colnames5) <- "questions"
+t_colnames6 <- data.frame(rep(c("17a", "17b", "18a", "18b", "18c", "18d", "19a", "19b", "19c"), each = 4))
+colnames(t_colnames6) <- "questions"
+t_colnames7 <- data.frame(rep(c("20a", "20b", "20c", "20d", "20e", "20f", "20g"), each = 5))
+colnames(t_colnames7) <- "questions"
+t_colnames8 <- data.frame(rep(c("21a", "21b", "21c", "21d", "21e", "22a", "22b", "22c", "22d", "22e", "22f", "22g", "22h", "22i"), each = 4))
+colnames(t_colnames8) <- "questions"
+t_colnames9 <- data.frame(rep(c("23a", "23b", "23c", "23d", "23e", "23f", "23g", "23h"), each = 5))
+colnames(t_colnames9) <- "questions"
+t_colnames10 <- data.frame(rep(c("24", "25a", "25b", "25c", "25d", "25e", "25f", "26a", "26b", "26c", "26d"), each = 4))
+colnames(t_colnames10) <- "questions"
+t_colnames11 <- data.frame(rep(c("27a", "27b", "28a", "28b", "28c", "28d", "28e", "28f"), each = 5))
+colnames(t_colnames11) <- "questions"
+t_colnames <- do.call("rbind", list(t_colnames1, t_colnames2, t_colnames3, t_colnames4, t_colnames5, t_colnames6, t_colnames7, t_colnames8, t_colnames9, t_colnames10, t_colnames11))
+t_ans1 <- data.frame(rep(c("none", "some", "a_lot", "all"), times = 5))
+colnames(t_ans1) <- "ans"
+t_ans2 <- data.frame(rep(c("s_disagree", "disagree", "agree", "s_agree", "idk"), times = 8))
+colnames(t_ans2) <- "ans"
+t_ans3 <- data.frame(rep(c("s_disagree", "disagree", "agree", "s_agree"), times = 31))
+colnames(t_ans3) <- "ans"
+t_ans4 <- data.frame(rep(c("none", "rarely", "some", "most"), times = 1))
+colnames(t_ans4) <- "ans"
+t_ans5 <- data.frame(rep(c("s_disagree", "disagree", "agree", "s_agree"), times = 25))
+colnames(t_ans5) <- "ans"
+t_ans6 <- data.frame(rep(c("no_influence", "little", "moderate", "great_deal"), times = 5))
+colnames(t_ans6) <- "ans"
+t_ans7 <- data.frame(rep(c("v_dissatisfied", "dissatisfied", "satisfied", "v_satisfied", "idk"), times = 2))
+colnames(t_ans7) <- "ans"
+t_ans8 <- data.frame(rep(c("early_childhood", "social_studies", "science", "ELA", "math", "all", "other"), times = 1))
+colnames(t_ans8) <- "ans"
+t_ans9 <- data.frame(rep(c("s_disagree", "disagree", "agree", "s_agree"), times = 9))
+colnames(t_ans9) <- "ans"
+t_ans10 <- data.frame(rep(c("s_disagree", "disagree", "agree", "s_agree", "N/A"), times = 7))
+colnames(t_ans10) <- "ans"
+t_ans11 <- data.frame(rep(c("none", "some", "lot", "all"), times = 14))
+colnames(t_ans11) <- "ans"
+t_ans12 <- data.frame(rep(c("none", "some", "lot", "all", "idk"), times = 8))
+colnames(t_ans12) <- "ans"
+t_ans13 <- data.frame(rep(c("early_childhood", "elementary", "middle", "high"), times = 1))
+colnames(t_ans13) <- "ans"
+t_ans14 <- data.frame(rep(c("s_disagree", "disagree", "agree", "s_agree"), times = 10))
+colnames(t_ans14) <- "ans"
+t_ans15 <- data.frame(rep(c("s_disagree", "disagree", "agree", "s_agree", "idk"), times = 8))
+colnames(t_ans15) <- "ans"
+t_ans <- do.call("rbind", list(t_ans1, t_ans2, t_ans3, t_ans4, t_ans5, t_ans6, t_ans7, t_ans8, t_ans9, t_ans10, t_ans11, t_ans12, t_ans13, t_ans14, t_ans15))
+t_colnames <- cbind(t_colnames, t_ans)
+t_col <- paste0(t_colnames$questions, "-", t_colnames$ans)
+t <- c("DBN", "School Name", "teacher_rr")
+t_col <- append(t, t_col)
+colnames(teacher) <- t_col
+teacher <- replace(teacher, teacher == "N/A", NA)
+teacher <- teacher %>%
+  slice(-c(1,2))
+teacher[3:579] = as.data.frame(sapply(teacher[3:579], as.numeric))
 ```
 
-The column names of parent response result after transformation is:
+A example of teachers' response after data wrangling:
+```{r}
+head(teacher)
+```
+## Categorizing data based on survey questions
+
+The survey questions included in this survey is comprehensive and difficult to manage. After reading through our survey questions, based on the survey questions, we have decided to categorize the data into different categories, and choose to analyze several categories based on our interests and whether there is sufficient data support. 
+
+We realized that categorizing data based on survey questions could be highly objective and admit it as a limitation. We are open to any discussions and advice on categorizing survey questions.
+
+Several questions are directly removed during the categorizing process. We have removed question 3, 4b, 4h, 14, 15, 16, 24, 25 from the teacher's survey either because it's not particularly relevant to survey questions from students' and parents' perspective, or due to significant amount of NAs. Questions 5d, 5e, 7, 8, 9, 10 are removed from the parents datasets due to similar reasons or because some questions are tageted to specific populations (eg. pre-k, high school)
+
+After discussion, here are some example of the aspects we have decided to look into are teaching quality (from all perspectives of students, parents, and teachers), student performance (based on the feedback of teachers), communication between school and family (mainly based on the response from parents and teachers), and lastly, we'll look into the characteristics that may contribute to teaching quality, for example, trust and respect between teachers.
 
 ```{r}
-parent_ <- parent %>%
-  rename(student_rr = `Total Student Response Rate`) %>%
-  rename(parent_rr = `Total Parent \r\nResponse Rate`) %>%
-  rename(teacher_rr = `Total Teacher Response Rate`) %>%
-  rename(name = `School Name`) %>%
-  rename(p_trust = `Trust Score`) %>%
-  rename(p_collab_teachers = `Collaborative Teachers Score`) %>%
-  rename(p_effective_schlead = `Effective School Leadership Score`) %>%
-  rename(p_rig_instruction = `Rigorous Instruction Score`) %>%
-  rename(p_supp_env = `Supportive Environment Score`) %>%
-  rename(p_family_communityties = `Strong Family-Community Ties Score`)
-colnames(parent_)
+# Survey Questions focusing on the teaching quality of teachers
+s_teachingquality <- select(student, c(1:3, 59:98)) %>%
+  mutate(type = "student") %>%
+  mutate(none = rowSums(select(., ends_with("none")), na.rm=TRUE)) %>%
+  mutate(few = rowSums(select(., ends_with("few")), na.rm=TRUE)) %>%
+  mutate(most = rowSums(select(., ends_with("most")), na.rm=TRUE)) %>%
+  mutate(all = rowSums(select(., ends_with("all")), na.rm=TRUE)) %>%
+  select(c(1:3, 44:48))
+
+t_teachingquality <- select(teacher, c(1:3, 8:23, 180:183, 236:291, 329:399, 456: 465)) %>%
+  mutate(type = "teacher") %>%
+  mutate(none = rowSums(select(., ends_with("none")), na.rm=TRUE)) %>%
+  mutate(few = rowSums(select(., ends_with("some")), na.rm=TRUE)) %>%
+  mutate(most = rowSums(select(., ends_with("a_lot")), na.rm=TRUE)) %>%
+  mutate(most = rowSums(select(., ends_with("lot")), na.rm=TRUE)) %>%
+  mutate(all = rowSums(select(., ends_with("all")), na.rm=TRUE)) %>%
+  mutate(idk = rowSums(select(., ends_with("idk")), na.rm=TRUE)) %>%
+  mutate(NAs= rowSums(select(., ends_with("N/A")), na.rm=TRUE)) %>%
+  mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  select(c(1:3, 161:171))
+
+p_teachingquality <- select(parent, c(1:3, 120:129)) %>%
+  mutate(type = "parent") %>%
+  mutate(v_dissatisfied = rowSums(select(., ends_with("v_dissatisfied")), na.rm=TRUE)) %>%
+  mutate(dissatisfied = rowSums(select(., ends_with("dissatisfied")), na.rm=TRUE)) %>%
+  mutate(satisfied = rowSums(select(., ends_with("satisfied")), na.rm=TRUE)) %>%
+  mutate(v_satisfied = rowSums(select(., ends_with("v_satisfied")), na.rm=TRUE)) %>%
+  mutate(idk = rowSums(select(., ends_with("idk")), na.rm=TRUE)) %>%
+  select(c(1:3, 14:19))
+
+# Teachers have rated student performance, which is hypothesized to be positively correlated with teaching quality
+t_sperformance <- select(teacher, c(1:3, 400:419, 436:455, 486:490)) %>%
+  mutate(type = "teacher") %>%
+  mutate(none = rowSums(select(., ends_with("none")), na.rm=TRUE)) %>%
+  mutate(some = rowSums(select(., ends_with("some")), na.rm=TRUE)) %>%
+  mutate(lot = rowSums(select(., ends_with("lot")), na.rm=TRUE)) %>%
+  mutate(all = rowSums(select(., ends_with("all")), na.rm=TRUE)) %>%
+  mutate(idk = rowSums(select(., ends_with("idk")), na.rm=TRUE)) %>%
+  select(c(1:3, 49:54))
 ```
-
-## Step2: Merge Three DataFrames
-
-From the result in Chapter 2 we know that parent, student and teacher response datasets do not have the same row numbers, suggesting that some schools in one dataset may not exist in other datasets. 
 
 ```{r}
-cat("dim of student is:",dim(student))
-cat("dim of parent is:",dim(parent))
-cat("dim of teacher is:",dim(teacher))
-```
+# Survey questions focusing on activity or programs provided by school
+s_activity <- select(student, c(1:13)) %>%
+  mutate(type = "student") %>%
+  mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  mutate(idk = rowSums(select(., ends_with("idk")), na.rm=TRUE)) %>%
+  select(c(1:3, 14:19))
 
-In order to be consistent, we firstly merge the three datasets and only keep those schools who exist in all of these three datasets. Moreover, the parent/teacher/student response rate should be the same in those three datasets, therefore we merge the three datasets by ["DBN","name","parent_rr","student_rr","teacher_rr"]. A summary of the merged dataset is shown as below:
+t_activity <- select(teacher, c(1:3, 196:203)) %>%
+  mutate(type = "teacher") %>%
+  mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  select(c(1:3, 12:16))
+
+p_activity <- select(parent, c(1:3, 67:71)) %>%
+  mutate(type = "parent") %>%
+  mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  mutate(idk = rowSums(select(., ends_with("idk")), na.rm=TRUE)) %>%
+  select(c(1:3, 9:14))
+```
 
 ```{r}
-st = merge(student_, teacher_,by = c("DBN","name","parent_rr","teacher_rr","student_rr"))
-stp = merge(st,parent_,by = c("DBN","name","parent_rr","teacher_rr","student_rr"))
+# Survey questions focusing on the level of difficulty on what is taught in school
+s_difficulty <- select(student, c(1:3, 135:146)) %>%
+  mutate(type = "student") %>%
+  mutate(none = rowSums(select(., ends_with("none")), na.rm=TRUE)) %>%
+  mutate(few = rowSums(select(., ends_with("few")), na.rm=TRUE)) %>%
+  mutate(most = rowSums(select(., ends_with("most")), na.rm=TRUE)) %>%
+  mutate(all = rowSums(select(., ends_with("all")), na.rm=TRUE)) %>%
+  select(c(1:3, 16:20))
 
-str(stp)
-
+t_difficulty <-  select(teacher, c(1:3, 420:423, 428:431)) %>%
+  mutate(type = "teacher") %>%
+  mutate(none = rowSums(select(., ends_with("none")), na.rm=TRUE)) %>%
+  mutate(few = rowSums(select(., ends_with("some")), na.rm=TRUE)) %>%
+  mutate(most = rowSums(select(., ends_with("lot")), na.rm=TRUE)) %>%
+  mutate(all = rowSums(select(., ends_with("all")), na.rm=TRUE)) %>%
+  select(c(1:3, 12:16)) 
 ```
-
-## Step3: Change Data Types
-After step2, we have a integrated dataset that combines data from student, teacher and parent datasets. However, the data types of many columns are incorrect -- instead of character, they should be float. Therefore, we convert the data type of those columns to `numeric`.
-
-The summary of data after transformation is shown as below:
 
 ```{r}
-stp$s_collab_teachers <- as.numeric(stp$s_collab_teachers)
-stp$s_effective_schlead<- as.numeric(stp$s_effective_schlead)
-stp$s_rig_instruction <- as.numeric(stp$s_rig_instruction)
-stp$s_supp_env <- as.numeric(stp$s_supp_env)
-stp$s_family_communityties <- as.numeric(stp$s_family_communityties)
-stp$s_trust <- as.numeric(stp$s_trust)
+# Survey questions on school discipline
+s_disciplie <- select(student, c(1:3, 155:170)) %>%
+  mutate(type = "student") %>%
+  mutate(none = rowSums(select(., ends_with("none")), na.rm=TRUE)) %>%
+  mutate(few = rowSums(select(., ends_with("few")), na.rm=TRUE)) %>%
+  mutate(most = rowSums(select(., ends_with("most")), na.rm=TRUE)) %>%
+  mutate(all = rowSums(select(., ends_with("all")), na.rm=TRUE)) %>%
+  select(c(1:3, 20:24))
 
-stp$t_collab_teachers <- as.numeric(stp$t_collab_teachers)
-stp$t_effective_schlead<- as.numeric(stp$t_effective_schlead)
-stp$t_rig_instruction <- as.numeric(stp$t_rig_instruction)
-stp$t_supp_env <- as.numeric(stp$t_supp_env)
-stp$t_family_communityties <- as.numeric(stp$t_family_communityties)
-stp$t_trust <- as.numeric(stp$t_trust)
-
-stp$p_collab_teachers <- as.numeric(stp$p_collab_teachers)
-stp$p_effective_schlead<- as.numeric(stp$p_effective_schlead)
-stp$p_rig_instruction <- as.numeric(stp$p_rig_instruction)
-stp$p_supp_env <- as.numeric(stp$p_supp_env)
-stp$p_family_communityties <- as.numeric(stp$p_family_communityties)
-stp$p_trust <- as.numeric(stp$p_trust)
-
-stp$student_rr<-as.numeric(stp$student_rr)
-str(stp)
-
+t_discipline <- select(teacher, c(1:3, 4:7, 168:171, 184:187, 424:427, 432:435)) %>%
+  mutate(type = "teacher") %>%
+  mutate(none = rowSums(select(., ends_with("none")), na.rm=TRUE)) %>%
+  mutate(few = rowSums(select(., ends_with("some")), na.rm=TRUE)) %>%
+  mutate(most = rowSums(select(., ends_with("a_lot")), na.rm=TRUE)) %>%
+  mutate(most = rowSums(select(., ends_with("lot")), na.rm=TRUE)) %>%
+  mutate(all = rowSums(select(., ends_with("all")), na.rm=TRUE)) %>%
+  mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  select(c(1:3, 24:32))
 ```
-## Step4: Tidying data with pivot_longer
-
-Now we have an integrated dataset with correct data types. However, the dataset is still "messy". In order to perform the future data visualization more conveniently, we need to change the "messy data" to "tidy data" with `pivot_longer`.
-
-A summary of the tidy data is shown as below, with variable `aspect` denotes the certain aspect of the school education evaluated by students, parents and teachers. The variable `score` denotes the score of a certain aspect. 
 
 ```{r}
-tidydata<-stp %>%
-  pivot_longer(cols =!c(name,DBN,parent_rr,student_rr,teacher_rr), names_to = "aspect",values_to = "score")
+# Survey questions on inclusion and diversity
+s_inclusion <- select(student, c(1:3, 24:58, 127:130)) %>%
+  mutate(type = "student") %>%
+  mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  mutate(idk = rowSums(select(., ends_with("idk")), na.rm=TRUE)) %>%
+  select(c(1:3, 36:41))
 
-str(tidydata)
+t_inclusion <- select(teacher, c(1:3, 24:63, 152:155, 160:167)) %>%
+  mutate(type = "teacher") %>%
+  mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  mutate(idk = rowSums(select(., ends_with("idk")), na.rm=TRUE)) %>%
+  select(c(1:3, 56:61))
 ```
 
+```{r}
+# Survey question on trust
+s_trust <- select(student, c(1:3, 103:122)) %>%
+  mutate(type = "student") %>%
+  mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  select(c(1:3, 24:28))
+
+t_trust <- select(teacher, c(1:3, 92:99, 120:135)) %>%
+  mutate(type = "teacher") %>%
+  mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  select(c(1:3, 28:32))
+```
+
+```{r}
+# Survey question on motivation
+s_self_motivation <- select(student, c(1:3, 171:190)) %>%
+  mutate(type = "student") %>%
+  mutate(none = rowSums(select(., ends_with("none")), na.rm=TRUE)) %>%
+  mutate(few = rowSums(select(., ends_with("few")), na.rm=TRUE)) %>%
+  mutate(most = rowSums(select(., ends_with("most")), na.rm=TRUE)) %>%
+  mutate(all = rowSums(select(., ends_with("all")), na.rm=TRUE)) %>%
+  select(c(1:3, 24:28))
+
+t_self_motivation <- select(teacher, c(1:3, 84:87)) %>%
+  mutate(type = "teacher") %>%
+  mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  select(c(1:3, 8:12))
+```
+
+```{r}
+# survey question on repect
+s_respect <- select(student, c(1:3, 19:23)) %>%
+  mutate(type = "student") %>%
+  mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  mutate(idk = rowSums(select(., ends_with("idk")), na.rm=TRUE)) %>%
+  select(c(1:3, 9:14))
+
+t_respect <- select(teacher, c(1:3, 100:111, 116:119, 136:147, 156:159)) %>%
+  mutate(type = "teacher") %>%
+  mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  select(c(1:3, 36:40))
+```
+
+```{r}
+# Survey question on collaboration
+s_collaboration <- select(student, c(1:3, 147:150)) %>%
+  mutate(type = "student") %>%
+  mutate(none = rowSums(select(., ends_with("none")), na.rm=TRUE)) %>%
+  mutate(few = rowSums(select(., ends_with("few")), na.rm=TRUE)) %>%
+  mutate(most = rowSums(select(., ends_with("most")), na.rm=TRUE)) %>%
+  mutate(all = rowSums(select(., ends_with("all")), na.rm=TRUE)) %>%
+  select(c(1:3, 8:12))
+
+t_collaboration <- select(teacher, c(1:3, 148:151, 192:195, 204:215)) %>%
+  mutate(type = "teacher") %>%
+  mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  select(c(1:3, 24:28))
+
+p_collaboration <- select(parent, c(1:3, 92:96)) %>%
+  mutate(type = "parent") %>%
+  mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  mutate(idk = rowSums(select(., ends_with("idk")), na.rm=TRUE)) %>%
+  select(c(1:3, 10:14))
+```
+
+```{r}
+# Survey question on cleanning
+s_clean <- select(student, c(1:3, 14:18)) %>%
+  mutate(type = "student") %>%
+  mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  mutate(idk = rowSums(select(., ends_with("idk")), na.rm=TRUE)) %>%
+  select(c(1:3, 9:14))
+
+t_clean <- select(teacher, c(1:3, 172:175)) %>%
+  mutate(type = "teacher") %>%
+  mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  select(c(1:3, 8:12))
+
+p_clean <- select(parent, c(1:3, 82:86)) %>%
+  mutate(type = "parent") %>%
+  mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  mutate(idk = rowSums(select(., ends_with("idk")), na.rm=TRUE)) %>%
+  select(c(1:3, 10:14))
+```
+
+```{r}
+# Survey question on safety
+s_safety <- select(student, c(1:3, 131:134, 191:206)) %>%
+  mutate(type = "student") %>%
+  mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  select(c(1:3, 24:28))
+
+t_safety <- select(teacher, c(1:3, 176:179, 524:539)) %>%
+  mutate(type = "teacher") %>%
+  mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  select(c(1:3, 24:28))
+
+p_safety <- select(parent, c(1:3, 77:81, 87:91)) %>%
+  mutate(type = "parent") %>%
+  mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  mutate(idk = rowSums(select(., ends_with("idk")), na.rm=TRUE)) %>%
+  select(c(1:3, 14:19))
+```
+
+```{r}
+# Survey question on bullying, harrasement, and any aggresive behaviors
+s_aggresive_behavior <- select(student, c(1:3, 207:238))  %>%
+  mutate(type = "student") %>%
+  mutate(none = rowSums(select(., ends_with("none")), na.rm=TRUE)) %>%
+  mutate(rarely = rowSums(select(., ends_with("rarely")), na.rm=TRUE)) %>%
+  mutate(some = rowSums(select(., ends_with("some")), na.rm=TRUE)) %>%
+  mutate(most = rowSums(select(., ends_with("most")), na.rm=TRUE)) %>%
+  select(c(1:3, 36:40))
+
+t_aggresive_behavior <- select(teacher, c(1:3, 188:191))  %>%
+  mutate(type = "teacher") %>%
+  mutate(none = rowSums(select(., ends_with("none")), na.rm=TRUE)) %>%
+  mutate(rarely = rowSums(select(., ends_with("rarely")), na.rm=TRUE)) %>%
+  mutate(some = rowSums(select(., ends_with("some")), na.rm=TRUE)) %>%
+  mutate(most = rowSums(select(., ends_with("most")), na.rm=TRUE)) %>%
+  select(c(1:3, 8:12))
+```
+
+```{r}
+t_family <- select(teacher, c(1:3, 216:235, 516:523)) %>%
+  mutate(type = "teacher") %>%
+  mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  select(c(1:3, 32:36))
+
+p_family <- select(parent, c(1:3, 4:66, 72:76, 97:119, 140:147)) %>%
+  mutate(type = "parent") %>%
+  mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  mutate(idk = rowSums(select(., ends_with("idk")), na.rm=TRUE)) %>%
+  mutate(never = rowSums(select(., ends_with("never")), na.rm=TRUE)) %>%
+  mutate(rarely = rowSums(select(., ends_with("rarely")), na.rm=TRUE)) %>%
+  mutate(some = rowSums(select(., ends_with("sometimes")), na.rm=TRUE)) %>%
+  mutate(often = rowSums(select(., ends_with("often")), na.rm=TRUE)) %>%
+  mutate(v_unlikely = rowSums(select(., ends_with("v_unlikely")), na.rm=TRUE)) %>%
+  mutate(unlikely = rowSums(select(., ends_with("unlikely")), na.rm=TRUE)) %>%
+  mutate(likely = rowSums(select(., ends_with("likely")), na.rm=TRUE)) %>%
+  mutate(v_likely = rowSums(select(., ends_with("v_likely")), na.rm=TRUE)) %>%
+  mutate(v_dissatisfied = rowSums(select(., ends_with("v_dissatisfied")), na.rm=TRUE)) %>%
+  mutate(dissatisfied = rowSums(select(., ends_with("dissatisfied")), na.rm=TRUE)) %>%
+  mutate(satisfied = rowSums(select(., ends_with("satisfied")), na.rm=TRUE)) %>%
+  mutate(v_satisfied = rowSums(select(., ends_with("v_satisfied")), na.rm=TRUE)) %>%
+  select(c(1:3, 113:120))
+```
+
+```{r}
+# Survey question on other skills, eg. critical thinking
+s_lifeskill <- select(student, c(1:3, 123:126, 151:154)) %>%
+  mutate(type = "teacher") %>%
+  mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  mutate(none = rowSums(select(., ends_with("none")), na.rm=TRUE)) %>%
+  mutate(few = rowSums(select(., ends_with("few")), na.rm=TRUE)) %>%
+  mutate(most = rowSums(select(., ends_with("most")), na.rm=TRUE)) %>%
+  mutate(all = rowSums(select(., ends_with("all")), na.rm=TRUE)) %>%
+  select(c(1:3, 12:20))
+
+t_lifeskill <- select(teacher, c(1:3, 466:490)) %>%
+  mutate(type = "teacher") %>%
+  mutate(none = rowSums(select(., ends_with("none")), na.rm=TRUE)) %>%
+  mutate(few = rowSums(select(., ends_with("some")), na.rm=TRUE)) %>%
+  mutate(most = rowSums(select(., ends_with("lot")), na.rm=TRUE)) %>%
+  mutate(all = rowSums(select(., ends_with("all")), na.rm=TRUE)) %>%
+  mutate(idk = rowSums(select(., ends_with("idk")), na.rm=TRUE)) %>%
+  select(c(1:3, 29:34))
+```
+
+```{r}
+# survey question on any future planning
+s_future <- select(student, c(1:3, 99:102, 239:272)) %>%
+  mutate(type = "student") %>%
+  mutate(NAs = rowSums(select(., ends_with("N/A")), na.rm=TRUE)) %>%
+  mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  select(c(1:3, 42:47))
+
+t_future <- select(teacher, c(1:3, 540:579)) %>%
+  mutate(type = "teacher") %>%
+  mutate(idk = rowSums(select(., ends_with("idk")), na.rm=TRUE)) %>%
+  mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  select(c(1:3, 44:49))
+```
+
+## Datasets that we decide to analyze
+
+Note that some answer choice are renamed due to inconsistencies between questions. Additionally, some questions are deleted due to the same reason.
+
+### Communication with families from teachers' and parents' perspectives
+```{r}
+t_family <- select(teacher, c(1:3, 216:235, 516:523)) %>%
+  mutate(t_s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(t_s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(t_agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(t_disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  select(c(1:3, 32:35))
+
+p_family <- select(parent, c(1:3, 4:66, 72:76, 97:107)) %>%
+  mutate(p_s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(p_s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(p_agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(p_disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  mutate(p_idk = rowSums(select(., ends_with("idk")), na.rm=TRUE)) %>%
+  select(c(1:3, 83:87))
+
+family <- t_family %>%
+  inner_join(p_family)
+
+saveRDS(family, "family")
+```
+
+```{r}
+head(family)
+```
+
+### Teaching quality and student performance
+```{r}
+# Survey Questions focusing on the teaching quality of teachers
+s_teachingquality <- select(student, c(1:3, 59:98)) %>%
+  mutate(st_v_negative = rowSums(select(., ends_with("none")), na.rm=TRUE)) %>%
+  mutate(st_v_positive = rowSums(select(., ends_with("few")), na.rm=TRUE)) %>%
+  mutate(st_positive = rowSums(select(., ends_with("most")), na.rm=TRUE)) %>%
+  mutate(st_negative = rowSums(select(., ends_with("all")), na.rm=TRUE)) %>%
+  select(c(1:3, 44:47))
+
+t_teachingquality <- select(teacher, c(1:3, 180:183, 236:291, 329:399)) %>%
+  mutate(t_NAs= rowSums(select(., ends_with("N/A")), na.rm=TRUE)) %>%
+  mutate(t_v_negative = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(t_v_positive = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(t_positive = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(t_negative = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  select(c(1:3, 135:139))
+
+p_teachingquality <- select(parent, c(1:3, 120:129)) %>%
+  mutate(p_v_neagtive = rowSums(select(., ends_with("v_dissatisfied")), na.rm=TRUE)) %>%
+  mutate(p_negative = rowSums(select(., ends_with("dissatisfied")), na.rm=TRUE)) %>%
+  mutate(p_positive = rowSums(select(., ends_with("satisfied")), na.rm=TRUE)) %>%
+  mutate(p_v_positive = rowSums(select(., ends_with("v_satisfied")), na.rm=TRUE)) %>%
+  mutate(p_idk = rowSums(select(., ends_with("idk")), na.rm=TRUE)) %>%
+  select(c(1:3, 14:18))
+
+teachingquality <- p_teachingquality %>%
+  inner_join(t_teachingquality)
+teachingquality <- teachingquality %>%
+  inner_join(s_teachingquality)
+
+saveRDS(teachingquality, "teachingquality")
+
+# Teachers have rated student performance, which is hypothesized to be positively correlated with teaching quality
+t_sperformance <- select(teacher, c(1:3, 400:419, 436:455, 486:490)) %>%
+  mutate(t_none = rowSums(select(., ends_with("none")), na.rm=TRUE)) %>%
+  mutate(t_some = rowSums(select(., ends_with("some")), na.rm=TRUE)) %>%
+  mutate(t_lot = rowSums(select(., ends_with("lot")), na.rm=TRUE)) %>%
+  mutate(t_all = rowSums(select(., ends_with("all")), na.rm=TRUE)) %>%
+  mutate(t_idk = rowSums(select(., ends_with("idk")), na.rm=TRUE)) %>%
+  select(c(1:3, 49:53))
+
+saveRDS(t_sperformance, "t_sperformance")
+```
+
+```{r}
+head(teachingquality)
+head(t_sperformance)
+```
+
+### Trust, respect, and collaboration between teachers
+```{r}
+t_trust <- select(teacher, c(1:3, 92:99, 120:135)) %>%
+  mutate(t_s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(t_s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(t_agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(t_disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  select(c(1:3, 28:31))
+
+t_collaboration <- select(teacher, c(1:3, 148:151, 192:195, 204:215)) %>%
+  mutate(c_s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(c_s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(c_agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(c_disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  select(c(1:3, 24:27))
+
+t_respect <- select(teacher, c(1:3, 100:111, 116:119, 136:147, 156:159)) %>%
+  mutate(r_s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(r_s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(r_agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(r_disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  select(c(1:3, 36:39))
+
+teacher_tcr <- t_respect %>%
+  inner_join(t_collaboration)
+teacher_tcr <- teacher_tcr %>%
+  inner_join(t_trust)
+
+saveRDS(teacher_tcr, "teacher_tcr")
+```
+
+```{r}
+head(teacher_tcr)
+```
+
+### Diversity and inclusion from students' and teachers' perspectives
+```{r}
+# Survey questions on inclusion and diversity
+s_inclusion <- select(student, c(1:3, 24:58, 127:130)) %>%
+  mutate(st_s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(st_s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(st_agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(st_disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  mutate(st_idk = rowSums(select(., ends_with("idk")), na.rm=TRUE)) %>%
+  select(c(1:3, 43:47))
+
+t_inclusion <- select(teacher, c(1:3, 24:63, 152:155, 160:167)) %>%
+  mutate(t_s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
+  mutate(t_s_agree = rowSums(select(., ends_with("s_agree")), na.rm=TRUE)) %>%
+  mutate(t_agree = rowSums(select(., ends_with("agree")), na.rm=TRUE)) %>%
+  mutate(t_disagree = rowSums(select(., ends_with("disagree")), na.rm=TRUE)) %>%
+  mutate(t_idk = rowSums(select(., ends_with("idk")), na.rm=TRUE)) %>%
+  select(c(1:3, 56:60))
+inclusion <- t_inclusion %>%
+  inner_join(s_inclusion)
+
+saveRDS(inclusion, "inclusion")
+```
+
+```{r}
+head(inclusion)
+```
+
+### Bullying, harrasement, and any aggresive behaviors from teachers' and students' perspective
+```{r}
+# Survey question on bullying, harrasement, and any aggresive behaviors
+s_aggresive_behavior <- select(student, c(1:3, 207:238))  %>%
+  mutate(st_none = rowSums(select(., ends_with("none")), na.rm=TRUE)) %>%
+  mutate(st_rarely = rowSums(select(., ends_with("rarely")), na.rm=TRUE)) %>%
+  mutate(st_some = rowSums(select(., ends_with("some")), na.rm=TRUE)) %>%
+  mutate(st_most = rowSums(select(., ends_with("most")), na.rm=TRUE)) %>%
+  select(c(1:3, 36:39))
+
+t_aggresive_behavior <- select(teacher, c(1:3, 188:191))  %>%
+  mutate(t_none = rowSums(select(., ends_with("none")), na.rm=TRUE)) %>%
+  mutate(t_rarely = rowSums(select(., ends_with("rarely")), na.rm=TRUE)) %>%
+  mutate(t_some = rowSums(select(., ends_with("some")), na.rm=TRUE)) %>%
+  mutate(t_most = rowSums(select(., ends_with("most")), na.rm=TRUE)) %>%
+  select(c(1:3, 8:11))
+
+aggresive_behavior <- t_aggresive_behavior %>%
+  inner_join(s_aggresive_behavior)
+
+saveRDS(aggresive_behavior, "ab")
+```
+
+```{r}
+head(aggresive_behavior)
+```
 
