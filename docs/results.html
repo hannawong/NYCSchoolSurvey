@@ -53,6 +53,10 @@
 
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/parallel-coordinates-2.1.8/parcoords.css" rel="stylesheet" />
+<script src="libs/parcoords-binding-1.0.0/parcoords.js"></script>
+<script src="libs/d3-5.16.0/d3.min.js"></script>
 
 
 
@@ -120,7 +124,10 @@
 <li class="chapter" data-level="5.3.1" data-path="results.html"><a href="results.html#do-teachers-and-parents-feel-the-same-about-family-community-bond"><i class="fa fa-check"></i><b>5.3.1</b> Do Teachers and Parents feel the same about Family-Community bond?</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a></li>
+<li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="interactive-component.html"><a href="interactive-component.html#the-relationship-between-parents-and-teachers-feeling-about-family-community-bonds"><i class="fa fa-check"></i><b>6.1</b> The relationship between parents’ and teachers’ feeling about family-community bonds</a></li>
+</ul></li>
 <li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -179,6 +186,7 @@ We know from the plot that the distribution of school scores in these five aspec
 <h3><span class="header-section-number">5.3.1</span> Do Teachers and Parents feel the same about Family-Community bond?</h3>
 <p>Both teachers and parents have answered some questions about their feelings about the family-community bond in their schools. For example, in the questionnaire for teachers, there are several statements like “teachers understand families’ problems and concerns.”; in the questionnaire for parents, there are statements like “School staff regularly communicate with me about how I can help my child learn.”. Parents and teachers are asked to give the degree in which they agree to such statements, such as “strongly agree”,“agree”,“disagree”,“strongly disagree”,“idk”. In this way, we are able to analysis whether teachers and parents feel the same about the family-community bond in their schools.</p>
 <p>In order to make our analysis easier, we firstly derive a family-community bond score for each school from parents’ and teachers’ point of view respectively. More specifically, we calculate the percentage of <code>strongly agree</code>,<code>agree</code>,<code>disagree</code>,<code>strongly disagree</code>,<code>idk</code>, and add +2 points for <code>strongly agree</code>, +1 point for <code>agree</code>, -1 point for <code>disagree</code>, -2 points for <code>strongly disagree</code> and +0 point for <code>idk</code>.</p>
+<p>The scores given by teachers and parents are clearly positively correlated:</p>
 <p><img src="finalproj_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 
 </div>

@@ -174,6 +174,8 @@ Both teachers and parents have answered some questions about their feelings abou
 
 In order to make our analysis easier, we firstly derive a family-community bond score for each school from parents' and teachers' point of view respectively. More specifically, we calculate the percentage of `strongly agree`,`agree`,`disagree`,`strongly disagree`,`idk`, and add +2 points for `strongly agree`, +1 point for `agree`, -1 point for `disagree`, -2 points for `strongly disagree` and +0 point for `idk`. 
 
+The scores given by teachers and parents are clearly positively correlated:
+
 ```{r}
 family<-read_rds("family")
 family_<-family %>% mutate(t_s_disagree_percent = t_s_disagree/(t_s_disagree+t_s_agree+t_agree+t_disagree)) %>% mutate(t_disagree_percent = t_disagree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>% mutate(t_agree_percent = t_agree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>% mutate(t_s_agree_percent = t_s_agree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>% mutate(t_score = 2*t_s_agree_percent+1*t_agree_percent-1*t_disagree_percent-2*t_s_disagree_percent) %>% mutate(p_s_disagree_percent = p_s_disagree/(p_s_disagree+p_s_agree+p_agree+p_disagree)) %>% mutate(p_disagree_percent = p_disagree/(p_s_disagree+p_s_agree+p_agree+p_disagree))%>% mutate(p_agree_percent = p_agree/(p_s_disagree+p_s_agree+p_agree+p_disagree))%>% mutate(p_s_agree_percent = p_s_agree/(p_s_disagree+p_s_agree+p_agree+p_disagree))%>% mutate(p_score = 2*p_s_agree_percent+1*p_agree_percent-1*p_disagree_percent-2*p_s_disagree_percent)
@@ -182,7 +184,6 @@ ggplot(data = family_,aes(x = t_score,y = p_score))+
   geom_point(color = "#9FC29F")+theme_grey(18)+xlab("score given by teachers")+ylab("score given by parents")
 ```
 
-The scores given by teachers and parents are clearly positively correlated. 
 
 
 
