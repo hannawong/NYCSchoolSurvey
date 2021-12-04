@@ -24,7 +24,7 @@
 <meta name="author" content="Ziheng Ru, Zihan Wang" />
 
 
-<meta name="date" content="2021-12-03" />
+<meta name="date" content="2021-12-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,10 +53,6 @@
 
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
-<link href="libs/parallel-coordinates-2.1.8/parcoords.css" rel="stylesheet" />
-<script src="libs/parcoords-binding-1.0.0/parcoords.js"></script>
-<script src="libs/d3-5.16.0/d3.min.js"></script>
 
 
 
@@ -123,10 +119,12 @@
 <ul>
 <li class="chapter" data-level="5.3.1" data-path="results.html"><a href="results.html#do-teachers-and-parents-feel-the-same-about-family-community-bond"><i class="fa fa-check"></i><b>5.3.1</b> Do Teachers and Parents feel the same about Family-Community bond?</a></li>
 </ul></li>
+<li class="chapter" data-level="5.4" data-path="results.html"><a href="results.html#do-teachers-and-students-feel-the-same-about-student-inclusion"><i class="fa fa-check"></i><b>5.4</b> Do teachers and students feel the same about student inclusion?</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a>
 <ul>
 <li class="chapter" data-level="6.1" data-path="interactive-component.html"><a href="interactive-component.html#the-relationship-between-parents-and-teachers-feeling-about-family-community-bonds"><i class="fa fa-check"></i><b>6.1</b> The relationship between parents’ and teachers’ feeling about family-community bonds</a></li>
+<li class="chapter" data-level="6.2" data-path="interactive-component.html"><a href="interactive-component.html#the-relationship-between-students-and-teachers-feeling-about-student-inclusion"><i class="fa fa-check"></i><b>6.2</b> The relationship between students’ and teachers’ feeling about student inclusion</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="divider"></li>
@@ -188,8 +186,34 @@ We know from the plot that the distribution of school scores in these five aspec
 <p>In order to make our analysis easier, we firstly derive a family-community bond score for each school from parents’ and teachers’ point of view respectively. More specifically, we calculate the percentage of <code>strongly agree</code>,<code>agree</code>,<code>disagree</code>,<code>strongly disagree</code>,<code>idk</code>, and add +2 points for <code>strongly agree</code>, +1 point for <code>agree</code>, -1 point for <code>disagree</code>, -2 points for <code>strongly disagree</code> and +0 point for <code>idk</code>.</p>
 <p>The scores given by teachers and parents are clearly positively correlated:</p>
 <p><img src="finalproj_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-
 </div>
+</div>
+<div id="do-teachers-and-students-feel-the-same-about-student-inclusion" class="section level2" number="5.4">
+<h2><span class="header-section-number">5.4</span> Do teachers and students feel the same about student inclusion?</h2>
+<p>Teachers and students have answered some questions about their feelings towards the student inclusion in their schools from their own perspectives. In this way, we are able to analysis whether teachers and students feel the same about student inclusion.</p>
+<p>In order to make our analysis easier, we firstly calculate a student inclusion score for each school from students’ and teachers’ point of view respectively, using the formula mentioned in 5.3.1.</p>
+<p>The scores given by students and teachers are also positively correlated:</p>
+<pre><code>## # A tibble: 1,109 x 24
+##    DBN    `School Name`     teacher_rr t_s_disagree t_s_agree t_agree t_disagree
+##    &lt;chr&gt;  &lt;chr&gt;                  &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;
+##  1 01M034 P.S. 034 FRANKLI~        100           25       196     624         97
+##  2 01M140 P.S. 140 NATHAN ~         89            1       162     512         17
+##  3 01M184 P.S. 184M SHUANG~        100            7       173     782         93
+##  4 01M188 P.S. 188 THE ISL~         69            1       249     547          2
+##  5 01M292 ORCHARD COLLEGIA~        100            6       113     352         39
+##  6 01M332 UNIVERSITY NEIGH~         86            0       189     457          3
+##  7 01M378 SCHOOL FOR GLOBA~         91            1       223     537          9
+##  8 01M448 UNIVERSITY NEIGH~        100            0       255     608          6
+##  9 01M450 EAST SIDE COMMUN~         94            0       309     802          7
+## 10 01M458 FORSYTH SATELLIT~         81            0       120     261          0
+## # ... with 1,099 more rows, and 17 more variables: t_idk &lt;dbl&gt;,
+## #   student_rr &lt;dbl&gt;, st_s_disagree &lt;dbl&gt;, st_s_agree &lt;dbl&gt;, st_agree &lt;dbl&gt;,
+## #   st_disagree &lt;dbl&gt;, st_idk &lt;dbl&gt;, t_s_disagree_percent &lt;dbl&gt;,
+## #   t_disagree_percent &lt;dbl&gt;, t_agree_percent &lt;dbl&gt;, t_s_agree_percent &lt;dbl&gt;,
+## #   t_score &lt;dbl&gt;, st_s_disagree_percent &lt;dbl&gt;, st_disagree_percent &lt;dbl&gt;,
+## #   st_agree_percent &lt;dbl&gt;, st_s_agree_percent &lt;dbl&gt;, st_score &lt;dbl&gt;</code></pre>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+
 </div>
 </div>
             </section>

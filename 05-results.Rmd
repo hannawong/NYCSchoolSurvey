@@ -184,7 +184,22 @@ ggplot(data = family_,aes(x = t_score,y = p_score))+
   geom_point(color = "#9FC29F")+theme_grey(18)+xlab("score given by teachers")+ylab("score given by parents")
 ```
 
+## Do teachers and students feel the same about student inclusion?
 
+Teachers and students have answered some questions about their feelings towards the student inclusion in their schools from their own perspectives. In this way, we are able to analysis whether teachers and students feel the same about student inclusion. 
+
+In order to make our analysis easier, we firstly calculate a student inclusion score for each school from students' and teachers' point of view respectively, using the formula mentioned in 5.3.1.
+
+The scores given by students and teachers are also positively correlated:
+
+```{r}
+inclusion<-read_rds("inclusion")
+inclusion_<-inclusion %>% mutate(t_s_disagree_percent = t_s_disagree/(t_s_disagree+t_s_agree+t_agree+t_disagree)) %>% mutate(t_disagree_percent = t_disagree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>% mutate(t_agree_percent = t_agree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>% mutate(t_s_agree_percent = t_s_agree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>% mutate(t_score = 2*t_s_agree_percent+1*t_agree_percent-1*t_disagree_percent-2*t_s_disagree_percent) %>% mutate(st_s_disagree_percent = st_s_disagree/(st_s_disagree+st_s_agree+st_agree+st_disagree)) %>% mutate(st_disagree_percent = st_disagree/(st_s_disagree+st_s_agree+st_agree+st_disagree))%>% mutate(st_agree_percent = st_agree/(st_s_disagree+st_s_agree+st_agree+st_disagree))%>% mutate(st_s_agree_percent = st_s_agree/(st_s_disagree+st_s_agree+st_agree+st_disagree))%>% mutate(st_score = 2*st_s_agree_percent+1*st_agree_percent-1*st_disagree_percent-2*st_s_disagree_percent)
+
+inclusion_
+ggplot(data = inclusion_,aes(x = t_score,y = st_score))+
+  geom_point(color = "#9FC29F")+theme_grey(18)+xlab("score given by teachers")+ylab("score given by students")
+```
 
 
 

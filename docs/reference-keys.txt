@@ -42,3 +42,5 @@ top-10-schools-with-the-highest-comprehensive-scores
 dependency-relationships-analysis
 do-teachers-and-parents-feel-the-same-about-family-community-bond
 the-relationship-between-parents-and-teachers-feeling-about-family-community-bonds
+do-teachers-and-students-feel-the-same-about-student-inclusion
+the-relationship-between-students-and-teachers-feeling-about-student-inclusion
