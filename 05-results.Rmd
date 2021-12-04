@@ -94,10 +94,9 @@ student_$collab_teachers<-as.numeric(student_$collab_teachers)
 score_sorted <- student_ %>% arrange(desc(collab_teachers))
 top10<-head(score_sorted,10)
 
-p<-ggplot(data = top10, aes(fct_rev(fct_reorder(name,collab_teachers)),y = collab_teachers,label = collab_teachers))+
-         geom_col(fill = "#9FC29F")
+p<-ggplot(data = top10,aes(collab_teachers, fct_reorder(name, collab_teachers),label = collab_teachers)) + geom_point() + ggtitle('Top 10 Schools with the most collaborative teachers') + ylab('School Name')
   
-p+geom_label()+xlab("School Names")+theme(axis.text.x=element_text(angle=20, hjust=1))+ggtitle("Top 10 Schools with the most collaborative teachers")
+p+geom_label()+xlab("School Names")+theme(axis.text.y=element_text(angle=0,hjust = 1,size = 4))+ggtitle("Top 10 Schools with the most collaborative teachers")
 
 ```
 ```{r}
@@ -105,30 +104,28 @@ student_$effective_schlead<-as.numeric(student_$effective_schlead)
 score_sorted_1 <- student_ %>% arrange(desc(effective_schlead))
 top10_1<-head(score_sorted_1,10)
 
-p<-ggplot(data = top10_1, aes(fct_rev(fct_reorder(name,effective_schlead)),y = effective_schlead,label = effective_schlead))+
-         geom_col(fill = "#9FC29F")
+p<-ggplot(data = top10_1,aes(effective_schlead, fct_reorder(name, effective_schlead),label = effective_schlead)) + geom_point() +  ylab('School Name')
   
-p+geom_label()+xlab("School Names")+theme(axis.text.x=element_text(angle=20, hjust=1))+ggtitle("Top 10 Schools with the most effective School Leadership")
+p+geom_label()+xlab("School Names")+theme(axis.text.y=element_text(angle=0,hjust = 1,size = 4))+ggtitle("Top 10 Schools with the most effective School Leadership")
 ```
 ```{r}
 student_$trust<-as.numeric(student_$trust)
 score_sorted_1 <- student_ %>% arrange(desc(trust))
 top10_1<-head(score_sorted_1,10)
 
-p<-ggplot(data = top10_1, aes(fct_rev(fct_reorder(name,trust)),y = trust,label = trust))+
-         geom_col(fill = "#9FC29F")
+p<-ggplot(data = top10_1,aes(trust, fct_reorder(name, trust),label = trust)) + geom_point() +  ylab('School Name')
   
-p+geom_label()+xlab("School Names")+theme(axis.text.x=element_text(angle=20, hjust=1))+ggtitle("Top 10 Schools with the most Trust beween people")
+p+geom_label()+xlab("School Names")+theme(axis.text.y=element_text(angle=0,hjust = 1,size = 4))+ggtitle("Top 10 Schools with the most Trust beween people")
+
 ```
 ```{r}
 student_$rig_instruction<-as.numeric(student_$rig_instruction)
 score_sorted_1 <- student_ %>% arrange(desc(rig_instruction))
 top10_1<-head(score_sorted_1,10)
 
-p<-ggplot(data = top10_1, aes(fct_rev(fct_reorder(name,rig_instruction)),y = rig_instruction,label = rig_instruction))+
-         geom_col(fill = "#9FC29F")
+p<-ggplot(data = top10_1,aes(rig_instruction, fct_reorder(name, rig_instruction),label = rig_instruction)) + geom_point() +  ylab('School Name')
   
-p+geom_label()+xlab("School Names")+theme(axis.text.x=element_text(angle=20, hjust=1))+ggtitle("Top 10 Schools with the most rigid instructions")
+p+geom_label()+xlab("School Names")+theme(axis.text.y=element_text(angle=0,hjust = 1,size = 4))+ggtitle("Top 10 Schools with the most rigid instructions")
 ```
 
 ```{r}
@@ -136,10 +133,10 @@ student_$family_communityties<-as.numeric(student_$family_communityties)
 score_sorted_1 <- student_ %>% arrange(desc(family_communityties))
 top10_1<-head(score_sorted_1,10)
 
-p<-ggplot(data = top10_1, aes(fct_rev(fct_reorder(name,family_communityties)),y = family_communityties,label = family_communityties))+
-         geom_col(fill = "#9FC29F")
+p<-ggplot(data = top10_1,aes(family_communityties, fct_reorder(name, family_communityties),label = family_communityties)) + geom_point() +  ylab('School Name')
   
-p+geom_label()+xlab("School Names")+theme(axis.text.x=element_text(angle=20, hjust=1))+ggtitle("Top 10 Schools with the Strongest Family Community Ties")
+p+geom_label()+xlab("School Names")+theme(axis.text.y=element_text(angle=0,hjust = 1,size = 3))+ggtitle("Top 10 Schools with the Strongest Family Community Ties")
+
 ```
 
 ### Top 10 Schools with the highest comprehensive scores
@@ -152,11 +149,10 @@ avg <- student_ %>% mutate(total_score = (collab_teachers+effective_schlead+rig_
   arrange(desc(total_score))
 top10_1<-head(avg,10)
 
-
-p<-ggplot(data = top10_1, aes(fct_rev(fct_reorder(name,total_score)),y = total_score,label = total_score))+
-         geom_col(fill = "#9FC29F")
+p<-ggplot(data = top10_1,aes(total_score, fct_reorder(name, total_score),label = total_score)) + geom_point() +  ylab('School Name')
   
-p+geom_label()+xlab("School Names")+theme(axis.text.x=element_text(angle=20, hjust=1))+ggtitle("Top 10 Schools with the highest comprehensive scores")
+p+geom_label()+xlab("School Names")+theme(axis.text.y=element_text(angle=0,hjust = 1,size = 4))+ggtitle("Top 10 Schools with the highest comprehensive scores")
+
 ```
 
 The best 10 schools in NYC are:
@@ -190,7 +186,7 @@ family_rmna<-family_[complete.cases(family_[,c(18,20)]),]
 cor(family_rmna$t_score,family_rmna$p_score)
 ```
 
-## Do teachers and students feel the same about student inclusion?
+### Do teachers and students feel the same about student inclusion?
 
 Teachers and students have answered some questions about their feelings towards the student inclusion in their schools from their own perspectives. In this way, we are able to analysis whether teachers and students feel the same about student inclusion. 
 
@@ -202,7 +198,6 @@ The scores given by students and teachers are also positively correlated:
 inclusion<-read_rds("inclusion")
 inclusion_<-inclusion %>% mutate(t_s_disagree_percent = t_s_disagree/(t_s_disagree+t_s_agree+t_agree+t_disagree)) %>% mutate(t_disagree_percent = t_disagree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>% mutate(t_agree_percent = t_agree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>% mutate(t_s_agree_percent = t_s_agree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>% mutate(t_score = 2*t_s_agree_percent+1*t_agree_percent-1*t_disagree_percent-2*t_s_disagree_percent) %>% mutate(st_s_disagree_percent = st_s_disagree/(st_s_disagree+st_s_agree+st_agree+st_disagree)) %>% mutate(st_disagree_percent = st_disagree/(st_s_disagree+st_s_agree+st_agree+st_disagree))%>% mutate(st_agree_percent = st_agree/(st_s_disagree+st_s_agree+st_agree+st_disagree))%>% mutate(st_s_agree_percent = st_s_agree/(st_s_disagree+st_s_agree+st_agree+st_disagree))%>% mutate(st_score = 2*st_s_agree_percent+1*st_agree_percent-1*st_disagree_percent-2*st_s_disagree_percent)
 
-inclusion_
 ggplot(data = inclusion_,aes(x = t_score,y = st_score))+
   geom_point(color = "#9FC29F")+theme_grey(18)+xlab("score given by teachers")+ylab("score given by students")
 ```
@@ -214,7 +209,6 @@ cor(inclusion_rmna$t_score,inclusion_rmna$st_score)
 ```
 ```{r}
 tq <- read_rds("teachingquality")
-tq
 ```
 
 
