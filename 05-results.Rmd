@@ -183,6 +183,12 @@ family_<-family %>% mutate(t_s_disagree_percent = t_s_disagree/(t_s_disagree+t_s
 ggplot(data = family_,aes(x = t_score,y = p_score))+
   geom_point(color = "#9FC29F")+theme_grey(18)+xlab("score given by teachers")+ylab("score given by parents")
 ```
+The correlation coefficient is:
+
+```{r}
+family_rmna<-family_[complete.cases(family_[,c(18,20)]),]
+cor(family_rmna$t_score,family_rmna$p_score)
+```
 
 ## Do teachers and students feel the same about student inclusion?
 
@@ -199,6 +205,16 @@ inclusion_<-inclusion %>% mutate(t_s_disagree_percent = t_s_disagree/(t_s_disagr
 inclusion_
 ggplot(data = inclusion_,aes(x = t_score,y = st_score))+
   geom_point(color = "#9FC29F")+theme_grey(18)+xlab("score given by teachers")+ylab("score given by students")
+```
+The correlation coefficient is:
+
+```{r}
+inclusion_rmna<-inclusion_[complete.cases(inclusion_[,c(18,20)]),]
+cor(inclusion_rmna$t_score,inclusion_rmna$st_score)
+```
+```{r}
+tq <- read_rds("teachingquality")
+tq
 ```
 
 
