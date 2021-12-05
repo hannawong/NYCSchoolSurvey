@@ -12,7 +12,7 @@ library(webshot)
 library(d3r)
 family_<-family %>% mutate(t_s_disagree_percent = t_s_disagree/(t_s_disagree+t_s_agree+t_agree+t_disagree)) %>% mutate(t_disagree_percent = t_disagree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>% mutate(t_agree_percent = t_agree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>% mutate(t_s_agree_percent = t_s_agree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>% mutate(t_score = 2*t_s_agree_percent+1*t_agree_percent-1*t_disagree_percent-2*t_s_disagree_percent) %>% mutate(p_s_disagree_percent = p_s_disagree/(p_s_disagree+p_s_agree+p_agree+p_disagree)) %>% mutate(p_disagree_percent = p_disagree/(p_s_disagree+p_s_agree+p_agree+p_disagree))%>% mutate(p_agree_percent = p_agree/(p_s_disagree+p_s_agree+p_agree+p_disagree))%>% mutate(p_s_agree_percent = p_s_agree/(p_s_disagree+p_s_agree+p_agree+p_disagree))%>% mutate(p_score = 2*p_s_agree_percent+1*p_agree_percent-1*p_disagree_percent-2*p_s_disagree_percent)
 
-family_sel = family_ %>% select(t_s_disagree_percent,t_disagree_percent,t_agree_percent,t_s_agree_percent,p_s_disagree_percent,p_disagree_percent,p_agree_percent,p_s_agree_percent)
+family_sel <- family_ %>% select(t_s_disagree_percent,t_disagree_percent,t_agree_percent,t_s_agree_percent,p_s_disagree_percent,p_disagree_percent,p_agree_percent,p_s_agree_percent)
 
 parcoords(data = family_sel,brushMode = '1D-axes',queue = TRUE,withD3 = TRUE)
 ```
@@ -23,9 +23,29 @@ parcoords(data = family_sel,brushMode = '1D-axes',queue = TRUE,withD3 = TRUE)
 inclusion<-read_rds("inclusion")
 inclusion_<-inclusion %>% mutate(t_s_disagree_percent = t_s_disagree/(t_s_disagree+t_s_agree+t_agree+t_disagree)) %>% mutate(t_disagree_percent = t_disagree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>% mutate(t_agree_percent = t_agree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>% mutate(t_s_agree_percent = t_s_agree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>% mutate(t_score = 2*t_s_agree_percent+1*t_agree_percent-1*t_disagree_percent-2*t_s_disagree_percent) %>% mutate(st_s_disagree_percent = st_s_disagree/(st_s_disagree+st_s_agree+st_agree+st_disagree)) %>% mutate(st_disagree_percent = st_disagree/(st_s_disagree+st_s_agree+st_agree+st_disagree))%>% mutate(st_agree_percent = st_agree/(st_s_disagree+st_s_agree+st_agree+st_disagree))%>% mutate(st_s_agree_percent = st_s_agree/(st_s_disagree+st_s_agree+st_agree+st_disagree))%>% mutate(st_score = 2*st_s_agree_percent+1*st_agree_percent-1*st_disagree_percent-2*st_s_disagree_percent)
 
-inclusion_sel = inclusion_ %>% select(t_s_disagree_percent,t_disagree_percent,t_agree_percent,t_s_agree_percent,st_s_disagree_percent,st_disagree_percent,st_agree_percent,st_s_agree_percent)
+inclusion_sel <- inclusion_ %>% select(t_s_disagree_percent,t_disagree_percent,t_agree_percent,t_s_agree_percent,st_s_disagree_percent,st_disagree_percent,st_agree_percent,st_s_agree_percent)
 
 parcoords(data = inclusion_sel,brushMode = '1D-axes',queue = TRUE,withD3 = TRUE)
+```
+## The relationship between students' and teachers' feeling about aggressive behavior
+```{r}
+ab <- read_rds("ab")
+ab_<-ab %>%
+  mutate(t_none_percent = t_none/(t_none+t_rarely+t_some+t_most)) %>%
+  mutate(t_rarely_percent = t_rarely/(t_none+t_rarely+t_some+t_most))%>%
+  mutate(t_some_percent = t_some/(t_none+t_rarely+t_some+t_most))%>%
+  mutate(t_most_percent = t_most/(t_none+t_rarely+t_some+t_most))%>%
+  mutate(t_score = 2*t_none_percent+1*t_rarely_percent-1*t_some_percent-2*t_most_percent)%>%
+  mutate(st_none_percent = st_none/(st_none+st_rarely+st_some+st_most)) %>%
+  mutate(st_rarely_percent = st_rarely/(st_none+t_rarely+st_some+st_most))%>%
+  mutate(st_some_percent = st_some/(st_none+t_rarely+st_some+st_most))%>%
+  mutate(st_most_percent = st_most/(st_none+st_rarely+st_some+st_most))%>%
+  mutate(st_score = 2*st_none_percent+1*st_rarely_percent-1*st_some_percent-2*st_most_percent)
+
+
+ab_sel = ab_ %>% select(t_none_percent,t_rarely_percent,t_some_percent,t_most_percent,st_none_percent,st_rarely_percent,st_some_percent,st_most_percent)
+
+parcoords(data = ab_sel,brushMode = '1D-axes',queue = TRUE,withD3 = TRUE)
 ```
 
 

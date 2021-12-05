@@ -24,7 +24,7 @@
 <meta name="author" content="Ziheng Ru, Zihan Wang" />
 
 
-<meta name="date" content="2021-12-04" />
+<meta name="date" content="2021-12-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -119,12 +119,14 @@
 <ul>
 <li class="chapter" data-level="5.3.1" data-path="results.html"><a href="results.html#do-teachers-and-parents-feel-the-same-about-family-community-bond"><i class="fa fa-check"></i><b>5.3.1</b> Do Teachers and Parents feel the same about Family-Community bond?</a></li>
 <li class="chapter" data-level="5.3.2" data-path="results.html"><a href="results.html#do-teachers-and-students-feel-the-same-about-student-inclusion"><i class="fa fa-check"></i><b>5.3.2</b> Do teachers and students feel the same about student inclusion?</a></li>
+<li class="chapter" data-level="5.3.3" data-path="results.html"><a href="results.html#do-teachers-and-students-feel-the-same-about-aggressive-behaviors"><i class="fa fa-check"></i><b>5.3.3</b> Do teachers and students feel the same about aggressive behaviors?</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a>
 <ul>
 <li class="chapter" data-level="6.1" data-path="interactive-component.html"><a href="interactive-component.html#the-relationship-between-parents-and-teachers-feeling-about-family-community-bonds"><i class="fa fa-check"></i><b>6.1</b> The relationship between parents’ and teachers’ feeling about family-community bonds</a></li>
 <li class="chapter" data-level="6.2" data-path="interactive-component.html"><a href="interactive-component.html#the-relationship-between-students-and-teachers-feeling-about-student-inclusion"><i class="fa fa-check"></i><b>6.2</b> The relationship between students’ and teachers’ feeling about student inclusion</a></li>
+<li class="chapter" data-level="6.3" data-path="interactive-component.html"><a href="interactive-component.html#the-relationship-between-students-and-teachers-feeling-about-aggressive-behavior"><i class="fa fa-check"></i><b>6.3</b> The relationship between students’ and teachers’ feeling about aggressive behavior</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="divider"></li>
@@ -197,6 +199,15 @@ The correlation coefficient is:</p>
 <p><img src="finalproj_files/figure-html/unnamed-chunk-13-1.png" width="672" />
 The correlation coefficient is:</p>
 <pre><code>## [1] 0.413764</code></pre>
+</div>
+<div id="do-teachers-and-students-feel-the-same-about-aggressive-behaviors" class="section level3" number="5.3.3">
+<h3><span class="header-section-number">5.3.3</span> Do teachers and students feel the same about aggressive behaviors?</h3>
+<p>Both teachers and parents have answered some questions about their feelings about the aggressive behaviors in their schools. The are asked to reply how frequent such aggressive behaviors happens, such as “none”,“rarely”,“some”,“most”. In this way, we are able to analysis whether teachers and students feel the same about the aggressive behaviors in their schools.</p>
+<p>In order to make our analysis easier, we firstly derive a score for each school from parents’ and teachers’ point of view respectively. More specifically, we calculate the percentage of <code>none</code>,<code>rarely</code>,<code>some</code>,<code>most</code>, and add +2 points for <code>none</code>, +1 point for <code>rarely</code>, -1 point for <code>some</code>, -2 points for <code>most</code>.</p>
+<p>The scores given by students and teachers are also positively correlated:</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>The correlation coefficient is:</p>
+<pre><code>## [1] 0.6765192</code></pre>
 
 </div>
 </div>

@@ -207,9 +207,35 @@ The correlation coefficient is:
 inclusion_rmna<-inclusion_[complete.cases(inclusion_[,c(18,20)]),]
 cor(inclusion_rmna$t_score,inclusion_rmna$st_score)
 ```
+### Do teachers and students feel the same about aggressive behaviors?
+
+Both teachers and parents have answered some questions about their feelings about the aggressive behaviors in their schools. The are asked to reply how frequent such aggressive behaviors happens, such as "none","rarely","some","most". In this way, we are able to analysis whether teachers and students feel the same about the aggressive behaviors in their schools. 
+
+In order to make our analysis easier, we firstly derive a score for each school from parents' and teachers' point of view respectively. More specifically, we calculate the percentage of `none`,`rarely`,`some`,`most`, and add +2 points for `none`, +1 point for `rarely`, -1 point for `some`, -2 points for `most`.
+
+The scores given by students and teachers are also positively correlated:
+
 ```{r}
-tq <- read_rds("teachingquality")
+ab <- read_rds("ab")
+ab_<-ab %>%
+  mutate(t_none_percent = t_none/(t_none+t_rarely+t_some+t_most)) %>%
+  mutate(t_rarely_percent = t_rarely/(t_none+t_rarely+t_some+t_most))%>%
+  mutate(t_some_percent = t_some/(t_none+t_rarely+t_some+t_most))%>%
+  mutate(t_most_percent = t_most/(t_none+t_rarely+t_some+t_most))%>%
+  mutate(t_score = 2*t_none_percent+1*t_rarely_percent-1*t_some_percent-2*t_most_percent)%>%
+  mutate(st_none_percent = st_none/(st_none+st_rarely+st_some+st_most)) %>%
+  mutate(st_rarely_percent = st_rarely/(st_none+t_rarely+st_some+st_most))%>%
+  mutate(st_some_percent = st_some/(st_none+t_rarely+st_some+st_most))%>%
+  mutate(st_most_percent = st_most/(st_none+st_rarely+st_some+st_most))%>%
+  mutate(st_score = 2*st_none_percent+1*st_rarely_percent-1*st_some_percent-2*st_most_percent)
+ggplot(data = ab_,aes(x = t_score,y = st_score))+
+  geom_point(color = "#9FC29F")+theme_grey(18)+xlab("score given by teachers")+ylab("score given by students")
 ```
 
+The correlation coefficient is:
 
+```{r}
+ab_rmna<-ab_[complete.cases(ab_[,c(17,22)]),]
+cor(ab_rmna$t_score,ab_rmna$st_score)
+```
 
