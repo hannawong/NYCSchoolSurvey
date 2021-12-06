@@ -9,6 +9,8 @@ Before we make any comparison between NYC schools, we firstly have a look at the
 ```{r}
 library(readxl)
 library(tidyverse)
+warnings('off')
+options (warn = -1)
 student <- read_excel("Student.xlsx")
 teacher<-read_excel("Teacher.xlsx")
 parent<-read_excel("Parent.xlsx")
@@ -239,3 +241,47 @@ ab_rmna<-ab_[complete.cases(ab_[,c(17,22)]),]
 cor(ab_rmna$t_score,ab_rmna$st_score)
 ```
 
+## Do parents, students and teachers feel the same about teaching quality?
+
+Students, teachers and parents have answered some questions about their feelings about the teaching quality in their schools. The are asked to reply to which degree they believe that the teachers demonstrate good teaching qualities, such as "strongly positive","positive","negative","strongly negative","i don't know". In this way, we are able to analysis whether parents, teachers and students feel the same about teaching quality.
+
+In order to make our analysis easier, we firstly derive a score for each school from students', parents' and teachers' point of view respectively. More specifically, we calculate the percentage of `strongly positive`,`positive`,`negative`,`strongly negative`, and add +2 points for `strongly positive`, +1 point for `positive`, -1 point for `negative`, -2 points for `strongly negative`.
+
+The relationship between the score given by parents, students and teachers are plotted in the following scatterplot:
+
+
+```{r}
+tq<-read_rds("teachingquality")
+tq_<-tq %>%
+  mutate(p_v_neagtive_percent = p_v_neagtive/(p_v_neagtive+p_negative+p_positive+p_v_positive+p_idk)) %>%
+  mutate(p_negative_percent = p_negative/(p_v_neagtive+p_negative+p_positive+p_v_positive+p_idk))%>%
+  mutate(p_positive_percent = p_positive/(p_v_neagtive+p_negative+p_positive+p_v_positive+p_idk))%>%
+  mutate(p_v_positive_percent = p_v_positive/(p_v_neagtive+p_negative+p_positive+p_v_positive+p_idk))%>%
+  mutate(p_score = 2*p_v_positive_percent+1*p_positive_percent-1*p_negative_percent-2*p_v_neagtive_percent)
+
+
+tq_<-tq_ %>%
+  mutate(t_v_negative_percent = t_v_negative/(t_v_negative+t_negative+t_positive+t_v_positive+t_NAs)) %>%
+  mutate(t_negative_percent = t_negative/(t_v_negative+t_negative+t_positive+t_v_positive+t_NAs))%>%
+  mutate(t_positive_percent = t_positive/(t_v_negative+t_negative+t_positive+t_v_positive+t_NAs))%>%
+  mutate(t_v_positive_percent = t_v_positive/(t_v_negative+t_negative+t_positive+t_v_positive+t_NAs))%>%
+  mutate(t_score = 2*t_v_positive_percent+1*t_positive_percent-1*t_negative_percent-2*t_v_negative_percent)
+
+
+tq_<-tq_ %>%
+  mutate(st_v_negative_percent = st_v_negative/(st_v_negative+st_negative+st_positive+st_v_positive)) %>%
+  mutate(st_negative_percent = st_negative/(st_v_negative+st_negative+st_positive+st_v_positive))%>%
+  mutate(st_positive_percent = st_positive/(st_v_negative+st_negative+st_positive+st_v_positive))%>%
+  mutate(st_v_positive_percent = st_v_positive/(st_v_negative+st_negative+st_positive+st_v_positive))%>%
+  mutate(st_score = 2*st_v_positive_percent+1*st_positive_percent-1*st_negative_percent-2*st_v_negative_percent)
+```
+
+```{r}
+library(GGally)
+ 
+data <- tq_ %>% select(t_score,p_score,st_score)
+ 
+ggpairs(data, title="") 
+```
+
+The score given by teachers and parents are positively correlated, however, the score given by students are negatively correlated with the score given by teachers and parents. Moreover, students tend to give poor scores to their teachers while teachers and parents tend to give higher score to teaching quality. 

@@ -24,7 +24,7 @@
 <meta name="author" content="Ziheng Ru, Zihan Wang" />
 
 
-<meta name="date" content="2021-12-05" />
+<meta name="date" content="2021-12-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -121,6 +121,7 @@
 <li class="chapter" data-level="5.3.2" data-path="results.html"><a href="results.html#do-teachers-and-students-feel-the-same-about-student-inclusion"><i class="fa fa-check"></i><b>5.3.2</b> Do teachers and students feel the same about student inclusion?</a></li>
 <li class="chapter" data-level="5.3.3" data-path="results.html"><a href="results.html#do-teachers-and-students-feel-the-same-about-aggressive-behaviors"><i class="fa fa-check"></i><b>5.3.3</b> Do teachers and students feel the same about aggressive behaviors?</a></li>
 </ul></li>
+<li class="chapter" data-level="5.4" data-path="results.html"><a href="results.html#do-parents-students-and-teachers-feel-the-same-about-teaching-quality"><i class="fa fa-check"></i><b>5.4</b> Do parents, students and teachers feel the same about teaching quality?</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a>
 <ul>
@@ -208,8 +209,51 @@ The correlation coefficient is:</p>
 <p><img src="finalproj_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <p>The correlation coefficient is:</p>
 <pre><code>## [1] 0.6765192</code></pre>
-
 </div>
+</div>
+<div id="do-parents-students-and-teachers-feel-the-same-about-teaching-quality" class="section level2" number="5.4">
+<h2><span class="header-section-number">5.4</span> Do parents, students and teachers feel the same about teaching quality?</h2>
+<pre><code>## # A tibble: 1,109 x 24
+##    DBN    `School Name` parent_rr p_v_neagtive p_negative p_positive p_v_positive
+##    &lt;chr&gt;  &lt;chr&gt;             &lt;dbl&gt;        &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;
+##  1 01M034 P.S. 034 FRA~        29            1          5        130           59
+##  2 01M140 P.S. 140 NAT~        57            5         16        331          174
+##  3 01M184 P.S. 184M SH~        92            5         50        928          385
+##  4 01M188 P.S. 188 THE~        99            2          3        513          198
+##  5 01M292 ORCHARD COLL~        49            6         10        163           71
+##  6 01M332 UNIVERSITY N~        76            4         23        285          124
+##  7 01M378 SCHOOL FOR G~        74            4         11        322          169
+##  8 01M448 UNIVERSITY N~        37            2          7        313          140
+##  9 01M450 EAST SIDE CO~        74            6         21        860          554
+## 10 01M458 FORSYTH SATE~         8            0          0         23           11
+## # ... with 1,099 more rows, and 17 more variables: p_idk &lt;dbl&gt;,
+## #   teacher_rr &lt;dbl&gt;, t_NAs &lt;dbl&gt;, t_v_negative &lt;dbl&gt;, t_v_positive &lt;dbl&gt;,
+## #   t_positive &lt;dbl&gt;, t_negative &lt;dbl&gt;, student_rr &lt;dbl&gt;, st_v_negative &lt;dbl&gt;,
+## #   st_v_positive &lt;dbl&gt;, st_positive &lt;dbl&gt;, st_negative &lt;dbl&gt;,
+## #   p_v_neagtive_percent &lt;dbl&gt;, p_negative_percent &lt;dbl&gt;,
+## #   p_positive_percent &lt;dbl&gt;, p_v_positive_percent &lt;dbl&gt;, p_score &lt;dbl&gt;</code></pre>
+<pre><code>## # A tibble: 1,109 x 34
+##    DBN    `School Name` parent_rr p_v_neagtive p_negative p_positive p_v_positive
+##    &lt;chr&gt;  &lt;chr&gt;             &lt;dbl&gt;        &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;
+##  1 01M034 P.S. 034 FRA~        29            1          5        130           59
+##  2 01M140 P.S. 140 NAT~        57            5         16        331          174
+##  3 01M184 P.S. 184M SH~        92            5         50        928          385
+##  4 01M188 P.S. 188 THE~        99            2          3        513          198
+##  5 01M292 ORCHARD COLL~        49            6         10        163           71
+##  6 01M332 UNIVERSITY N~        76            4         23        285          124
+##  7 01M378 SCHOOL FOR G~        74            4         11        322          169
+##  8 01M448 UNIVERSITY N~        37            2          7        313          140
+##  9 01M450 EAST SIDE CO~        74            6         21        860          554
+## 10 01M458 FORSYTH SATE~         8            0          0         23           11
+## # ... with 1,099 more rows, and 27 more variables: p_idk &lt;dbl&gt;,
+## #   teacher_rr &lt;dbl&gt;, t_NAs &lt;dbl&gt;, t_v_negative &lt;dbl&gt;, t_v_positive &lt;dbl&gt;,
+## #   t_positive &lt;dbl&gt;, t_negative &lt;dbl&gt;, student_rr &lt;dbl&gt;, st_v_negative &lt;dbl&gt;,
+## #   st_v_positive &lt;dbl&gt;, st_positive &lt;dbl&gt;, st_negative &lt;dbl&gt;,
+## #   p_v_neagtive_percent &lt;dbl&gt;, p_negative_percent &lt;dbl&gt;,
+## #   p_positive_percent &lt;dbl&gt;, p_v_positive_percent &lt;dbl&gt;, p_score &lt;dbl&gt;,
+## #   t_v_negative_percent &lt;dbl&gt;, t_negative_percent &lt;dbl&gt;, ...</code></pre>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+
 </div>
 </div>
             </section>

@@ -49,3 +49,39 @@ parcoords(data = ab_sel,brushMode = '1D-axes',queue = TRUE,withD3 = TRUE)
 ```
 
 
+
+## The relationship between parents', students' and teachers' feeling about teaching quality
+
+```{r}
+library(parcoords)
+library(webshot)
+library(d3r)
+tq<-read_rds("teachingquality")
+tq_<-tq %>%
+  mutate(p_v_neagtive_percent = p_v_neagtive/(p_v_neagtive+p_negative+p_positive+p_v_positive+p_idk)) %>%
+  mutate(p_negative_percent = p_negative/(p_v_neagtive+p_negative+p_positive+p_v_positive+p_idk))%>%
+  mutate(p_positive_percent = p_positive/(p_v_neagtive+p_negative+p_positive+p_v_positive+p_idk))%>%
+  mutate(p_v_positive_percent = p_v_positive/(p_v_neagtive+p_negative+p_positive+p_v_positive+p_idk))%>%
+  mutate(p_score = 2*p_v_positive_percent+1*p_positive_percent-1*p_negative_percent-2*p_v_neagtive_percent)
+
+
+tq_<-tq_ %>%
+  mutate(t_v_negative_percent = t_v_negative/(t_v_negative+t_negative+t_positive+t_v_positive+t_NAs)) %>%
+  mutate(t_negative_percent = t_negative/(t_v_negative+t_negative+t_positive+t_v_positive+t_NAs))%>%
+  mutate(t_positive_percent = t_positive/(t_v_negative+t_negative+t_positive+t_v_positive+t_NAs))%>%
+  mutate(t_v_positive_percent = t_v_positive/(t_v_negative+t_negative+t_positive+t_v_positive+t_NAs))%>%
+  mutate(t_score = 2*t_v_positive_percent+1*t_positive_percent-1*t_negative_percent-2*t_v_negative_percent)
+
+
+tq_<-tq_ %>%
+  mutate(st_v_negative_percent = st_v_negative/(st_v_negative+st_negative+st_positive+st_v_positive)) %>%
+  mutate(st_negative_percent = st_negative/(st_v_negative+st_negative+st_positive+st_v_positive))%>%
+  mutate(st_positive_percent = st_positive/(st_v_negative+st_negative+st_positive+st_v_positive))%>%
+  mutate(st_v_positive_percent = st_v_positive/(st_v_negative+st_negative+st_positive+st_v_positive))%>%
+  mutate(st_score = 2*st_v_positive_percent+1*st_positive_percent-1*st_negative_percent-2*st_v_negative_percent)
+
+tq_sel = tq_ %>% select(st_v_negative_percent,st_v_negative_percent,st_positive_percent,st_v_positive_percent,t_v_negative_percent,t_v_negative_percent,t_positive_percent,t_v_positive_percent,p_v_neagtive_percent,p_negative_percent,p_positive_percent,p_v_positive_percent)
+
+parcoords(data = tq_sel,brushMode = '1D-axes',queue = TRUE,withD3 = TRUE)
+```
+

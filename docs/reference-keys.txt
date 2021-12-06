@@ -46,3 +46,5 @@ do-teachers-and-students-feel-the-same-about-student-inclusion
 the-relationship-between-students-and-teachers-feeling-about-student-inclusion
 do-teachers-and-students-feel-the-same-about-aggressive-behaviors
 the-relationship-between-students-and-teachers-feeling-about-aggressive-behavior
+do-parents-students-and-teachers-feel-the-same-about-teaching-quality
+the-relationship-between-parents-students-and-teachers-feeling-about-teaching-quality
