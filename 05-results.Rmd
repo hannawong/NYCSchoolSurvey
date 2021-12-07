@@ -1,10 +1,8 @@
-
-
 # Results
 
 ## Distribution of School Scores
 
-Before we make any comparison between NYC schools, we firstly have a look at the distribution of our dataset, i.e. the distribution of school scores from students', teachers' and parents' perspective. In order to do that, we make density plots of the scores faceted by these five components.(we drop `supportive environment score` because we know from chapter 4 that it has nearly 100% missing values)
+Before we make any comparison between the NYC schools, we firstly have a look at the distribution of school scores given from students', teachers' and parents' perspective. In order to do that, we make density plots of the scores faceted by five components (we drop `supportive environment score` because we know from chapter 4 that it has nearly 100% missing values).
 
 ```{r}
 library(readxl)
@@ -81,13 +79,14 @@ ggplot(tidydata_t,aes(x = score,y = ..density..))+
   facet_wrap(~aspect)+
   ggtitle("Result in School Quality")
 ```
+
 We know from the plot that the distribution of school scores in these five aspects are not normally distributed, in fact, they are left-skewed, with long-tail data distributing in the left side of the plot. 
 
 ## Top 10 performance schools
 
 ### Top 10 schools in five aspects
 
-Firstly, we sort the schools according to the five aforementioned aspects. In this way, we made a leaderboard for Top 10 Schools with the most collaborative teachers, Top 10 Schools with the most effective School Leadership, Top 10 Schools with the most Trust beween people, Top 10 Schools with the most rigid instructions, and Top 10 Schools with the Strongest Family Community Ties
+Firstly, we sort the schools according to the five aforementioned aspects. In this way, we made a leaderboard for Top 10 Schools with the most collaborative teachers, Top 10 Schools with the most effective School Leadership, Top 10 Schools with the most Trust beween people, Top 10 Schools with the most rigid instructions, and Top 10 Schools with the Strongest Family Community Ties.
 
 ```{r}
 library(dplyr)
@@ -164,13 +163,15 @@ top10_1$name
 
 ## Dependency Relationships analysis
 
-Apart from the scores derived from the result given by  Department of Education of NYC, we also evaluate the performance of each school from the perspective of students, teachers and parents according to their answers to the questionnaire directly. In this section, we are going to look at the relationship of school scores given from different perspectives. 
+Apart from the scores given by Department of Education of NYC, we also evaluate the performance of each school from the perspective of students, teachers and parents according to their answers to the questionnaire **directly**. 
+
+In this section, we are going to look at the relationship of school scores given from different perspectives. 
 
 ### Do Teachers and Parents feel the same about Family-Community bond?
 
-Both teachers and parents have answered some questions about their feelings about the family-community bond in their schools. For example, in the questionnaire for teachers, there are several statements like "teachers understand families' problems and concerns."; in the questionnaire for parents, there are statements like "School staff regularly communicate with me about how I can help my child learn.". Parents and teachers are asked to give the degree in which they agree to such statements, such as "strongly agree","agree","disagree","strongly disagree","idk". In this way, we are able to analysis whether teachers and parents feel the same about the family-community bond in their schools. 
+Both teachers and parents have answered some questions about their feelings about the family-community bond in their schools. For example, in the questionnaire for teachers, there are several statements like "teachers understand families' problems and concerns.". Meanwhile, in the questionnaire for parents, there are statements like "School staff regularly communicate with me about how I can help my child learn.". Parents and teachers are asked to give the degree in which they agree to such statements, such as "strongly agree","agree","disagree","strongly disagree","I don't know". In this way, we are able to analysis whether teachers and parents feel the same about the family-community bond in their schools. 
 
-In order to make our analysis easier, we firstly derive a family-community bond score for each school from parents' and teachers' point of view respectively. More specifically, we calculate the percentage of `strongly agree`,`agree`,`disagree`,`strongly disagree`,`idk`, and add +2 points for `strongly agree`, +1 point for `agree`, -1 point for `disagree`, -2 points for `strongly disagree` and +0 point for `idk`. 
+In order to make our analysis easier, we firstly derive a family-community bond score for each school from parents' and teachers' point of view respectively. More specifically, we calculate the percentage of `strongly agree`,`agree`,`disagree`,`strongly disagree`,`idk`, and add +2 points for `strongly agree`, +1 point for `agree`, -1 point for `disagree`, -2 points for `strongly disagree` and +0 point for `I don't know`. 
 
 The scores given by teachers and parents are clearly positively correlated:
 
@@ -286,9 +287,35 @@ ggpairs(data, title="")
 
 The score given by teachers and parents are positively correlated, however, the score given by students are negatively correlated with the score given by teachers and parents. Moreover, students tend to give poor scores to their teachers while teachers and parents tend to give higher score to teaching quality. 
 
+This is reasonable since students might have different ideas with adults about what good education is. They might dislike those teachers who impose stringent disciplines and assign a lot of homework, however, it is the rules and strict teaching methods that makes them achieve success in academic field. In order to prove this hypothesis, we then investigate into the relationship between teaching quality and students' performance. 
+
+
+## The relationship between teaching quality and students' performance
+
+```{r}
+s_perform<-read_rds("t_sperformance")
+s_perform_ <-s_perform %>%
+  mutate(t_none_percent = t_none/(t_none+t_some+t_lot+t_all+t_idk))%>%
+  mutate(t_some_percent = t_some/(t_none+t_some+t_lot+t_all+t_idk))%>%
+  mutate(t_lot_percent = t_lot/(t_none+t_some+t_lot+t_all+t_idk))%>%
+  mutate(t_all_percent = t_all/(t_none+t_some+t_lot+t_all+t_idk))%>%
+  mutate(perform_score = -2*t_none_percent-1*t_some_percent+t_lot_percent+2*t_all_percent)
+ 
+tq_perform<-merge(s_perform_, tq_, by = "School Name")
+```
+```{r}
+library(GGally)
+ 
+data <- tq_perform %>% select(t_score,p_score,st_score,perform_score)
+ 
+ggpairs(data, title="")
+```
+
+The result support our hypothesis mentioned above. The students' performance score is positively correlated with the teaching quality score given by teachers and parents, while negatively correlated with the teaching quality score given by students themselves. Therefore, students do achieve better despite that they do not like their teachers.  
+
 ## The relationship between teachers' trust/collaboration/respect with teaching quality
 
-In this survey, teachers are also asked several questions about their feelings towards the trust, collaboration and respect between teachers in their schools. We believe that a healthy environment in teacher community is beneficial to the teaching quality. Therefore, in this section we investigate whether our hypothesis is true. 
+In this survey, teachers are also asked several questions about their feelings towards the trust, collaboration and respect between teachers in their schools. We believe that a healthy environment in teacher community is beneficial to the teaching quality. Therefore, in this section we investigate whether this hypothesis is true. 
 
 
 ```{r}
@@ -321,3 +348,4 @@ data <- teacher_tcr_quality_ %>% select(respect_score,trust_score,collaborate_sc
 ggpairs(data, title="") 
 ```
 
+From the scatterplot above we notice that the trust, collaboration and respect between teachers are closely correlated themselves, and are also strongly correlated with the teaching quality scores given by teachers themselves. However, such correlation is weaker for the teaching quality scores given by parents, and is negatively correlated with the teaching quality scores given by students. 

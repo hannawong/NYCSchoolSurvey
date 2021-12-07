@@ -1,2 +1,36 @@
 # Conclusion
 
+## Distribution of School Scores
+
+The distribution of school scores in five aspects (`Collaborative Teachers Score`,`Effective School Leadership Score`,`Rigorous Instruction Score`,`Strong Family-Community Ties Score`,`Trust Score`) are left skewed.
+
+## The Best 10 Schools in NYC
+
+The best 10 schools evaluated from the aforementioned five aspects are:
+
+- COMMUNITY SCHOOL FOR SOCIAL JUSTICE
+- P.S. 321 WILLIAM PENN              
+- THE BROOKLYN NEW SCHOOL, P.S. 146
+- KENNEDY YABC                       
+- HELLENIC CLASSICAL CHARTER SCHOOL  
+- P.S. 253                           
+- P.S. 041 CROCHERON                 
+- HS ARTS & BUSINESS YABC            
+- P.S. 065                           
+- P.S. 112 LEFFERTS PARK
+
+## Dependency Relationships
+
+(1) Teachers' and parents' feeling about Family-Community bond is positively correlated, with 0.4812 correlation coefficient.
+
+(2) Teachers' and students' feeling about student inclusion is positively correlated, with 0.4137 correlation coefficient.
+
+(3) Teachers' and students' feeling about aggressive behaviors is positively correlated, with 0.6765 correlation coefficient.
+
+(4) Teachers' and parents' feeling about teaching quality are positively correlated, however, the score given by students about teaching quality is negatively correlated with the score given by teachers and parents. Moreover, students tend to give poor scores to their teachers while teachers and parents tend to give higher score.
+
+(5) The students' performance score is positively correlated with the teaching quality score given by teachers and parents, while negatively correlated with the teaching quality score given by students themselves.
+
+(6) Trust, collaboration and respect between teachers are closely correlated themselves, and are also strongly correlated with the teaching quality scores given by teachers themselves. However, such correlation is weaker for the teaching quality scores given by parents, and is negatively correlated with the teaching quality scores given by students. 
+
+
