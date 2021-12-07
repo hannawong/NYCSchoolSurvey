@@ -285,3 +285,39 @@ ggpairs(data, title="")
 ```
 
 The score given by teachers and parents are positively correlated, however, the score given by students are negatively correlated with the score given by teachers and parents. Moreover, students tend to give poor scores to their teachers while teachers and parents tend to give higher score to teaching quality. 
+
+## The relationship between teachers' trust/collaboration/respect with teaching quality
+
+In this survey, teachers are also asked several questions about their feelings towards the trust, collaboration and respect between teachers in their schools. We believe that a healthy environment in teacher community is beneficial to the teaching quality. Therefore, in this section we investigate whether our hypothesis is true. 
+
+
+```{r}
+teacher_tcr<-read_rds("teacher_tcr")
+teacher_tcr_quality<-merge(teacher_tcr, tq_, by = "School Name")
+teacher_tcr_quality_<-teacher_tcr_quality %>% mutate(r_s_disagree_percent = r_s_disagree/(r_s_disagree+r_s_agree+r_agree+r_disagree))%>%
+  mutate(r_s_agree_percent = r_s_agree/(r_s_disagree+r_s_agree+r_agree+r_disagree))%>%
+  mutate(r_agree_percent = r_agree/(r_s_disagree+r_s_agree+r_agree+r_disagree))%>%
+  mutate(r_disagree_percent = r_disagree/(r_s_disagree+r_s_agree+r_agree+r_disagree))%>%
+  mutate(respect_score = r_s_agree_percent*2+r_agree_percent-r_disagree_percent*1-r_s_disagree_percent*2)
+
+teacher_tcr_quality_<-teacher_tcr_quality_ %>% mutate(c_s_disagree_percent = c_s_disagree/(c_s_disagree+c_s_agree+c_agree+c_disagree))%>%
+  mutate(c_s_agree_percent = c_s_agree/(c_s_disagree+c_s_agree+c_agree+c_disagree))%>%
+  mutate(c_agree_percent = c_agree/(c_s_disagree+c_s_agree+c_agree+c_disagree))%>%
+  mutate(c_disagree_percent =  c_disagree/(c_s_disagree+c_s_agree+c_agree+c_disagree))%>%
+  mutate(collaborate_score = c_s_agree_percent*2+c_agree_percent-c_disagree_percent*1-c_s_disagree_percent*2)
+
+teacher_tcr_quality_<-teacher_tcr_quality_ %>% mutate(t_s_disagree_percent = t_s_disagree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>%
+  mutate(t_s_agree_percent = t_s_agree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>%
+  mutate(t_agree_percent = t_agree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>%
+  mutate(t_disagree_percent =  t_disagree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>%
+  mutate(trust_score = t_s_agree_percent*2+t_agree_percent-t_disagree_percent*1-t_s_disagree_percent*2)
+                               
+```
+
+```{r}
+library(GGally)
+data <- teacher_tcr_quality_ %>% select(respect_score,trust_score,collaborate_score,t_score,p_score,st_score)
+ 
+ggpairs(data, title="") 
+```
+
