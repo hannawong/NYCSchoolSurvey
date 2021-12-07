@@ -33,4 +33,9 @@ The best 10 schools evaluated from the aforementioned five aspects are:
 
 (6) Trust, collaboration and respect between teachers are closely correlated themselves, and are also strongly correlated with the teaching quality scores given by teachers themselves. However, such correlation is weaker for the teaching quality scores given by parents, and is negatively correlated with the teaching quality scores given by students. 
 
+```{r}
+a<-1+1
+```
+
+
 
