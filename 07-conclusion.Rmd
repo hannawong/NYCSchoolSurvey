@@ -1,10 +1,12 @@
 # Conclusion
 
-## Distribution of School Scores
+## Result Summary 
+
+### Distribution of School Scores
 
 The distribution of school scores in five aspects (`Collaborative Teachers Score`,`Effective School Leadership Score`,`Rigorous Instruction Score`,`Strong Family-Community Ties Score`,`Trust Score`) are left skewed.
 
-## The Best 10 Schools in NYC
+### The Best 10 Schools in NYC
 
 The best 10 schools evaluated from the aforementioned five aspects are:
 
@@ -19,19 +21,29 @@ The best 10 schools evaluated from the aforementioned five aspects are:
 - P.S. 065                           
 - P.S. 112 LEFFERTS PARK
 
-## Dependency Relationships
+### Dependency Relationships
 
-(1) Teachers' and parents' feeling about Family-Community bond is positively correlated, with 0.4812 correlation coefficient.
+(1) Teachers' and parents' rating on Family-Community bond is positively correlated, with 0.4812 correlation coefficient.
 
-(2) Teachers' and students' feeling about student inclusion is positively correlated, with 0.4137 correlation coefficient.
+(2) Teachers' and students' rating on inclusion and diversity is positively correlated, with 0.4137 correlation coefficient.
 
-(3) Teachers' and students' feeling about aggressive behaviors is positively correlated, with 0.6765 correlation coefficient.
+(3) Teachers' and students' rating on aggressive behaviors is positively correlated, with 0.6765 correlation coefficient.
 
-(4) Teachers' and parents' feeling about teaching quality are positively correlated, however, the score given by students about teaching quality is negatively correlated with the score given by teachers and parents. Moreover, students tend to give poor scores to their teachers while teachers and parents tend to give higher score.
+(4) Teachers' and parents' rating on teaching quality are positively correlated. However, the score given by students about teaching quality is negatively correlated with the score given by teachers and parents. Moreover, students tend to give poor scores to their teachers while teachers and parents tend to give higher score.
 
-(5) The students' performance score is positively correlated with the teaching quality score given by teachers and parents, while negatively correlated with the teaching quality score given by students themselves.
+(5) The students' performance score is positively correlated with the teaching quality score given by teachers and parents, while negatively correlated with the teaching quality score given by students themselves. The averaged score of teaching quality is positively correlated with student performance
 
 (6) Trust, collaboration and respect between teachers are closely correlated themselves, and are also strongly correlated with the teaching quality scores given by teachers themselves. However, such correlation is weaker for the teaching quality scores given by parents, and is negatively correlated with the teaching quality scores given by students. 
+
+## Limitations, Future Directions, and Lessons Learned
+
+One of our limitations is in the data cleaning process. As we have mentioned in our dating cleaning chapter, the categorization process is highly subjective. We have categorized the survey questions into different aspects based on our understanding. As we do neither have expertise in NYC's education system nor this area in general, we are open to any suggestions and advice in the categorizing process. Additionally, for analysis purposes, we have designed a scoring system as specified in the visualization chapter. We understand the scoring system may not be objective and accurate.
+
+Additionally, the dataset from parents and teacher are much larger than the dataset from students. As we understood that the survey process completely surveys, we would like to learn more about why there is a huge gap in the number of participants from parents, students, and teachers. Additionally, gathering more data from students may be beneficial for a more comprehensive understanding of the education status quo.
+
+Future directions may include analysis across a time span. As the school survey has been conducted annually, it would be interesting to learn the changes across years. Additionally, future analysis could look into the negative relationship between teachers' and students' ratings on teaching quality.
+
+In general, we are surprised by the complexity and subjectivity involved in analyzing this dataset in social sciences. We both gained more experience in analyzing education datasets, and the procedure of conducting this project is a nice review for the analysis and visualizations skills we have learned thus far. 
 
 ```{r}
 a<-1+1

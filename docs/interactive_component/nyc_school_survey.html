@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+		<meta charset="utf-8">
+		<title>NYC Schools Survey</title>
+		<script src="https://d3js.org/d3.v6.js"></script>
+	</head>
+
+	<body>
+	  <h1>Students' and teachers' ratings on aggressive behaviors</h1>
+		<script>
+		
+		var w = 400;
+		var h = 400;
+		var padding = 40;
+
+		// create scale functions
+		var xScale = d3.scaleLinear()
+		.domain([-2, 2])
+		.range([padding, w - padding / 2]);
+
+		var yScale = d3.scaleLinear()
+		.domain([-2, 2])
+		.range([h - padding, padding / 2]);
+
+		// define X axis
+		var xAxis = d3.axisBottom()
+		.scale(xScale)
+		.ticks(5);
+
+		// define Y axis
+		var yAxis = d3.axisLeft()
+		.scale(yScale)
+		.ticks(5);
+		
+		// create SVG elements
+		var svg = d3.select("body")
+		.append("svg")
+		.attr("width", w)
+		.attr("height", h);
+
+		// create X axis
+		svg.append("g")
+		.attr("id", "xaxis")
+		.attr("transform", "translate(0," + (h - padding) + ")")
+		.call(xAxis);
+
+		// create Y axis
+		svg.append("g")
+		.attr("id", "yaxis")
+		.attr("transform", "translate(" + padding + ",0)")
+		.call(yAxis);
+    
+    svg.append("text")
+    .attr("id", "nm")
+		  var rowConverter = function (d) {
+		    if (!isNaN(d.t_score) && !isNaN(d.st_score)){
+		    return {
+					teacher: +d.t_score,
+					student: +d.st_score,
+					name: d["School Name"],
+					categories: d.categorical
+				}
+		    }
+		  };
+
+		d3.csv("https://raw.githubusercontent.com/hannawong/NYCSchoolSurvey/main/categories_ab", rowConverter)
+		  .then(function(data) {
+		    
+		  xScale
+			  .domain([d3.min(data.map(d => d.teacher)),
+				         d3.max(data.map(d => d.teacher))]);
+				         
+			yScale
+			  .domain([d3.min(data.map(d => d.student)),
+				         d3.max(data.map(d => d.student))]);
+				         
+				d3.select("#xaxis").call(xAxis);  
+				d3.select("#yaxis").call(yAxis); 
+				
+		    d3.select("svg")
+		      .selectAll("circle")
+		      .data(data)
+		      .enter()
+		      .append("circle")
+		      .attr("cx", d => xScale(d.teacher))
+					.attr("cy", d => yScale(d.student))
+					.attr("r", "3")
+					.attr("fill", "green")
+					.attr("fill-opacity", ".5")
+					.on("mouseover", function()
+					{
+					  var school = d3.select(this);
+						d3.selectAll("circle")
+						.attr("fill", "lightgreen")
+						.attr("fill-opacity", 0.5);
+
+						school
+						.attr("fill", "green")
+						.attr("fill-opacity", 1)
+						.attr("r", 5)
+						.raise();
+						
+						var categ = school.datum().categories;
+						var samecateg = svg.selectAll("circle")
+						  .data().filter(d => d.categories == categ);
+						svg.append("g")
+						  .attr("id", "temp")
+						svg.select("g#temp")
+						  .selectAll("circle")
+						  .data(samecateg)
+						  .enter()
+						  .append("circle")
+						  .attr("cx", d => xScale(d.teacher))
+					    .attr("cy", d => yScale(d.student))
+					    .attr("r", 3)
+					    .attr("fill", "red");
+						svg.select("text#nm")
+						.attr("x", school.attr("cx"))
+						.attr("y", school.attr("cy"))
+						.attr("fill", "blue")
+						.style("text-anchor", function (d) {
+							  if (+school.attr("cx") > d3.mean(xScale.range())) {
+								  return "end";
+							  } else {
+								  return "start";
+							  }
+						})
+					  .text(school.datum().name)
+					  .raise();
+					  
+					  school
+					  .attr("fill", "lightblue")
+					  .attr("r", 15)
+					})
+					.on("mouseout", function(){
+					  d3.select("g#temp")
+					    .remove();
+					  d3.selectAll("circle")
+					   .attr("fill", "green");
+					  d3.select("#text#nm")
+					  .text("");
+					  d3.select(this)
+					  .attr("r", 3);
+					});
+		  })
+		  .catch(function(error) {
+		    d3.select("body")
+		      .append("h2")
+		      .text("Incorrect File Name")
+		  });
+		</script>
+	</body>
+</html>

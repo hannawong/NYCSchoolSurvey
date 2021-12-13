@@ -42,10 +42,12 @@ the-relationship-between-teaching-quality-and-students-performance
 the-relationship-between-teachers-trustcollaborationrespect-with-teaching-quality
 the-relationship-between-parents-students-and-teachers-feeling-about-teaching-quality
 interactive-component
-the-relationship-between-parents-and-teachers-feeling-about-family-community-bonds
-the-relationship-between-students-and-teachers-feeling-about-student-inclusion
-the-relationship-between-students-and-teachers-feeling-about-aggressive-behavior
+the-relationship-between-parents-and-teachers-rating-on-family-community-bonds
+the-relationship-between-students-and-teachers-rating-on-inclusion
+the-relationship-between-students-and-teachers-rating-on-aggressive-behaviors
 conclusion
+result-summary
 distribution-of-school-scores-1
 the-best-10-schools-in-nyc
 dependency-relationships
+limitations-future-directions-and-lessons-learned

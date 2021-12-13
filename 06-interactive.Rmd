@@ -1,6 +1,12 @@
 # Interactive component
 
-## The relationship between parents' and teachers' feeling about family-community bonds
+For interactive component, we have decided to learn more about the ratings from different perspectives, as we are fascinated by the fact that the dataset is comprised of three perspectives. Through interactive visualizations, besides looking into whether different perspectives have consensus on aspects of education, we have categorized the scores we calculated. For example, for each perspective, scores between -0.5 and 0 is categorized as a group, and 0 and 0.5 are categorized as another group. We have made 8 categories as the scores ranged from -2 to 2, and we hope to have a general idea on the amount of school with similar score.
+
+For all the interactive plots below, you may randomly move your mouse over a point and the name of the school may appear. Additionally, all the red points are schools of similar scores with the school you clicked.
+
+Due to the size of our dataset, it is difficult for us to label all the schools with similar scores. However, you may get a clue of the distribution of the score by looking at the area that is labeled red.
+
+## The relationship between parents' and teachers' rating on family-community bonds
 ```{r}
 categories_family <- family_%>%
   mutate(p_categorical = if_else(p_score <= -1.5, 1, if_else(p_score <= -1, 2, if_else(p_score <= -0.5, 3, if_else(p_score <= 0,4, if_else(p_score <= 0.5, 5, if_else(p_score <= 1, 6, if_else(p_score <= 1.5, 7, 8)))))))) %>%
@@ -13,7 +19,9 @@ categories_family$categorical <- as.numeric(categories_family$categorical)
 write.csv(categories_family, "categories_family")
 ```
 
-## The relationship between students' and teachers' feeling about student inclusion
+<iframe src="interactive_component/nyc_school_survey1.html" width="475" height="550"></iframe>
+
+## The relationship between students' and teachers' rating on inclusion
 ```{r}
 categories_inclusion <- inclusion_%>%
   mutate(s_categorical = if_else(st_score <= -1.5, 1, if_else(st_score <= -1, 2, if_else(st_score <= -0.5, 3, if_else(st_score <= 0,4, if_else(st_score <= 0.5, 5, if_else(st_score <= 1, 6, if_else(st_score <= 1.5, 7, 8)))))))) %>%
@@ -26,7 +34,9 @@ categories_inclusion$categorical <- as.numeric(categories_inclusion$categorical)
 write.csv(categories_inclusion, "categories_inclusion")
 ```
 
-## The relationship between students' and teachers' feeling about aggressive behavior
+<iframe src="interactive_component/nyc_school_survey2.html" width="475" height="550"></iframe>
+
+## The relationship between students' and teachers' rating on aggressive behaviors
 ```{r}
 categories_ab <- ab_%>%
   mutate(s_categorical = if_else(st_score <= -1.5, 1, if_else(st_score <= -1, 2, if_else(st_score <= -0.5, 3, if_else(st_score <= 0,4, if_else(st_score <= 0.5, 5, if_else(st_score <= 1, 6, if_else(st_score <= 1.5, 7, 8)))))))) %>%
@@ -39,3 +49,4 @@ categories_ab$categorical <- as.numeric(categories_ab$categorical)
 write.csv(categories_ab, "categories_ab")
 ```
 
+<iframe src="interactive_component/nyc_school_survey.html" width="475" height="550"></iframe>

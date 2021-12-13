@@ -24,7 +24,7 @@
 <meta name="author" content="Ziheng Ru, Zihan Wang" />
 
 
-<meta name="date" content="2021-12-12" />
+<meta name="date" content="2021-12-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -133,15 +133,19 @@
 </ul></li>
 <li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="interactive-component.html"><a href="interactive-component.html#the-relationship-between-parents-and-teachers-feeling-about-family-community-bonds"><i class="fa fa-check"></i><b>6.1</b> The relationship between parents’ and teachers’ feeling about family-community bonds</a></li>
-<li class="chapter" data-level="6.2" data-path="interactive-component.html"><a href="interactive-component.html#the-relationship-between-students-and-teachers-feeling-about-student-inclusion"><i class="fa fa-check"></i><b>6.2</b> The relationship between students’ and teachers’ feeling about student inclusion</a></li>
-<li class="chapter" data-level="6.3" data-path="interactive-component.html"><a href="interactive-component.html#the-relationship-between-students-and-teachers-feeling-about-aggressive-behavior"><i class="fa fa-check"></i><b>6.3</b> The relationship between students’ and teachers’ feeling about aggressive behavior</a></li>
+<li class="chapter" data-level="6.1" data-path="interactive-component.html"><a href="interactive-component.html#the-relationship-between-parents-and-teachers-rating-on-family-community-bonds"><i class="fa fa-check"></i><b>6.1</b> The relationship between parents’ and teachers’ rating on family-community bonds</a></li>
+<li class="chapter" data-level="6.2" data-path="interactive-component.html"><a href="interactive-component.html#the-relationship-between-students-and-teachers-rating-on-inclusion"><i class="fa fa-check"></i><b>6.2</b> The relationship between students’ and teachers’ rating on inclusion</a></li>
+<li class="chapter" data-level="6.3" data-path="interactive-component.html"><a href="interactive-component.html#the-relationship-between-students-and-teachers-rating-on-aggressive-behaviors"><i class="fa fa-check"></i><b>6.3</b> The relationship between students’ and teachers’ rating on aggressive behaviors</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="conclusion.html"><a href="conclusion.html#distribution-of-school-scores-1"><i class="fa fa-check"></i><b>7.1</b> Distribution of School Scores</a></li>
-<li class="chapter" data-level="7.2" data-path="conclusion.html"><a href="conclusion.html#the-best-10-schools-in-nyc"><i class="fa fa-check"></i><b>7.2</b> The Best 10 Schools in NYC</a></li>
-<li class="chapter" data-level="7.3" data-path="conclusion.html"><a href="conclusion.html#dependency-relationships"><i class="fa fa-check"></i><b>7.3</b> Dependency Relationships</a></li>
+<li class="chapter" data-level="7.1" data-path="conclusion.html"><a href="conclusion.html#result-summary"><i class="fa fa-check"></i><b>7.1</b> Result Summary</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="conclusion.html"><a href="conclusion.html#distribution-of-school-scores-1"><i class="fa fa-check"></i><b>7.1.1</b> Distribution of School Scores</a></li>
+<li class="chapter" data-level="7.1.2" data-path="conclusion.html"><a href="conclusion.html#the-best-10-schools-in-nyc"><i class="fa fa-check"></i><b>7.1.2</b> The Best 10 Schools in NYC</a></li>
+<li class="chapter" data-level="7.1.3" data-path="conclusion.html"><a href="conclusion.html#dependency-relationships"><i class="fa fa-check"></i><b>7.1.3</b> Dependency Relationships</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="conclusion.html"><a href="conclusion.html#limitations-future-directions-and-lessons-learned"><i class="fa fa-check"></i><b>7.2</b> Limitations, Future Directions, and Lessons Learned</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -183,16 +187,15 @@
 <h4><span class="header-section-number">2.2.1.1</span> Meanings of columns</h4>
 <p>Before we start to perform any exploratory data analysis and visualization, we need to understand what does each column mean in our dataset. The three dataframes we mentioned above – Student, Teacher and Parent survey result – contains 11 columns:</p>
 <ul>
-<li><p>DBN: a character code used to identify a school and its location. It is formed by concatenating the school district code, the school borough code, and the school number.</p></li>
+<li><p>DBN: Primary key for the dataset and identification of schools.</p></li>
 <li><p>School Name: School Name</p></li>
-<li><p>Total Parent/Teacher/Student Response Rate: Percentage rate of parent/teacher/student response. The response rate should be the same in three datasets.</p></li>
-<li><p>Collaborative Teachers Score: This element reflects how well teachers participate in opportunities to develop, grow, and contribute to the continuous improvement of the school community. This section uses data from the Quality Review and the NYC School Survey.</p></li>
-<li><p>Effective School Leadership Score: This element reflects how well school leadership inspires the school community with a clear instructional vision and effectively distributes leadership to realize this vision. This section uses data from the Quality Review and the NYC School Survey.</p></li>
-<li><p>Rigorous Instruction Score: This element reflects how well the curriculum and instruction engage students and build critical-thinking skills. This section uses
-NYC Department of Education data from the Quality Review and the NYC School Survey.</p></li>
-<li><p>Supportive Environment Score: This element reflects how well the school establishes a culture where students feel safe, challenged to grow, and supported to meet high expectations. This section uses data from the Quality Review, the NYC School Survey, the percentage of students with attendance rates of 90% or higher, and movement of students with disabilities to less restrictive environments.</p></li>
-<li><p>Strong Family-Community Ties Score: This element reflects how well the school forms effective partnerships with families to improve the school. This section uses data from the Quality Review and the NYC School Survey.</p></li>
-<li><p>Trust Score: This element reflects whether the relationships between administrators, educators, students, and families are based on trust and respect. This section uses data from the NYC School Survey.</p></li>
+<li><p>Total Parent/Teacher/Student Response Rate: Percentage rate of response from parent/teacher/student respectively, The response rate should be the same across datasets.</p></li>
+<li><p>Collaborative Teachers Score</p></li>
+<li><p>Effective School Leadership Score</p></li>
+<li><p>Rigorous Instruction Score</p></li>
+<li><p>Supportive Environment Score</p></li>
+<li><p>Strong Family-Community Ties Score</p></li>
+<li><p>Trust Score</p></li>
 </ul>
 <p>Despite the aggregated dataframe should be exactly the same for all three datasets, it is different within each dataset The exact information on this dataframe from each dataset is displayed below. In summary, we concluded that the aggregated dataframe of teacher and parents’ consists of DBNs where evaluation scores are completely void. Thus, we decide to look into the aggregated dataframe provided in the student response dataset.</p>
 </div>

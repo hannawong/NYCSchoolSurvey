@@ -26,24 +26,23 @@ The survey contains a aggregated dataframe in which scores evaluating different 
 
 Before we start to perform any exploratory data analysis and visualization, we need to understand what does each column mean in our dataset. The three dataframes we mentioned above -- Student, Teacher and Parent survey result -- contains 11 columns:
 
-- DBN: a character code used to identify a school and its location. It is formed by concatenating the school district code, the school borough code, and the school number.
+- DBN: Primary key for the dataset and identification of schools.
 
 - School Name: School Name
 
-- Total Parent/Teacher/Student Response Rate: Percentage rate of parent/teacher/student response. The response rate should be the same in three datasets. 
+- Total Parent/Teacher/Student Response Rate: Percentage rate of response from parent/teacher/student respectively, The response rate should be the same across datasets. 
 
-- Collaborative Teachers Score: This element reflects how well teachers participate in opportunities to develop, grow, and contribute to the continuous improvement of the school community. This section uses data from the Quality Review and the NYC School Survey.
+- Collaborative Teachers Score
 
-- Effective School Leadership Score: This element reflects how well school leadership inspires the school community with a clear instructional vision and effectively distributes leadership to realize this vision. This section uses data from the Quality Review and the NYC School Survey.
+- Effective School Leadership Score
 
-- Rigorous Instruction Score: This element reflects how well the curriculum and instruction engage students and build critical-thinking skills. This section uses 
-NYC Department of Education data from the Quality Review and the NYC School Survey.
+- Rigorous Instruction Score
 
-- Supportive Environment Score: This element reflects how well the school establishes a culture where students feel safe, challenged to grow, and supported to meet high expectations. This section uses data from the Quality Review, the NYC School Survey, the percentage of students with attendance rates of 90% or higher, and movement of students with disabilities to less restrictive environments.
+- Supportive Environment Score
 
-- Strong Family-Community Ties Score: This element reflects how well the school forms effective partnerships with families to improve the school. This section uses data from the Quality Review and the NYC School Survey.
+- Strong Family-Community Ties Score
 
-- Trust Score: This element reflects whether the relationships between administrators, educators, students, and families are based on trust and respect. This section uses data from the NYC School Survey. 
+- Trust Score 
 
 Despite the aggregated dataframe should be exactly the same for all three datasets, it is different within each dataset The exact information on this dataframe from each dataset is displayed below. In summary, we concluded that the aggregated dataframe of teacher and parents' consists of DBNs where evaluation scores are completely void. Thus, we decide to look into the aggregated dataframe provided in the student response dataset.
 
