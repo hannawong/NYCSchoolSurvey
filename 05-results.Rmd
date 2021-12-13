@@ -186,7 +186,7 @@ ggplot(data = family_, aes(x = t_score,y = p_score)) +
   xlab("score given by teachers") + 
   ylab("score given by parents") +
   labs(title = "Family and Community Ties")
-saveRDS(family_, "family_")
+write.csv(family_, "family_")
 ```
 
 The correlation coefficient is:
@@ -224,7 +224,7 @@ ggplot(data = inclusion_, aes(x = t_score,y = st_score)) +
   xlab("score given by teachers") + 
   ylab("score given by students") +
   labs(title = "Inclusion")
-saveRDS(inclusion_, "inclusion_")
+write.csv(inclusion_, "inclusion_")
 ```
 
 The correlation coefficient is:
@@ -261,7 +261,7 @@ ggplot(data = ab_, aes(x = t_score,y = st_score)) +
   xlab("score given by teachers") + 
   ylab("score given by students") +
   labs(title = "Aggressive Behaviors")
-saveRDS(ab_, "ab_")
+write.csv(ab_, "ab_")
 ```
 
 The correlation coefficient is:
@@ -414,7 +414,7 @@ p_n: parent whose rating is negative
 p_p: parent whose rating is positive
 p_v_p: parent whose rating is very positive
 
-```{r, fig.height = 15, fig.width = 20}
+```{r, fig.height = 10, fig.width = 15}
 library(parcoords)
 library(d3r)
 tq<-read_rds("teachingquality")
