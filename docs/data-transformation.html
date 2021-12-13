@@ -24,7 +24,7 @@
 <meta name="author" content="Ziheng Ru, Zihan Wang" />
 
 
-<meta name="date" content="2021-12-02" />
+<meta name="date" content="2021-12-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,6 +53,10 @@
 
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/parallel-coordinates-2.1.8/parcoords.css" rel="stylesheet" />
+<script src="libs/parcoords-binding-1.0.0/parcoords.js"></script>
+<script src="libs/d3-5.16.0/d3.min.js"></script>
 
 
 
@@ -86,6 +90,7 @@
 <li class="chapter" data-level="2.2.1" data-path="data-sources.html"><a href="data-sources.html#dataframe-on-aggregated-data"><i class="fa fa-check"></i><b>2.2.1</b> Dataframe on Aggregated Data</a></li>
 <li class="chapter" data-level="2.2.2" data-path="data-sources.html"><a href="data-sources.html#data-on-specific-question-responses"><i class="fa fa-check"></i><b>2.2.2</b> Data on Specific Question Responses</a></li>
 </ul></li>
+<li class="chapter" data-level="2.3" data-path="data-sources.html"><a href="data-sources.html#issues-with-our-data"><i class="fa fa-check"></i><b>2.3</b> Issues with our data</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a>
 <ul>
@@ -109,13 +114,35 @@
 </ul></li>
 <li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#distribution-of-five-components"><i class="fa fa-check"></i><b>5.1</b> Distribution of Five Components</a>
+<li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#distribution-of-school-scores"><i class="fa fa-check"></i><b>5.1</b> Distribution of School Scores</a></li>
+<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#top-10-performance-schools"><i class="fa fa-check"></i><b>5.2</b> Top 10 performance schools</a>
 <ul>
-<li class="chapter" data-level="5.1.1" data-path="results.html"><a href="results.html#density-plots"><i class="fa fa-check"></i><b>5.1.1</b> Density Plots</a></li>
+<li class="chapter" data-level="5.2.1" data-path="results.html"><a href="results.html#top-10-schools-in-five-aspects"><i class="fa fa-check"></i><b>5.2.1</b> Top 10 schools in five aspects</a></li>
+<li class="chapter" data-level="5.2.2" data-path="results.html"><a href="results.html#top-10-schools-with-the-highest-comprehensive-scores"><i class="fa fa-check"></i><b>5.2.2</b> Top 10 Schools with the highest comprehensive scores</a></li>
 </ul></li>
+<li class="chapter" data-level="5.3" data-path="results.html"><a href="results.html#dependency-relationships-analysis"><i class="fa fa-check"></i><b>5.3</b> Dependency Relationships analysis</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="results.html"><a href="results.html#do-teachers-and-parents-feel-the-same-about-family-community-bond"><i class="fa fa-check"></i><b>5.3.1</b> Do Teachers and Parents feel the same about Family-Community bond?</a></li>
+<li class="chapter" data-level="5.3.2" data-path="results.html"><a href="results.html#do-teachers-and-students-feel-the-same-on-inclusion-at-school"><i class="fa fa-check"></i><b>5.3.2</b> Do teachers and students feel the same on inclusion at school?</a></li>
+<li class="chapter" data-level="5.3.3" data-path="results.html"><a href="results.html#do-teachers-and-students-feel-the-same-about-aggressive-behaviors"><i class="fa fa-check"></i><b>5.3.3</b> Do teachers and students feel the same about aggressive behaviors?</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a></li>
-<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
+<li class="chapter" data-level="5.4" data-path="results.html"><a href="results.html#do-parents-students-and-teachers-feel-the-same-about-teaching-quality"><i class="fa fa-check"></i><b>5.4</b> Do parents, students and teachers feel the same about teaching quality?</a></li>
+<li class="chapter" data-level="5.5" data-path="results.html"><a href="results.html#the-relationship-between-teaching-quality-and-students-performance"><i class="fa fa-check"></i><b>5.5</b> The relationship between teaching quality and students’ performance</a></li>
+<li class="chapter" data-level="5.6" data-path="results.html"><a href="results.html#the-relationship-between-teachers-trustcollaborationrespect-with-teaching-quality"><i class="fa fa-check"></i><b>5.6</b> The relationship between teachers’ trust/collaboration/respect with teaching quality</a></li>
+<li class="chapter" data-level="5.7" data-path="results.html"><a href="results.html#the-relationship-between-parents-students-and-teachers-feeling-about-teaching-quality"><i class="fa fa-check"></i><b>5.7</b> The relationship between parents’, students’ and teachers’ feeling about teaching quality</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="interactive-component.html"><a href="interactive-component.html#the-relationship-between-parents-and-teachers-feeling-about-family-community-bonds"><i class="fa fa-check"></i><b>6.1</b> The relationship between parents’ and teachers’ feeling about family-community bonds</a></li>
+<li class="chapter" data-level="6.2" data-path="interactive-component.html"><a href="interactive-component.html#the-relationship-between-students-and-teachers-feeling-about-student-inclusion"><i class="fa fa-check"></i><b>6.2</b> The relationship between students’ and teachers’ feeling about student inclusion</a></li>
+<li class="chapter" data-level="6.3" data-path="interactive-component.html"><a href="interactive-component.html#the-relationship-between-students-and-teachers-feeling-about-aggressive-behavior"><i class="fa fa-check"></i><b>6.3</b> The relationship between students’ and teachers’ feeling about aggressive behavior</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="conclusion.html"><a href="conclusion.html#distribution-of-school-scores-1"><i class="fa fa-check"></i><b>7.1</b> Distribution of School Scores</a></li>
+<li class="chapter" data-level="7.2" data-path="conclusion.html"><a href="conclusion.html#the-best-10-schools-in-nyc"><i class="fa fa-check"></i><b>7.2</b> The Best 10 Schools in NYC</a></li>
+<li class="chapter" data-level="7.3" data-path="conclusion.html"><a href="conclusion.html#dependency-relationships"><i class="fa fa-check"></i><b>7.3</b> Dependency Relationships</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -144,7 +171,7 @@
 </div>
 <div id="step-2-transform-survey-response-from-student-teacher-and-parents." class="section level2" number="3.2">
 <h2><span class="header-section-number">3.2</span> Step 2: Transform survey response from student, teacher, and parents.</h2>
-<p>The original dataframe contains survey questions as the column names. After loading the data in r, the answer choices is read as values in the first row. Thus, we have combined the answer choices within the column name for data wrangling and for the uniequeness of column names. Additionally, for the convenience of data wrangling, we have replaced the survey questions to question index in the column names.</p>
+<p>The original dataframe contains survey questions as the column names. After loading the data in r, the answer choices is read as values in the first row. Thus, we have combined the answer choices within the column name for data wrangling and for the uniqueness of column names. Additionally, for the convenience of data wrangling, we have replaced the survey questions to question index in the column names.</p>
 <p>Additionally, the data types of many columns are incorrect – instead of character, they should be float. Therefore, we convert the data type of those columns to <code>numeric</code>.</p>
 <p>A example of students’ response after data wrangling:</p>
 <pre><code>## # A tibble: 6 × 272
@@ -202,7 +229,7 @@
 <h2><span class="header-section-number">3.3</span> Categorizing data based on survey questions</h2>
 <p>The survey questions included in this survey is comprehensive and difficult to manage. After reading through our survey questions, based on the survey questions, we have decided to categorize the data into different categories, and choose to analyze several categories based on our interests and whether there is sufficient data support.</p>
 <p>We realized that categorizing data based on survey questions could be highly objective and admit it as a limitation. We are open to any discussions and advice on categorizing survey questions.</p>
-<p>Several questions are directly removed during the categorizing process. We have removed question 3, 4b, 4h, 14, 15, 16, 24, 25 from the teacher’s survey either because it’s not particularly relevant to survey questions from students’ and parents’ perspective, or due to significant amount of NAs. Questions 5d, 5e, 7, 8, 9, 10 are removed from the parents datasets due to similar reasons or because some questions are tageted to specific populations (eg. pre-k, high school)</p>
+<p>Several questions are directly removed during the categorizing process. We have removed question 3, 4b, 4h, 14, 15, 16, 24, 25 from the teacher’s survey either because it’s not particularly relevant to survey questions from students’ and parents’ perspective, or due to significant amount of NAs. Questions 5d, 5e, 7, 8, 9, 10 are removed from the parents’ dataset due to similar reasons or because some questions are targeted towards specific populations (eg. pre-k, high school). Some questions may be removed in latter process due to the inconsistencies in answer choices under the same category of questions. For example, while both question a and b falls under the same category, question a may have five answer choices while question b only have four answer choices.</p>
 <p>After discussion, here are some example of the aspects we have decided to look into are teaching quality (from all perspectives of students, parents, and teachers), student performance (based on the feedback of teachers), communication between school and family (mainly based on the response from parents and teachers), and lastly, we’ll look into the characteristics that may contribute to teaching quality, for example, trust and respect between teachers.</p>
 </div>
 <div id="datasets-that-we-decide-to-analyze" class="section level2" number="3.4">

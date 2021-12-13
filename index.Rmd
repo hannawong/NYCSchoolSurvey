@@ -9,26 +9,19 @@ site: bookdown::bookdown_site
 
 ## Introduction to NYC School Survey
 
-Every year, all parents, all teachers, and students take the [NYC School Survey](https://infohub.nyced.org/reports/school-quality/nyc-school-survey). The survey ranks among the largest surveys of any kind ever conducted nationally. 
+Since 2007, the [NYC School Survey](https://infohub.nyced.org/reports/school-quality/nyc-school-survey) is conducted opening to parents, teachers, and students. The survey result is comprised of statistics on survey responses from students, parents, and teachers, and the survey could be a important tool in understanding the current education status quo from three perspectives and multiple aspects.
 
-The NYC School Survey consists of three separate survey instruments: The “parent/guardian
-survey”, the “teacher survey”, and the “student survey” (for students in grades 6 – 12 only).
-To review 2021 NYC School Survey instruments, see the links below:
+Example of survey administered to parents and students in year 2019, which is the year our project data is collected:
 \
-https://infohub.nyced.org/docs/default-source/default-document-library/student-instrument_08312021_accessible.pdf \
+https://https://infohub.nyced.org/docs/default-source/default-document-library/parent-survey_1015.pdf \
 
-https://infohub.nyced.org/docs/default-source/default-document-library/family-instrument_083121_accessible.pdf \
-
-https://infohub.nyced.org/docs/default-source/default-document-library/teacher-instrument_aug-2021_accessible.pdf \
-
-
-Survey questions assess the community's opinions on academic expectations, communication, engagement, and safety and respect. Survey results provide insight into a school's learning environment and contribute a measure of diversification that goes beyond test scores on the Progress Report. School leaders can use survey results to better understand their own school's strengths and target areas for improvement.
-
-The NYC School Quality Reports includes six elements -- Rigorous Instruction, Collaborative
-Teachers, Supportive Environment, Effective School Leadership, Strong Family Community Ties, and Trust. The meanings of these six elements are illustrated in Chapter 2. 
+https://infohub.nyced.org/docs/default-source/default-document-library/student-survey_1010.pdf \
 
 ## Our goal in this project
-In this project, we will take a look at the NYC School Quality Reports that reflect the opinion of parents, teachers and students, and answer the questions listed below:
+
+Interested in how things could be quantified in social sciences, we thought the dataset could provide us with some interesting insights in the use of data science of education. Additionally, we noticed that the survey is distributed annually. Thus, the survey data could be an insightful instrument in summarizing the current status quo of education and in promoting improvements in education. In general, we thought it's an interesting dataset in helping us to explore the interdisciplinarity of data science while learning more about the education actuality in New York City. 
+
+By looking into the NYC School Quality Reports that reflect the opinion of parents, teachers and students, we wish to be able to answer the questions listed below:
 
 - What are the top 10 schools with the highest survey performance? What are their characteristics?
 

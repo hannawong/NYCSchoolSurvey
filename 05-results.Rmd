@@ -2,7 +2,7 @@
 
 ## Distribution of School Scores
 
-Before we make any comparison between the NYC schools, we firstly have a look at the distribution of school scores given from students', teachers' and parents' perspective. In order to do that, we make density plots of the scores faceted by five components (we drop `supportive environment score` because we know from chapter 4 that it has nearly 100% missing values).
+Before we make any comparison between the NYC schools, we first have a look at the distribution of school scores given from students', teachers' and parents' perspective. In order to do that, we make density plots of the scores faceted by five components (we drop `supportive environment score` because we know from chapter 4 that it has nearly 100% missing values).
 
 ```{r}
 library(readxl)
@@ -12,7 +12,8 @@ options (warn = -1)
 student <- read_excel("Student.xlsx")
 teacher<-read_excel("Teacher.xlsx")
 parent<-read_excel("Parent.xlsx")
-student_ <- student %>%
+agg <- student %>%
+  slice(-c(1,2)) %>%
   rename(student_rr = `Total Student Response Rate`) %>%
   rename(parent_rr = `Total Parent \r\nResponse Rate`) %>%
   rename(teacher_rr = `Total Teacher Response Rate`) %>%
@@ -23,121 +24,86 @@ student_ <- student %>%
   rename(rig_instruction = `Rigorous Instruction Score`) %>%
   rename(supp_env = `Supportive Environment Score`) %>%
   rename(family_communityties = `Strong Family-Community Ties Score`)
-teacher_ <- teacher %>%
-  rename(student_rr = `Total Student Response Rate`) %>%
-  rename(parent_rr = `Total Parent \r\nResponse Rate`) %>%
-  rename(teacher_rr = `Total Teacher Response Rate`) %>%
-  rename(name = `School Name`) %>%
-  rename(t_trust = `Trust Score`) %>%
-  rename(t_collab_teachers = `Collaborative Teachers Score`) %>%
-  rename(t_effective_schlead = `Effective School Leadership Score`) %>%
-  rename(t_rig_instruction = `Rigorous Instruction Score`) %>%
-  rename(t_supp_env = `Supportive Environment Score`) %>%
-  rename(t_family_communityties = `Strong Family-Community Ties Score`)
-parent_ <- parent %>%
-  rename(student_rr = `Total Student Response Rate`) %>%
-  rename(parent_rr = `Total Parent \r\nResponse Rate`) %>%
-  rename(teacher_rr = `Total Teacher Response Rate`) %>%
-  rename(name = `School Name`) %>%
-  rename(p_trust = `Trust Score`) %>%
-  rename(p_collab_teachers = `Collaborative Teachers Score`) %>%
-  rename(p_effective_schlead = `Effective School Leadership Score`) %>%
-  rename(p_rig_instruction = `Rigorous Instruction Score`) %>%
-  rename(p_supp_env = `Supportive Environment Score`) %>%
-  rename(p_family_communityties = `Strong Family-Community Ties Score`)
-st = merge(student_, teacher_,by = c("DBN","name","parent_rr","teacher_rr","student_rr"))
-stp = merge(st,parent_,by = c("DBN","name","parent_rr","teacher_rr","student_rr"))
-stp$collab_teachers <- as.numeric(stp$collab_teachers)
-stp$effective_schlead<- as.numeric(stp$effective_schlead)
-stp$rig_instruction <- as.numeric(stp$rig_instruction)
-stp$supp_env <- as.numeric(stp$supp_env)
-stp$family_communityties <- as.numeric(stp$family_communityties)
-stp$trust <- as.numeric(stp$trust)
-stp$t_collab_teachers <- as.numeric(stp$t_collab_teachers)
-stp$t_effective_schlead<- as.numeric(stp$t_effective_schlead)
-stp$t_rig_instruction <- as.numeric(stp$t_rig_instruction)
-stp$t_supp_env <- as.numeric(stp$t_supp_env)
-stp$t_family_communityties <- as.numeric(stp$t_family_communityties)
-stp$t_trust <- as.numeric(stp$t_trust)
-stp$p_collab_teachers <- as.numeric(stp$p_collab_teachers)
-stp$p_effective_schlead<- as.numeric(stp$p_effective_schlead)
-stp$p_rig_instruction <- as.numeric(stp$p_rig_instruction)
-stp$p_supp_env <- as.numeric(stp$p_supp_env)
-stp$p_family_communityties <- as.numeric(stp$p_family_communityties)
-stp$p_trust <- as.numeric(stp$p_trust)
-stp$student_rr<-as.numeric(stp$student_rr)
-tidydata<-stp %>%
-  pivot_longer(cols =!c(name,DBN,parent_rr,student_rr,teacher_rr), names_to = "aspect",values_to = "score")
-
+agg[3:11] = sapply(agg[3:11], as.numeric)
+tidydata <- agg %>%
+  pivot_longer(cols =!c(name, DBN, parent_rr, student_rr, teacher_rr), names_to = "aspect", values_to = "score")
 ```
-```{r}
+
+```{r, fig.height = 6, fig.width = 8}
 tidydata_t <- tidydata %>%
-              filter(aspect =="collab_teachers"|aspect =="effective_schlead"|aspect =="rig_instruction"|aspect == "family_communityties"|aspect == "trust")
-ggplot(tidydata_t,aes(x = score,y = ..density..))+
-  geom_histogram(bins = 40, colour = "#80593D",fill = "#9FC29F")+
-  geom_density(color = "#3D6480")+
-  facet_wrap(~aspect)+
+              filter(aspect != "supp_env")
+
+ggplot(tidydata_t, aes(x = score, y = ..density..)) +
+  geom_histogram(bins = 40, colour = "#80593D",fill = "#9FC29F") +
+  geom_density(color = "#3D6480") +
+  facet_wrap(~ aspect, labeller = labeller(aspect = c("collab_teachers" = "Collaborative Teachers", "effective_schlead" = "Effective School Leadership", "family_communityties" = "Family and Community Ties", "rig_instruction" = "Rigorous Instruction", "trust" = "Trust"))) +
   ggtitle("Result in School Quality")
 ```
 
-We know from the plot that the distribution of school scores in these five aspects are not normally distributed, in fact, they are left-skewed, with long-tail data distributing in the left side of the plot. 
+We know from the plot that the distribution of school scores in these five aspects are not normally distributed. In fact, they are left-skewed, with long-tail data distributing in the left side of the plot. 
 
 ## Top 10 performance schools
 
 ### Top 10 schools in five aspects
 
-Firstly, we sort the schools according to the five aforementioned aspects. In this way, we made a leaderboard for Top 10 Schools with the most collaborative teachers, Top 10 Schools with the most effective School Leadership, Top 10 Schools with the most Trust beween people, Top 10 Schools with the most rigid instructions, and Top 10 Schools with the Strongest Family Community Ties.
+Firstly, we sort the schools according to the five aforementioned aspects. In this way, we made a leaderboard for top 10 schools with the most collaborative teachers, top 10 schools with the most effective school leadership, top 10 schools with highest trust score, top 10 schools with the most rigid instructions, and top 10 schools with the strongest family-community ties.
 
 ```{r}
 library(dplyr)
 library(ggplot2)
-student_$collab_teachers<-as.numeric(student_$collab_teachers)
-score_sorted <- student_ %>% arrange(desc(collab_teachers))
-top10<-head(score_sorted,10)
+score_sorted <- agg %>% 
+  arrange(desc(collab_teachers))
+top10 <- head(score_sorted, 10)
 
-p<-ggplot(data = top10,aes(collab_teachers, fct_reorder(name, collab_teachers),label = collab_teachers)) + geom_point() + ggtitle('Top 10 Schools with the most collaborative teachers') + ylab('School Name')
+p <- ggplot(data = top10, aes(collab_teachers, fct_reorder(name, collab_teachers), label = collab_teachers)) + 
+  geom_point()
   
-p+geom_label()+xlab("School Names")+theme(axis.text.y=element_text(angle=0,hjust = 1,size = 4))+ggtitle("Top 10 Schools with the most collaborative teachers")
-
-```
-```{r}
-student_$effective_schlead<-as.numeric(student_$effective_schlead)
-score_sorted_1 <- student_ %>% arrange(desc(effective_schlead))
-top10_1<-head(score_sorted_1,10)
-
-p<-ggplot(data = top10_1,aes(effective_schlead, fct_reorder(name, effective_schlead),label = effective_schlead)) + geom_point() +  ylab('School Name')
-  
-p+geom_label()+xlab("School Names")+theme(axis.text.y=element_text(angle=0,hjust = 1,size = 4))+ggtitle("Top 10 Schools with the most effective School Leadership")
-```
-```{r}
-student_$trust<-as.numeric(student_$trust)
-score_sorted_1 <- student_ %>% arrange(desc(trust))
-top10_1<-head(score_sorted_1,10)
-
-p<-ggplot(data = top10_1,aes(trust, fct_reorder(name, trust),label = trust)) + geom_point() +  ylab('School Name')
-  
-p+geom_label()+xlab("School Names")+theme(axis.text.y=element_text(angle=0,hjust = 1,size = 4))+ggtitle("Top 10 Schools with the most Trust beween people")
-
-```
-```{r}
-student_$rig_instruction<-as.numeric(student_$rig_instruction)
-score_sorted_1 <- student_ %>% arrange(desc(rig_instruction))
-top10_1<-head(score_sorted_1,10)
-
-p<-ggplot(data = top10_1,aes(rig_instruction, fct_reorder(name, rig_instruction),label = rig_instruction)) + geom_point() +  ylab('School Name')
-  
-p+geom_label()+xlab("School Names")+theme(axis.text.y=element_text(angle=0,hjust = 1,size = 4))+ggtitle("Top 10 Schools with the most rigid instructions")
+p1 <- p + geom_label() + theme(axis.text.y=element_text(angle=0,hjust = 1,size = 4)) +
+  theme(axis.title = element_blank())
 ```
 
 ```{r}
-student_$family_communityties<-as.numeric(student_$family_communityties)
-score_sorted_1 <- student_ %>% arrange(desc(family_communityties))
+score_sorted_1 <- agg %>% arrange(desc(effective_schlead))
+top10_1 <- head(score_sorted_1, 10)
+
+p <- ggplot(data = top10_1, aes(effective_schlead, fct_reorder(name, effective_schlead), label = effective_schlead)) +
+  geom_point()
+  
+p2 <- p+geom_label() + theme(axis.text.y=element_text(angle=0,hjust = 1,size = 4)) +
+  theme(axis.title = element_blank())
+```
+
+```{r}
+score_sorted_1 <- agg %>% arrange(desc(trust))
 top10_1<-head(score_sorted_1,10)
 
-p<-ggplot(data = top10_1,aes(family_communityties, fct_reorder(name, family_communityties),label = family_communityties)) + geom_point() +  ylab('School Name')
+p <- ggplot(data = top10_1, aes(trust, fct_reorder(name, trust), label = trust)) +
+  geom_point()
   
-p+geom_label()+xlab("School Names")+theme(axis.text.y=element_text(angle=0,hjust = 1,size = 3))+ggtitle("Top 10 Schools with the Strongest Family Community Ties")
+p3 <- p + geom_label() + theme(axis.text.y=element_text(angle=0,hjust = 1,size = 4)) +
+  theme(axis.title = element_blank())
+```
 
+```{r}
+score_sorted_1 <- agg %>% arrange(desc(rig_instruction))
+top10_1<-head(score_sorted_1,10)
+
+p <- ggplot(data = top10_1,aes(rig_instruction, fct_reorder(name, rig_instruction), label = rig_instruction)) + 
+  geom_point()
+  
+p4 <- p + geom_label() + theme(axis.text.y=element_text(angle=0,hjust = 1,size = 4)) +
+  theme(axis.title = element_blank())
+```
+
+```{r}
+score_sorted_1 <- agg %>% arrange(desc(family_communityties))
+top10_1 <- head(score_sorted_1,10)
+
+p <- ggplot(data = top10_1, aes(family_communityties, fct_reorder(name, family_communityties), label = family_communityties)) +
+  geom_point()
+  
+p5 <- p + geom_label() + theme(axis.text.y=element_text(angle=0,hjust = 1,size = 3)) +
+  theme(axis.title = element_blank())
 ```
 
 ### Top 10 Schools with the highest comprehensive scores
@@ -146,20 +112,46 @@ Sometimes it is necessary to evaluate the schools in a more comprehensive way. T
 
 ```{r}
 library(tidyverse)
-avg <- student_ %>% mutate(total_score = (collab_teachers+effective_schlead+rig_instruction+family_communityties+trust)/5) %>%
+avg <- agg %>% 
+  mutate(total_score = (collab_teachers+effective_schlead+rig_instruction+family_communityties+trust)/5) %>%
   arrange(desc(total_score))
+
 top10_1<-head(avg,10)
 
-p<-ggplot(data = top10_1,aes(total_score, fct_reorder(name, total_score),label = total_score)) + geom_point() +  ylab('School Name')
+p <- ggplot(data = top10_1, aes(total_score, fct_reorder(name, total_score), label = total_score)) +
+  geom_point()
   
-p+geom_label()+xlab("School Names")+theme(axis.text.y=element_text(angle=0,hjust = 1,size = 4))+ggtitle("Top 10 Schools with the highest comprehensive scores")
-
+p6 <- p + geom_label() + theme(axis.text.y=element_text(angle = 0,hjust = 1,size = 4))
 ```
 
 The best 10 schools in NYC are:
 ```{r}
 top10_1$name
 ```
+
+```{r, fig.height = 10, fig.width = 15}
+library(cowplot)
+library(grid)
+library(gridExtra)
+labY<- textGrob("School Name", 
+                   gp=gpar(fontface="bold", col="black", fontsize=10), rot=90)
+
+labX <- textGrob("Score", 
+                   gp=gpar(fontface="bold", col="black", fontsize=10))
+
+p <- plot_grid(p1, p2, p3, p4, p5, p6,
+          labels = c("Collaborative Teachers", "Effective School Leadership", "Trust", "Rigorous Instructions", "Family and Community Ties", "Comprehensive"),
+          ncol = 3, nrow = 2)
+
+p <- arrangeGrob(p, left = labY, bottom = labX)
+
+t <- ggdraw() + 
+  draw_label("Top 10 Schools in Five Aspects and a Comprehensive Score", fontface='bold')
+
+plot_grid(t, p, ncol = 1, rel_heights = c(0.1, 1))
+```
+
+As we can read from this graph, some schools, like Community School for Social Justice, HS Arts & Business YABC ranked high in several aspects, thus have a high comprehensive school. There are other schools, like Manhattan Center for Science and MAthematics, that ranked high only in particular aspects.
 
 ## Dependency Relationships analysis
 
@@ -169,70 +161,107 @@ In this section, we are going to look at the relationship of school scores given
 
 ### Do Teachers and Parents feel the same about Family-Community bond?
 
-Both teachers and parents have answered some questions about their feelings about the family-community bond in their schools. For example, in the questionnaire for teachers, there are several statements like "teachers understand families' problems and concerns.". Meanwhile, in the questionnaire for parents, there are statements like "School staff regularly communicate with me about how I can help my child learn.". Parents and teachers are asked to give the degree in which they agree to such statements, such as "strongly agree","agree","disagree","strongly disagree","I don't know". In this way, we are able to analysis whether teachers and parents feel the same about the family-community bond in their schools. 
+Both teachers and parents have answered some questions about their feelings about the family-community bond in their schools. For example, in the questionnaire for teachers, there are several statements like "teachers understand families' problems and concerns.". Meanwhile, in the questionnaire for parents, there are statements like "School staff regularly communicate with me about how I can help my child learn.". Parents and teachers are asked to give the degree in which they agree to such statements, such as "strongly agree","agree","disagree","strongly disagree","I don't know". In this way, we are able to analyze whether teachers and parents feel the same about the family-community bond in their schools. 
 
 In order to make our analysis easier, we firstly derive a family-community bond score for each school from parents' and teachers' point of view respectively. More specifically, we calculate the percentage of `strongly agree`,`agree`,`disagree`,`strongly disagree`,`idk`, and add +2 points for `strongly agree`, +1 point for `agree`, -1 point for `disagree`, -2 points for `strongly disagree` and +0 point for `I don't know`. 
 
 The scores given by teachers and parents are clearly positively correlated:
 
-```{r}
-family<-read_rds("family")
-family_<-family %>% mutate(t_s_disagree_percent = t_s_disagree/(t_s_disagree+t_s_agree+t_agree+t_disagree)) %>% mutate(t_disagree_percent = t_disagree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>% mutate(t_agree_percent = t_agree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>% mutate(t_s_agree_percent = t_s_agree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>% mutate(t_score = 2*t_s_agree_percent+1*t_agree_percent-1*t_disagree_percent-2*t_s_disagree_percent) %>% mutate(p_s_disagree_percent = p_s_disagree/(p_s_disagree+p_s_agree+p_agree+p_disagree)) %>% mutate(p_disagree_percent = p_disagree/(p_s_disagree+p_s_agree+p_agree+p_disagree))%>% mutate(p_agree_percent = p_agree/(p_s_disagree+p_s_agree+p_agree+p_disagree))%>% mutate(p_s_agree_percent = p_s_agree/(p_s_disagree+p_s_agree+p_agree+p_disagree))%>% mutate(p_score = 2*p_s_agree_percent+1*p_agree_percent-1*p_disagree_percent-2*p_s_disagree_percent)
+```{r, fig.height = 6, fig.width = 8}
+family <- read_rds("family")
+family_ <- family %>% mutate(t_s_disagree_percent = t_s_disagree/(t_s_disagree+t_s_agree+t_agree+t_disagree)) %>%
+  mutate(t_disagree_percent = t_disagree / (t_s_disagree+t_s_agree+t_agree+t_disagree)) %>%
+  mutate(t_agree_percent = t_agree / (t_s_disagree+t_s_agree+t_agree+t_disagree)) %>%
+  mutate(t_s_agree_percent = t_s_agree / (t_s_disagree+t_s_agree+t_agree+t_disagree))%>%
+  mutate(t_score = 2*t_s_agree_percent+1*t_agree_percent-1*t_disagree_percent-2*t_s_disagree_percent) %>%
+  mutate(p_s_disagree_percent = p_s_disagree / (p_s_disagree+p_s_agree+p_agree+p_disagree)) %>%
+  mutate(p_disagree_percent = p_disagree/(p_s_disagree+p_s_agree+p_agree+p_disagree)) %>%
+  mutate(p_agree_percent = p_agree/(p_s_disagree+p_s_agree+p_agree+p_disagree)) %>%
+  mutate(p_s_agree_percent = p_s_agree/(p_s_disagree+p_s_agree+p_agree+p_disagree)) %>%
+  mutate(p_score = 2*p_s_agree_percent+1*p_agree_percent-1*p_disagree_percent-2*p_s_disagree_percent)
 
-ggplot(data = family_,aes(x = t_score,y = p_score))+
-  geom_point(color = "#9FC29F")+theme_grey(18)+xlab("score given by teachers")+ylab("score given by parents")
+ggplot(data = family_, aes(x = t_score,y = p_score)) +
+  geom_point(color = "#9FC29F") + 
+  theme_grey(18) + 
+  xlab("score given by teachers") + 
+  ylab("score given by parents") +
+  labs(title = "Family and Community Ties")
+saveRDS(family_, "family_")
 ```
+
 The correlation coefficient is:
 
 ```{r}
-family_rmna<-family_[complete.cases(family_[,c(18,20)]),]
+family_rmna<-family_[complete.cases(family_[,c(18,23)]),]
 cor(family_rmna$t_score,family_rmna$p_score)
 ```
 
-### Do teachers and students feel the same about student inclusion?
+### Do teachers and students feel the same on inclusion at school?
 
-Teachers and students have answered some questions about their feelings towards the student inclusion in their schools from their own perspectives. In this way, we are able to analysis whether teachers and students feel the same about student inclusion. 
+Teachers and students have answered some questions about their feelings on inclusion in their schools from their own perspectives. In this way, we are able to analysis whether teachers and students have a consensus on inclusion. 
 
 In order to make our analysis easier, we firstly calculate a student inclusion score for each school from students' and teachers' point of view respectively, using the formula mentioned in 5.3.1.
 
 The scores given by students and teachers are also positively correlated:
 
-```{r}
-inclusion<-read_rds("inclusion")
-inclusion_<-inclusion %>% mutate(t_s_disagree_percent = t_s_disagree/(t_s_disagree+t_s_agree+t_agree+t_disagree)) %>% mutate(t_disagree_percent = t_disagree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>% mutate(t_agree_percent = t_agree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>% mutate(t_s_agree_percent = t_s_agree/(t_s_disagree+t_s_agree+t_agree+t_disagree))%>% mutate(t_score = 2*t_s_agree_percent+1*t_agree_percent-1*t_disagree_percent-2*t_s_disagree_percent) %>% mutate(st_s_disagree_percent = st_s_disagree/(st_s_disagree+st_s_agree+st_agree+st_disagree)) %>% mutate(st_disagree_percent = st_disagree/(st_s_disagree+st_s_agree+st_agree+st_disagree))%>% mutate(st_agree_percent = st_agree/(st_s_disagree+st_s_agree+st_agree+st_disagree))%>% mutate(st_s_agree_percent = st_s_agree/(st_s_disagree+st_s_agree+st_agree+st_disagree))%>% mutate(st_score = 2*st_s_agree_percent+1*st_agree_percent-1*st_disagree_percent-2*st_s_disagree_percent)
+```{r, fig.height = 6, fig.width = 8}
+inclusion <- read_rds("inclusion")
+inclusion_ <- inclusion %>% 
+  mutate(t_s_disagree_percent = t_s_disagree/(t_s_disagree+t_s_agree+t_agree+t_disagree)) %>%
+  mutate(t_disagree_percent = t_disagree/(t_s_disagree+t_s_agree+t_agree+t_disagree)) %>%
+  mutate(t_agree_percent = t_agree/(t_s_disagree+t_s_agree+t_agree+t_disagree)) %>%
+  mutate(t_s_agree_percent = t_s_agree/(t_s_disagree+t_s_agree+t_agree+t_disagree)) %>%
+  mutate(t_score = 2*t_s_agree_percent+1*t_agree_percent-1*t_disagree_percent-2*t_s_disagree_percent) %>%
+  mutate(st_s_disagree_percent = st_s_disagree/(st_s_disagree+st_s_agree+st_agree+st_disagree)) %>%
+  mutate(st_disagree_percent = st_disagree/(st_s_disagree+st_s_agree+st_agree+st_disagree))%>%
+  mutate(st_agree_percent = st_agree/(st_s_disagree+st_s_agree+st_agree+st_disagree)) %>%
+  mutate(st_s_agree_percent = st_s_agree/(st_s_disagree+st_s_agree+st_agree+st_disagree)) %>%
+  mutate(st_score = 2*st_s_agree_percent+1*st_agree_percent-1*st_disagree_percent-2*st_s_disagree_percent)
 
-ggplot(data = inclusion_,aes(x = t_score,y = st_score))+
-  geom_point(color = "#9FC29F")+theme_grey(18)+xlab("score given by teachers")+ylab("score given by students")
+ggplot(data = inclusion_, aes(x = t_score,y = st_score)) +
+  geom_point(color = "#9FC29F") + 
+  theme_grey(18) + 
+  xlab("score given by teachers") + 
+  ylab("score given by students") +
+  labs(title = "Inclusion")
+saveRDS(inclusion_, "inclusion_")
 ```
+
 The correlation coefficient is:
 
 ```{r}
-inclusion_rmna<-inclusion_[complete.cases(inclusion_[,c(18,20)]),]
+inclusion_rmna<-inclusion_[complete.cases(inclusion_[,c(19,24)]),]
 cor(inclusion_rmna$t_score,inclusion_rmna$st_score)
 ```
+
 ### Do teachers and students feel the same about aggressive behaviors?
 
-Both teachers and parents have answered some questions about their feelings about the aggressive behaviors in their schools. The are asked to reply how frequent such aggressive behaviors happens, such as "none","rarely","some","most". In this way, we are able to analysis whether teachers and students feel the same about the aggressive behaviors in their schools. 
+Both teachers and students have answered some questions about on aggressive behaviors in their schools. For example, they are asked to rate how frequent such aggressive behaviors happens, with response choices as "none","rarely","some","most". In this way, we are able to analyze whether teachers and students feel the same about the aggressive behaviors in their schools. 
 
-In order to make our analysis easier, we firstly derive a score for each school from parents' and teachers' point of view respectively. More specifically, we calculate the percentage of `none`,`rarely`,`some`,`most`, and add +2 points for `none`, +1 point for `rarely`, -1 point for `some`, -2 points for `most`.
+In order to make our analysis easier, we firstly derive a score for each school from students' and teachers' point of view respectively. More specifically, we calculate the percentage of `none`,`rarely`,`some`,`most`, and add +2 points for `none`, +1 point for `rarely`, -1 point for `some`, -2 points for `most`.
 
 The scores given by students and teachers are also positively correlated:
 
-```{r}
+```{r, fig.height = 6, fig.width = 8}
 ab <- read_rds("ab")
-ab_<-ab %>%
+ab_ <- ab %>%
   mutate(t_none_percent = t_none/(t_none+t_rarely+t_some+t_most)) %>%
-  mutate(t_rarely_percent = t_rarely/(t_none+t_rarely+t_some+t_most))%>%
-  mutate(t_some_percent = t_some/(t_none+t_rarely+t_some+t_most))%>%
-  mutate(t_most_percent = t_most/(t_none+t_rarely+t_some+t_most))%>%
-  mutate(t_score = 2*t_none_percent+1*t_rarely_percent-1*t_some_percent-2*t_most_percent)%>%
+  mutate(t_rarely_percent = t_rarely/(t_none+t_rarely+t_some+t_most)) %>%
+  mutate(t_some_percent = t_some/(t_none+t_rarely+t_some+t_most)) %>%
+  mutate(t_most_percent = t_most/(t_none+t_rarely+t_some+t_most)) %>%
+  mutate(t_score = 2*t_none_percent+1*t_rarely_percent-1*t_some_percent-2*t_most_percent) %>%
   mutate(st_none_percent = st_none/(st_none+st_rarely+st_some+st_most)) %>%
-  mutate(st_rarely_percent = st_rarely/(st_none+t_rarely+st_some+st_most))%>%
-  mutate(st_some_percent = st_some/(st_none+t_rarely+st_some+st_most))%>%
-  mutate(st_most_percent = st_most/(st_none+st_rarely+st_some+st_most))%>%
+  mutate(st_rarely_percent = st_rarely/(st_none+t_rarely+st_some+st_most)) %>%
+  mutate(st_some_percent = st_some/(st_none+t_rarely+st_some+st_most)) %>%
+  mutate(st_most_percent = st_most/(st_none+st_rarely+st_some+st_most)) %>%
   mutate(st_score = 2*st_none_percent+1*st_rarely_percent-1*st_some_percent-2*st_most_percent)
-ggplot(data = ab_,aes(x = t_score,y = st_score))+
-  geom_point(color = "#9FC29F")+theme_grey(18)+xlab("score given by teachers")+ylab("score given by students")
+ggplot(data = ab_, aes(x = t_score,y = st_score)) +
+  geom_point(color = "#9FC29F") + 
+  theme_grey(18) + 
+  xlab("score given by teachers") + 
+  ylab("score given by students") +
+  labs(title = "Aggressive Behaviors")
+saveRDS(ab_, "ab_")
 ```
 
 The correlation coefficient is:
@@ -244,79 +273,96 @@ cor(ab_rmna$t_score,ab_rmna$st_score)
 
 ## Do parents, students and teachers feel the same about teaching quality?
 
-Students, teachers and parents have answered some questions about their feelings about the teaching quality in their schools. The are asked to reply to which degree they believe that the teachers demonstrate good teaching qualities, such as "strongly positive","positive","negative","strongly negative","i don't know". In this way, we are able to analysis whether parents, teachers and students feel the same about teaching quality.
+Students, teachers and parents have all answered some questions on teaching quality in their respective schools. Due to inconsistencies in answer choices, we have generalized the response based on degree of positivity("strongly positive","positive","negative","strongly negative","i don't know"). In this way, we are able to analyze whether parents, teachers and students feel the same about teaching quality.
 
 In order to make our analysis easier, we firstly derive a score for each school from students', parents' and teachers' point of view respectively. More specifically, we calculate the percentage of `strongly positive`,`positive`,`negative`,`strongly negative`, and add +2 points for `strongly positive`, +1 point for `positive`, -1 point for `negative`, -2 points for `strongly negative`.
 
 The relationship between the score given by parents, students and teachers are plotted in the following scatterplot:
 
-
 ```{r}
 tq<-read_rds("teachingquality")
 tq_<-tq %>%
   mutate(p_v_neagtive_percent = p_v_neagtive/(p_v_neagtive+p_negative+p_positive+p_v_positive+p_idk)) %>%
-  mutate(p_negative_percent = p_negative/(p_v_neagtive+p_negative+p_positive+p_v_positive+p_idk))%>%
-  mutate(p_positive_percent = p_positive/(p_v_neagtive+p_negative+p_positive+p_v_positive+p_idk))%>%
-  mutate(p_v_positive_percent = p_v_positive/(p_v_neagtive+p_negative+p_positive+p_v_positive+p_idk))%>%
+  mutate(p_negative_percent = p_negative/(p_v_neagtive+p_negative+p_positive+p_v_positive+p_idk)) %>%
+  mutate(p_positive_percent = p_positive/(p_v_neagtive+p_negative+p_positive+p_v_positive+p_idk)) %>%
+  mutate(p_v_positive_percent = p_v_positive/(p_v_neagtive+p_negative+p_positive+p_v_positive+p_idk)) %>%
   mutate(p_score = 2*p_v_positive_percent+1*p_positive_percent-1*p_negative_percent-2*p_v_neagtive_percent)
-
 
 tq_<-tq_ %>%
   mutate(t_v_negative_percent = t_v_negative/(t_v_negative+t_negative+t_positive+t_v_positive+t_NAs)) %>%
-  mutate(t_negative_percent = t_negative/(t_v_negative+t_negative+t_positive+t_v_positive+t_NAs))%>%
-  mutate(t_positive_percent = t_positive/(t_v_negative+t_negative+t_positive+t_v_positive+t_NAs))%>%
-  mutate(t_v_positive_percent = t_v_positive/(t_v_negative+t_negative+t_positive+t_v_positive+t_NAs))%>%
+  mutate(t_negative_percent = t_negative/(t_v_negative+t_negative+t_positive+t_v_positive+t_NAs)) %>%
+  mutate(t_positive_percent = t_positive/(t_v_negative+t_negative+t_positive+t_v_positive+t_NAs)) %>%
+  mutate(t_v_positive_percent = t_v_positive/(t_v_negative+t_negative+t_positive+t_v_positive+t_NAs)) %>%
   mutate(t_score = 2*t_v_positive_percent+1*t_positive_percent-1*t_negative_percent-2*t_v_negative_percent)
-
 
 tq_<-tq_ %>%
   mutate(st_v_negative_percent = st_v_negative/(st_v_negative+st_negative+st_positive+st_v_positive)) %>%
-  mutate(st_negative_percent = st_negative/(st_v_negative+st_negative+st_positive+st_v_positive))%>%
-  mutate(st_positive_percent = st_positive/(st_v_negative+st_negative+st_positive+st_v_positive))%>%
-  mutate(st_v_positive_percent = st_v_positive/(st_v_negative+st_negative+st_positive+st_v_positive))%>%
+  mutate(st_negative_percent = st_negative/(st_v_negative+st_negative+st_positive+st_v_positive)) %>%
+  mutate(st_positive_percent = st_positive/(st_v_negative+st_negative+st_positive+st_v_positive)) %>%
+  mutate(st_v_positive_percent = st_v_positive/(st_v_negative+st_negative+st_positive+st_v_positive)) %>%
   mutate(st_score = 2*st_v_positive_percent+1*st_positive_percent-1*st_negative_percent-2*st_v_negative_percent)
 ```
 
-```{r}
+```{r, fig.height = 6, fig.width = 8}
 library(GGally)
- 
-data <- tq_ %>% select(t_score,p_score,st_score)
- 
-ggpairs(data, title="") 
+data <- tq_ %>% 
+  select(t_score,p_score,st_score)
+ggpairs(data, title="Parents, students and teachers' respective ratings on teaching quality", columnLabels = c("Teacher", "Parent", "Student"), rowLabels = c("Teacher", "Parent", "Student")) 
 ```
 
-The score given by teachers and parents are positively correlated, however, the score given by students are negatively correlated with the score given by teachers and parents. Moreover, students tend to give poor scores to their teachers while teachers and parents tend to give higher score to teaching quality. 
+The score given by teachers and parents are positively correlated. However, the score given by students are negatively correlated with the score given by teachers and parents. Moreover, students tend to give lower scores to their teachers while teachers and parents tend to give higher score to teaching quality. 
 
-This is reasonable since students might have different ideas with adults about what good education is. They might dislike those teachers who impose stringent disciplines and assign a lot of homework, however, it is the rules and strict teaching methods that makes them achieve success in academic field. In order to prove this hypothesis, we then investigate into the relationship between teaching quality and students' performance. 
-
+This is reasonable since students might have different ideas with adults about what good education is. They might dislike those teachers who impose stringent disciplines and assign a lot of homework. Additionally there could be subjective bias due to the positions that each of them holds.
 
 ## The relationship between teaching quality and students' performance
 
+As we hypothesized, teaching quality would be positively related to students' performance. Thus, we decided to create a scatter plot and look into the relationship between these two variables. Note that we have calculated the student performance score solely based on teachers' perspectives, while the teaching quality is assessed by all three perspective (teachers, students, parents)
+
 ```{r}
-s_perform<-read_rds("t_sperformance")
+s_perform <- read_rds("t_sperformance")
 s_perform_ <-s_perform %>%
-  mutate(t_none_percent = t_none/(t_none+t_some+t_lot+t_all+t_idk))%>%
-  mutate(t_some_percent = t_some/(t_none+t_some+t_lot+t_all+t_idk))%>%
-  mutate(t_lot_percent = t_lot/(t_none+t_some+t_lot+t_all+t_idk))%>%
-  mutate(t_all_percent = t_all/(t_none+t_some+t_lot+t_all+t_idk))%>%
+  mutate(t_none_percent = t_none/(t_none+t_some+t_lot+t_all+t_idk)) %>%
+  mutate(t_some_percent = t_some/(t_none+t_some+t_lot+t_all+t_idk)) %>%
+  mutate(t_lot_percent = t_lot/(t_none+t_some+t_lot+t_all+t_idk)) %>%
+  mutate(t_all_percent = t_all/(t_none+t_some+t_lot+t_all+t_idk)) %>%
   mutate(perform_score = -2*t_none_percent-1*t_some_percent+t_lot_percent+2*t_all_percent)
  
 tq_perform<-merge(s_perform_, tq_, by = "School Name")
 ```
-```{r}
+
+```{r, fig.height = 6, fig.width = 8}
 library(GGally)
  
-data <- tq_perform %>% select(t_score,p_score,st_score,perform_score)
+data <- tq_perform %>%
+  select(t_score, p_score, st_score, perform_score)
  
-ggpairs(data, title="")
+ggpairs(data, title="The relationship between teaching quality and students' performance", columnLabels = c("Teacher", "Parent", "Student", "Student Performance"), rowLabels = c("Teacher", "Parent", "Student", "Student Performance"))
 ```
 
-The result support our hypothesis mentioned above. The students' performance score is positively correlated with the teaching quality score given by teachers and parents, while negatively correlated with the teaching quality score given by students themselves. Therefore, students do achieve better despite that they do not like their teachers.  
+The result support our hypothesis mentioned above. The students' performance score is positively correlated with the teaching quality score given by teachers and parents, while negatively correlated with the teaching quality score given by students themselves. It's interesting to find out this negative relationship and made us wonder whetherdoes students' attitude toward teachers plays a role in students' achievement.  
+
+We have also computed a average teaching quality score based on the feedback from all three perspectives and looked into its relationship with student performance.
+```{r, fig.height = 6, fig.width = 8}
+data <- data %>%
+  mutate(tq_score = (t_score+p_score+st_score)/3)
+ggplot(data = data, aes(x = tq_score,y = perform_score)) +
+  geom_point(color = "#9FC29F") + 
+  theme_grey(18) + 
+  xlab("Teaching Quality") + 
+  ylab("Student Performance") +
+  labs(title = "The relationship between teaching quality and students' performance")
+```
+
+```{r}
+tqp_rmna<-data[complete.cases(data[,c(4,5)]),]
+cor(tqp_rmna$tq_score,tqp_rmna$perform_score)
+```
+
+This averaged teaching quality score aligns with our hypothesis, such that teaching quality would be positively related to students' performance.
 
 ## The relationship between teachers' trust/collaboration/respect with teaching quality
 
 In this survey, teachers are also asked several questions about their feelings towards the trust, collaboration and respect between teachers in their schools. We believe that a healthy environment in teacher community is beneficial to the teaching quality. Therefore, in this section we investigate whether this hypothesis is true. 
-
 
 ```{r}
 teacher_tcr<-read_rds("teacher_tcr")
@@ -341,11 +387,59 @@ teacher_tcr_quality_<-teacher_tcr_quality_ %>% mutate(t_s_disagree_percent = t_s
                                
 ```
 
-```{r}
+```{r, fig.height = 6, fig.width = 8}
 library(GGally)
 data <- teacher_tcr_quality_ %>% select(respect_score,trust_score,collaborate_score,t_score,p_score,st_score)
  
-ggpairs(data, title="") 
+ggpairs(data, title="The relationship between teachers' trust/collaboration/respect with teaching quality", columnLabels = c("Respect", "Trust", "Collaborate", "Teacher", "Parent", "Student"), rowLabels = c("Respect", "Trust", "Collaborate", "Teacher", "Parent", "Student")) 
 ```
 
-From the scatterplot above we notice that the trust, collaboration and respect between teachers are closely correlated themselves, and are also strongly correlated with the teaching quality scores given by teachers themselves. However, such correlation is weaker for the teaching quality scores given by parents, and is negatively correlated with the teaching quality scores given by students. 
+From the scatterplot above we notice that the trust, collaboration and respect between teachers are closely correlated with themselves, and are also strongly correlated with the teaching quality scores given by teachers themselves. However, such correlation is weaker for the teaching quality scores given by parents, and is negatively correlated with the teaching quality scores given by students. 
+
+## The relationship between parents', students' and teachers' feeling about teaching quality
+
+Interested in the diversed opinions on teaching quality, we decided to look into this more by creating a parallel coordinate graph. 
+
+To make our graph easier to read, we have shorted the labels of the categories: 
+st_v_n: student whose rating is very negative
+st_n: student whose rating is negative
+st_p: student whose rating is positive
+st_v_p: student whose rating is very positive
+t_v_n: teacher whose rating is very negative
+t_n: teacher whose rating is negative
+t_p: student whose rating is positive
+t_v_p: teacher whose rating is very positive
+p_v_n: parent whose rating is very negative
+p_n: parent whose rating is negative
+p_p: parent whose rating is positive
+p_v_p: parent whose rating is very positive
+
+```{r, fig.height = 15, fig.width = 20}
+library(parcoords)
+library(d3r)
+tq<-read_rds("teachingquality")
+tq_<-tq %>%
+  mutate(p_v_n = p_v_neagtive/(p_v_neagtive+p_negative+p_positive+p_v_positive+p_idk)) %>%
+  mutate(p_n = p_negative/(p_v_neagtive+p_negative+p_positive+p_v_positive+p_idk))%>%
+  mutate(p_p = p_positive/(p_v_neagtive+p_negative+p_positive+p_v_positive+p_idk))%>%
+  mutate(p_v_p = p_v_positive/(p_v_neagtive+p_negative+p_positive+p_v_positive+p_idk))%>%
+  mutate(p_score = 2*p_v_p+1*p_p-1*p_n-2*p_v_n)
+
+tq_<-tq_ %>%
+  mutate(t_v_n = t_v_negative/(t_v_negative+t_negative+t_positive+t_v_positive+t_NAs)) %>%
+  mutate(t_n = t_negative/(t_v_negative+t_negative+t_positive+t_v_positive+t_NAs))%>%
+  mutate(t_p = t_positive/(t_v_negative+t_negative+t_positive+t_v_positive+t_NAs))%>%
+  mutate(t_v_p = t_v_positive/(t_v_negative+t_negative+t_positive+t_v_positive+t_NAs))%>%
+  mutate(t_score = 2*t_v_p+1*t_p-1*t_n-2*t_v_n)
+
+tq_<-tq_ %>%
+  mutate(st_v_n = st_v_negative/(st_v_negative+st_negative+st_positive+st_v_positive)) %>%
+  mutate(st_n = st_negative/(st_v_negative+st_negative+st_positive+st_v_positive))%>%
+  mutate(st_p = st_positive/(st_v_negative+st_negative+st_positive+st_v_positive))%>%
+  mutate(st_v_p = st_v_positive/(st_v_negative+st_negative+st_positive+st_v_positive))%>%
+  mutate(st_score = 2*st_v_p+1*st_p-1*st_n-2*st_v_n)
+
+tq_sel = tq_ %>% select(st_v_n,st_n,st_p,st_v_p,t_v_n,t_n,t_p,t_v_p,p_v_n,p_n,p_p,p_v_p)
+
+parcoords(data = tq_sel,brushMode = '1D-axes',queue = TRUE,withD3 = TRUE)
+```

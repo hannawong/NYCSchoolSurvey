@@ -2,6 +2,10 @@
 
 ## Data source links
 
+The data is provided by NYC Department of Education and could be downloaded from NYC OpenData.
+
+As shown in the FAQ document of NYC School Survey, the survey is voluntary and all District 75 students are provided with survey materials. All participants (parents, students, and teachers) involved are confidential, while only the teachers' responses are both anonymous and confidential. While the surveys may be completed online or by paper by parents and students, teachers are only allowed to take the survey online.
+
 The result of parent, teacher and student response of the NYC school survey can be found in the links listed below:
 
 https://data.cityofnewyork.us/Education/2019-NYC-School-Survey-Teachers/uzmq-2khh
@@ -20,7 +24,7 @@ The survey contains a aggregated dataframe in which scores evaluating different 
 
 #### Meanings of columns
 
-Before we start to perform any exploratory data analysis and visualization , we need to understand what does each column mean in our dataset. The three dataframes we mentioned above -- Student, Teacher and Parent survey result -- contains 11 columns:
+Before we start to perform any exploratory data analysis and visualization, we need to understand what does each column mean in our dataset. The three dataframes we mentioned above -- Student, Teacher and Parent survey result -- contains 11 columns:
 
 - DBN: a character code used to identify a school and its location. It is formed by concatenating the school district code, the school borough code, and the school number.
 
@@ -73,11 +77,11 @@ str(parents)
 ```
 
 ### Data on Specific Question Responses
-These dataframes shows the survey questions (all questions are multiple choice) and counts the number of responses that falls into each categories. Currently, each dataframe has questions as the column name, while the answers falls into the first row. Additionally, as each question may take up to five or 6 columns, there are hundreds of variables within each dataframe. Thus, after data cleaning, we have made choices to focus on some specific questions within each dataframe.
+These dataframes shows the survey questions (all questions are multiple choice) and counts the number of responses that falls into each categories. Currently, each dataframe has questions as the column name, while the answer choices falls into the first row. Additionally, as each question may take up to five or six columns, there are hundreds of variables within each dataframe. Thus, after data cleaning, we have made choices to focus on some specific categories within each dataframes.
 
 #### Student Reponse dataset
 
-Student Reponse dataset is a dataframe of 1,111 observations and 272 columns. Some examples of the dataset are shown below:
+Student Reponse dataset is a dataframe of 1,111 observations and 272 columns. The actual observations should be 1109, as the first two rows are not comprised of statistics on survey response. Some examples of the dataset are shown below:
 
 ```{r}
 qrstudent <- read_excel("Student.xlsx", 4)
@@ -86,19 +90,22 @@ head(qrstudent)
 
 #### Teacher Reponse dataset
 
-Student Reponse dataset is a dataframe of 1,905 observations and 579 columns. Some examples of the dataset are shown below:
+Student Reponse dataset is a dataframe of 1,905 observations and 579 columns. The actual observations should be 1903, as the first two rows are not comprised of statistics on survey response. Some examples of the dataset are shown below:
 
 ```{r}
-qrteacher <- read_excel("Teacher.xlsx", 2)
+qrteacher <- read_excel("Teacher.xlsx", 4)
 head(qrteacher)
 ```
 
 #### Parent Reponse dataset
 
-Student Reponse dataset is a dataframe of 2948 observations and 196 columns. Some examples of the dataset are shown below:
+Student Reponse dataset is a dataframe of 2948 observations and 196 columns. The actual observations should be 2946, as the first two rows are not comprised of statistics on survey response. Some examples of the dataset are shown below:
 
 ```{r}
-qrparent <- read_excel("Parent.xlsx", 2)
+qrparent <- read_excel("Parent.xlsx", 4)
 head(qrparent)
 ```
 
+## Issues with our data
+
+As described earlier, our data primarily consists of two parts, the aggregated dataframe and dataframes on specific survey responses. While the survey responses are categorical, the aggregated dataframe consists of numerical values calculated based on these survey response. We did not obtain information on how these numerial values are calculated, thus our analysis is primarily based on the dataframes of specific survey responses. In order to conduct the analysis, we have cleaned and wrangled the dataframes on specific survey questions based on our own understanding.

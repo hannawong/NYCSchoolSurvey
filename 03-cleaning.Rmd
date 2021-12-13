@@ -31,7 +31,7 @@ agg <- agg %>%
 
 ## Step 2: Transform survey response from student, teacher, and parents. 
 
-The original dataframe contains survey questions as the column names. After loading the data in r, the answer choices is read as values in the first row. Thus, we have combined the answer choices within the column name for data wrangling and for the uniequeness of column names. Additionally, for the convenience of data wrangling, we have replaced the survey questions to question index in the column names.
+The original dataframe contains survey questions as the column names. After loading the data in r, the answer choices is read as values in the first row. Thus, we have combined the answer choices within the column name for data wrangling and for the uniqueness of column names. Additionally, for the convenience of data wrangling, we have replaced the survey questions to question index in the column names.
 
 Additionally, the data types of many columns are incorrect -- instead of character, they should be float. Therefore, we convert the data type of those columns to `numeric`.
 
@@ -213,7 +213,7 @@ The survey questions included in this survey is comprehensive and difficult to m
 
 We realized that categorizing data based on survey questions could be highly objective and admit it as a limitation. We are open to any discussions and advice on categorizing survey questions.
 
-Several questions are directly removed during the categorizing process. We have removed question 3, 4b, 4h, 14, 15, 16, 24, 25 from the teacher's survey either because it's not particularly relevant to survey questions from students' and parents' perspective, or due to significant amount of NAs. Questions 5d, 5e, 7, 8, 9, 10 are removed from the parents datasets due to similar reasons or because some questions are tageted to specific populations (eg. pre-k, high school)
+Several questions are directly removed during the categorizing process. We have removed question 3, 4b, 4h, 14, 15, 16, 24, 25 from the teacher's survey either because it's not particularly relevant to survey questions from students' and parents' perspective, or due to significant amount of NAs. Questions 5d, 5e, 7, 8, 9, 10 are removed from the parents' dataset due to similar reasons or because some questions are targeted towards specific populations (eg. pre-k, high school). Some questions may be removed in latter process due to the inconsistencies in answer choices under the same category of questions. For example, while both question a and b falls under the same category, question a may have five answer choices while question b only have four answer choices.
 
 After discussion, here are some example of the aspects we have decided to look into are teaching quality (from all perspectives of students, parents, and teachers), student performance (based on the feedback of teachers), communication between school and family (mainly based on the response from parents and teachers), and lastly, we'll look into the characteristics that may contribute to teaching quality, for example, trust and respect between teachers.
 
@@ -518,6 +518,7 @@ t_aggresive_behavior <- select(teacher, c(1:3, 188:191))  %>%
 ```
 
 ```{r}
+# Survey question on family related questions
 t_family <- select(teacher, c(1:3, 216:235, 516:523)) %>%
   mutate(type = "teacher") %>%
   mutate(s_disagree = rowSums(select(., ends_with("s_disagree")), na.rm=TRUE)) %>%
