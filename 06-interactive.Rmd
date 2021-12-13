@@ -1,11 +1,41 @@
 # Interactive component
 
 ## The relationship between parents' and teachers' feeling about family-community bonds
+```{r}
+categories_family <- family_%>%
+  mutate(p_categorical = if_else(p_score <= -1.5, 1, if_else(p_score <= -1, 2, if_else(p_score <= -0.5, 3, if_else(p_score <= 0,4, if_else(p_score <= 0.5, 5, if_else(p_score <= 1, 6, if_else(p_score <= 1.5, 7, 8)))))))) %>%
+  mutate(t_categorical = if_else(t_score <= -1.5, 1, if_else(t_score <= -1, 2, if_else(t_score <= -0.5, 3, if_else(t_score <= 0,4, if_else(t_score <= 0.5, 5, if_else(t_score <= 1, 6, if_else(t_score <= 1.5, 7, 8))))))))
+```
 
+```{r}
+categories_family$categorical <- paste0(categories_family$p_categorical, categories_family$t_categorical)
+categories_family$categorical <- as.numeric(categories_family$categorical)
+write.csv(categories_family, "categories_family")
+```
 
 ## The relationship between students' and teachers' feeling about student inclusion
+```{r}
+categories_inclusion <- inclusion_%>%
+  mutate(s_categorical = if_else(st_score <= -1.5, 1, if_else(st_score <= -1, 2, if_else(st_score <= -0.5, 3, if_else(st_score <= 0,4, if_else(st_score <= 0.5, 5, if_else(st_score <= 1, 6, if_else(st_score <= 1.5, 7, 8)))))))) %>%
+  mutate(t_categorical = if_else(t_score <= -1.5, 1, if_else(t_score <= -1, 2, if_else(t_score <= -0.5, 3, if_else(t_score <= 0,4, if_else(t_score <= 0.5, 5, if_else(t_score <= 1, 6, if_else(t_score <= 1.5, 7, 8))))))))
+```
 
+```{r}
+categories_inclusion$categorical <- paste0(categories_inclusion$s_categorical, categories_inclusion$t_categorical)
+categories_inclusion$categorical <- as.numeric(categories_inclusion$categorical)
+write.csv(categories_inclusion, "categories_inclusion")
+```
 
 ## The relationship between students' and teachers' feeling about aggressive behavior
+```{r}
+categories_ab <- ab_%>%
+  mutate(s_categorical = if_else(st_score <= -1.5, 1, if_else(st_score <= -1, 2, if_else(st_score <= -0.5, 3, if_else(st_score <= 0,4, if_else(st_score <= 0.5, 5, if_else(st_score <= 1, 6, if_else(st_score <= 1.5, 7, 8)))))))) %>%
+  mutate(t_categorical = if_else(t_score <= -1.5, 1, if_else(t_score <= -1, 2, if_else(t_score <= -0.5, 3, if_else(t_score <= 0,4, if_else(t_score <= 0.5, 5, if_else(t_score <= 1, 6, if_else(t_score <= 1.5, 7, 8))))))))
+```
 
+```{r}
+categories_ab$categorical <- paste0(categories_ab$s_categorical, categories_ab$t_categorical)
+categories_ab$categorical <- as.numeric(categories_ab$categorical)
+write.csv(categories_ab, "categories_ab")
+```
 
