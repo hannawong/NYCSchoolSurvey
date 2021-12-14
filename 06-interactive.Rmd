@@ -1,6 +1,6 @@
 # Interactive component
 
-For interactive component, we have decided to learn more about the ratings from different perspectives, as we are fascinated by the fact that the dataset is comprised of three perspectives. Through interactive visualizations, besides looking into whether different perspectives have consensus on aspects of education, we have categorized the scores we calculated. For example, for each perspective, scores between -0.5 and 0 is categorized as a group, and 0 and 0.5 are categorized as another group. We have made 8 categories as the scores ranged from -2 to 2, and we hope to have a general idea on the amount of school with similar score.
+For interactive component, we have decided to learn more about the ratings from different perspectives, as we are fascinated by the fact that the dataset is comprised of three perspectives. Through interactive visualizations, besides looking into whether different perspectives have consensus on aspects of education, we have categorized the scores we calculated. For example, for each perspective, scores between -0.5 and 0 is categorized as a group, and 0 and 0.5 are categorized as another group. We have made 8 categories as the scores ranged from -2 to 2, and we hope to have a general idea on the amount of school within the same score range.
 
 For all the interactive plots below, you may randomly move your mouse over a point and the name of the school may appear. Additionally, all the red points are schools of similar scores with the school you clicked.
 
@@ -8,6 +8,8 @@ Due to the size of our dataset, it is difficult for us to label all the schools 
 
 ## The relationship between parents' and teachers' rating on family-community bonds
 ```{r}
+family_ <- read_csv("family_") %>%
+  select(-1)
 categories_family <- family_%>%
   mutate(p_categorical = if_else(p_score <= -1.5, 1, if_else(p_score <= -1, 2, if_else(p_score <= -0.5, 3, if_else(p_score <= 0,4, if_else(p_score <= 0.5, 5, if_else(p_score <= 1, 6, if_else(p_score <= 1.5, 7, 8)))))))) %>%
   mutate(t_categorical = if_else(t_score <= -1.5, 1, if_else(t_score <= -1, 2, if_else(t_score <= -0.5, 3, if_else(t_score <= 0,4, if_else(t_score <= 0.5, 5, if_else(t_score <= 1, 6, if_else(t_score <= 1.5, 7, 8))))))))
@@ -19,10 +21,12 @@ categories_family$categorical <- as.numeric(categories_family$categorical)
 write.csv(categories_family, "categories_family")
 ```
 
-<iframe src="interactive_component/nyc_school_survey1.html" width="475" height="550"></iframe>
+<iframe src="interactive_component/nyc_school_survey1.html" width="650" height="550"></iframe>
 
 ## The relationship between students' and teachers' rating on inclusion
 ```{r}
+inclusion_ <- read_csv("inclusion_") %>%
+  select(-1)
 categories_inclusion <- inclusion_%>%
   mutate(s_categorical = if_else(st_score <= -1.5, 1, if_else(st_score <= -1, 2, if_else(st_score <= -0.5, 3, if_else(st_score <= 0,4, if_else(st_score <= 0.5, 5, if_else(st_score <= 1, 6, if_else(st_score <= 1.5, 7, 8)))))))) %>%
   mutate(t_categorical = if_else(t_score <= -1.5, 1, if_else(t_score <= -1, 2, if_else(t_score <= -0.5, 3, if_else(t_score <= 0,4, if_else(t_score <= 0.5, 5, if_else(t_score <= 1, 6, if_else(t_score <= 1.5, 7, 8))))))))
@@ -34,11 +38,13 @@ categories_inclusion$categorical <- as.numeric(categories_inclusion$categorical)
 write.csv(categories_inclusion, "categories_inclusion")
 ```
 
-<iframe src="interactive_component/nyc_school_survey2.html" width="475" height="550"></iframe>
+<iframe src="interactive_component/nyc_school_survey2.html" width="650" height="550"></iframe>
 
 ## The relationship between students' and teachers' rating on aggressive behaviors
 ```{r}
-categories_ab <- ab_%>%
+ab_ <- read_csv("ab_") %>%
+  select(-1)
+categories_ab <- ab_ %>%
   mutate(s_categorical = if_else(st_score <= -1.5, 1, if_else(st_score <= -1, 2, if_else(st_score <= -0.5, 3, if_else(st_score <= 0,4, if_else(st_score <= 0.5, 5, if_else(st_score <= 1, 6, if_else(st_score <= 1.5, 7, 8)))))))) %>%
   mutate(t_categorical = if_else(t_score <= -1.5, 1, if_else(t_score <= -1, 2, if_else(t_score <= -0.5, 3, if_else(t_score <= 0,4, if_else(t_score <= 0.5, 5, if_else(t_score <= 1, 6, if_else(t_score <= 1.5, 7, 8))))))))
 ```
@@ -49,4 +55,4 @@ categories_ab$categorical <- as.numeric(categories_ab$categorical)
 write.csv(categories_ab, "categories_ab")
 ```
 
-<iframe src="interactive_component/nyc_school_survey.html" width="475" height="550"></iframe>
+<iframe src="interactive_component/nyc_school_survey.html" width="650" height="550"></iframe>

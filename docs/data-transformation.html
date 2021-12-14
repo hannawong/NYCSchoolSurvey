@@ -96,8 +96,8 @@
 <ul>
 <li class="chapter" data-level="3.1" data-path="data-transformation.html"><a href="data-transformation.html#step1-change-column-names"><i class="fa fa-check"></i><b>3.1</b> Step1: Change column names</a></li>
 <li class="chapter" data-level="3.2" data-path="data-transformation.html"><a href="data-transformation.html#step-2-transform-survey-response-from-student-teacher-and-parents."><i class="fa fa-check"></i><b>3.2</b> Step 2: Transform survey response from student, teacher, and parents.</a></li>
-<li class="chapter" data-level="3.3" data-path="data-transformation.html"><a href="data-transformation.html#categorizing-data-based-on-survey-questions"><i class="fa fa-check"></i><b>3.3</b> Categorizing data based on survey questions</a></li>
-<li class="chapter" data-level="3.4" data-path="data-transformation.html"><a href="data-transformation.html#datasets-that-we-decide-to-analyze"><i class="fa fa-check"></i><b>3.4</b> Datasets that we decide to analyze</a>
+<li class="chapter" data-level="3.3" data-path="data-transformation.html"><a href="data-transformation.html#step-3-categorizing-data-based-on-survey-questions"><i class="fa fa-check"></i><b>3.3</b> Step 3: Categorizing data based on survey questions</a></li>
+<li class="chapter" data-level="3.4" data-path="data-transformation.html"><a href="data-transformation.html#step-4-datasets-that-we-decide-to-analyze"><i class="fa fa-check"></i><b>3.4</b> Step 4: Datasets that we decide to analyze</a>
 <ul>
 <li class="chapter" data-level="3.4.1" data-path="data-transformation.html"><a href="data-transformation.html#communication-with-families-from-teachers-and-parents-perspectives"><i class="fa fa-check"></i><b>3.4.1</b> Communication with families from teachers’ and parents’ perspectives</a></li>
 <li class="chapter" data-level="3.4.2" data-path="data-transformation.html"><a href="data-transformation.html#teaching-quality-and-student-performance"><i class="fa fa-check"></i><b>3.4.2</b> Teaching quality and student performance</a></li>
@@ -105,6 +105,7 @@
 <li class="chapter" data-level="3.4.4" data-path="data-transformation.html"><a href="data-transformation.html#diversity-and-inclusion-from-students-and-teachers-perspectives"><i class="fa fa-check"></i><b>3.4.4</b> Diversity and inclusion from students’ and teachers’ perspectives</a></li>
 <li class="chapter" data-level="3.4.5" data-path="data-transformation.html"><a href="data-transformation.html#bullying-harrasement-and-any-aggresive-behaviors-from-teachers-and-students-perspective"><i class="fa fa-check"></i><b>3.4.5</b> Bullying, harrasement, and any aggresive behaviors from teachers’ and students’ perspective</a></li>
 </ul></li>
+<li class="chapter" data-level="3.5" data-path="data-transformation.html"><a href="data-transformation.html#link-to-code"><i class="fa fa-check"></i><b>3.5</b> Link to code</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a>
 <ul>
@@ -172,6 +173,19 @@
 <h2><span class="header-section-number">3.1</span> Step1: Change column names</h2>
 <p>The column names in the original dataset are too long and contain white spaces, which is inconvenient for future development.</p>
 <p>The column names of the aggregated datafrome after transformation is:</p>
+<pre><code>## Rows: 1,831
+## Columns: 11
+## $ DBN                  &lt;chr&gt; NA, NA, &quot;01M015&quot;, &quot;01M019&quot;, &quot;01M020&quot;, &quot;01M034&quot;, &quot;…
+## $ name                 &lt;chr&gt; NA, NA, &quot;P.S. 015 ROBERTO CLEMENTE&quot;, &quot;P.S. 019 AS…
+## $ parent_rr            &lt;dbl&gt; NA, NA, 91, 100, 58, 29, 80, 52, 79, 46, 57, 100,…
+## $ teacher_rr           &lt;dbl&gt; NA, NA, 100, 93, 90, 100, 100, 96, 77, 93, 89, 10…
+## $ student_rr           &lt;chr&gt; NA, NA, &quot;N/A&quot;, &quot;N/A&quot;, &quot;N/A&quot;, &quot;95&quot;, &quot;N/A&quot;, &quot;N/A&quot;, …
+## $ collab_teachers      &lt;chr&gt; NA, NA, &quot;4.0999999999999996&quot;, &quot;4.53&quot;, &quot;2.71&quot;, &quot;2.…
+## $ effective_schlead    &lt;chr&gt; NA, NA, &quot;4.1900000000000004&quot;, &quot;4.51&quot;, &quot;2.98&quot;, &quot;2.…
+## $ rig_instruction      &lt;chr&gt; NA, NA, &quot;4.0199999999999996&quot;, &quot;4.8&quot;, &quot;1.92&quot;, &quot;2.1…
+## $ supp_env             &lt;chr&gt; NA, NA, &quot;N/A&quot;, &quot;N/A&quot;, &quot;N/A&quot;, &quot;N/A&quot;, &quot;N/A&quot;, &quot;N/A&quot;,…
+## $ family_communityties &lt;chr&gt; NA, NA, &quot;4.18&quot;, &quot;4.66&quot;, &quot;3.84&quot;, &quot;3.67&quot;, &quot;N/A&quot;, &quot;4…
+## $ trust                &lt;chr&gt; NA, NA, &quot;3.96&quot;, &quot;3.76&quot;, &quot;3.14&quot;, &quot;2.38&quot;, &quot;3.77&quot;, &quot;…</code></pre>
 </div>
 <div id="step-2-transform-survey-response-from-student-teacher-and-parents." class="section level2" number="3.2">
 <h2><span class="header-section-number">3.2</span> Step 2: Transform survey response from student, teacher, and parents.</h2>
@@ -229,15 +243,15 @@
 ## #   2b-s_disagree &lt;dbl&gt;, 2b-disagree &lt;dbl&gt;, 2b-agree &lt;dbl&gt;, 2b-s_agree &lt;dbl&gt;,
 ## #   2b-idk &lt;dbl&gt;, 2c-s_disagree &lt;dbl&gt;, 2c-disagree &lt;dbl&gt;, 2c-agree &lt;dbl&gt;, …</code></pre>
 </div>
-<div id="categorizing-data-based-on-survey-questions" class="section level2" number="3.3">
-<h2><span class="header-section-number">3.3</span> Categorizing data based on survey questions</h2>
+<div id="step-3-categorizing-data-based-on-survey-questions" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Step 3: Categorizing data based on survey questions</h2>
 <p>The survey questions included in this survey is comprehensive and difficult to manage. After reading through our survey questions, based on the survey questions, we have decided to categorize the data into different categories, and choose to analyze several categories based on our interests and whether there is sufficient data support.</p>
 <p>We realized that categorizing data based on survey questions could be highly objective and admit it as a limitation. We are open to any discussions and advice on categorizing survey questions.</p>
 <p>Several questions are directly removed during the categorizing process. We have removed question 3, 4b, 4h, 14, 15, 16, 24, 25 from the teacher’s survey either because it’s not particularly relevant to survey questions from students’ and parents’ perspective, or due to significant amount of NAs. Questions 5d, 5e, 7, 8, 9, 10 are removed from the parents’ dataset due to similar reasons or because some questions are targeted towards specific populations (eg. pre-k, high school). Some questions may be removed in latter process due to the inconsistencies in answer choices under the same category of questions. For example, while both question a and b falls under the same category, question a may have five answer choices while question b only have four answer choices.</p>
 <p>After discussion, here are some example of the aspects we have decided to look into are teaching quality (from all perspectives of students, parents, and teachers), student performance (based on the feedback of teachers), communication between school and family (mainly based on the response from parents and teachers), and lastly, we’ll look into the characteristics that may contribute to teaching quality, for example, trust and respect between teachers.</p>
 </div>
-<div id="datasets-that-we-decide-to-analyze" class="section level2" number="3.4">
-<h2><span class="header-section-number">3.4</span> Datasets that we decide to analyze</h2>
+<div id="step-4-datasets-that-we-decide-to-analyze" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Step 4: Datasets that we decide to analyze</h2>
 <p>Note that some answer choice are renamed due to inconsistencies between questions. Additionally, some questions are deleted due to the same reason.</p>
 <div id="communication-with-families-from-teachers-and-parents-perspectives" class="section level3" number="3.4.1">
 <h3><span class="header-section-number">3.4.1</span> Communication with families from teachers’ and parents’ perspectives</h3>
@@ -320,8 +334,13 @@
 ## 6 01M332 UNIVERSITY NEIGHBO…         86      1        7     17      0         92
 ## # … with 4 more variables: st_none &lt;dbl&gt;, st_rarely &lt;dbl&gt;, st_some &lt;dbl&gt;,
 ## #   st_most &lt;dbl&gt;</code></pre>
-
 </div>
+</div>
+<div id="link-to-code" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> Link to code</h2>
+<p>You may find our code on data cleaning below:</p>
+<p><a href="https://github.com/hannawong/NYCSchoolSurvey/blob/main/03-cleaning.Rmd" class="uri">https://github.com/hannawong/NYCSchoolSurvey/blob/main/03-cleaning.Rmd</a></p>
+
 </div>
 </div>
             </section>

@@ -17,13 +17,14 @@ issues-with-our-data
 data-transformation
 step1-change-column-names
 step-2-transform-survey-response-from-student-teacher-and-parents.
-categorizing-data-based-on-survey-questions
-datasets-that-we-decide-to-analyze
+step-3-categorizing-data-based-on-survey-questions
+step-4-datasets-that-we-decide-to-analyze
 communication-with-families-from-teachers-and-parents-perspectives
 teaching-quality-and-student-performance
 trust-respect-and-collaboration-between-teachers
 diversity-and-inclusion-from-students-and-teachers-perspectives
 bullying-harrasement-and-any-aggresive-behaviors-from-teachers-and-students-perspective
+link-to-code
 missing-values
 aggregated-dataframe
 dataframe-on-inclusion-and-diversity-aggressive-behaviors-teaching-quality

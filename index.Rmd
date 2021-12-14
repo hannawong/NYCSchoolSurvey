@@ -11,7 +11,7 @@ site: bookdown::bookdown_site
 
 Since 2007, the [NYC School Survey](https://infohub.nyced.org/reports/school-quality/nyc-school-survey) is conducted opening to parents, teachers, and students. The survey result is comprised of statistics on survey responses from students, parents, and teachers, and the survey could be a important tool in understanding the current education status quo from three perspectives and multiple aspects.
 
-Example of survey administered to parents and students in year 2019, which is the year our project data is collected:
+Examples of survey administered to parents and students in year 2019, which is the year of our project data:
 \
 https://https://infohub.nyced.org/docs/default-source/default-document-library/parent-survey_1015.pdf \
 
@@ -19,7 +19,7 @@ https://infohub.nyced.org/docs/default-source/default-document-library/student-s
 
 ## Our goal in this project
 
-Interested in how things could be quantified in social sciences, we thought the dataset could provide us with some interesting insights in the use of data science of education. Additionally, we noticed that the survey is distributed annually. Thus, the survey data could be an insightful instrument in summarizing the current status quo of education and in promoting improvements in education. In general, we thought it's an interesting dataset in helping us to explore the interdisciplinarity of data science while learning more about the education actuality in New York City. 
+Interested in how things could be quantified in social sciences, we thought the dataset could provide us with some interesting insights into the use of data science in education. Additionally, we noticed that the survey is distributed annually, and the data is collected from multiple perspectives. Thus, the survey data could be an insightful instrument in summarizing the current status quo of education and in promoting improvements in education. In general, we thought it's an interesting dataset in helping us to explore the interdisciplinarity of data science while learning more about the education actuality in New York City.
 
 By looking into the NYC School Quality Reports that reflect the opinion of parents, teachers and students, we wish to be able to answer the questions listed below:
 

@@ -27,6 +27,7 @@ agg <- agg %>%
   rename(rig_instruction = `Rigorous Instruction Score`) %>%
   rename(supp_env = `Supportive Environment Score`) %>%
   rename(family_communityties = `Strong Family-Community Ties Score`)
+glimpse(agg)
 ```
 
 ## Step 2: Transform survey response from student, teacher, and parents. 
@@ -207,7 +208,7 @@ A example of teachers' response after data wrangling:
 ```{r}
 head(teacher)
 ```
-## Categorizing data based on survey questions
+## Step 3: Categorizing data based on survey questions
 
 The survey questions included in this survey is comprehensive and difficult to manage. After reading through our survey questions, based on the survey questions, we have decided to categorize the data into different categories, and choose to analyze several categories based on our interests and whether there is sufficient data support. 
 
@@ -594,7 +595,7 @@ t_future <- select(teacher, c(1:3, 540:579)) %>%
   select(c(1:3, 44:49))
 ```
 
-## Datasets that we decide to analyze
+## Step 4: Datasets that we decide to analyze
 
 Note that some answer choice are renamed due to inconsistencies between questions. Additionally, some questions are deleted due to the same reason.
 
@@ -765,3 +766,8 @@ saveRDS(aggresive_behavior, "ab")
 head(aggresive_behavior)
 ```
 
+## Link to code
+
+You may find our code on data cleaning below:
+
+https://github.com/hannawong/NYCSchoolSurvey/blob/main/03-cleaning.Rmd

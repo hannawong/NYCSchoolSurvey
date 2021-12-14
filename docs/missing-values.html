@@ -96,8 +96,8 @@
 <ul>
 <li class="chapter" data-level="3.1" data-path="data-transformation.html"><a href="data-transformation.html#step1-change-column-names"><i class="fa fa-check"></i><b>3.1</b> Step1: Change column names</a></li>
 <li class="chapter" data-level="3.2" data-path="data-transformation.html"><a href="data-transformation.html#step-2-transform-survey-response-from-student-teacher-and-parents."><i class="fa fa-check"></i><b>3.2</b> Step 2: Transform survey response from student, teacher, and parents.</a></li>
-<li class="chapter" data-level="3.3" data-path="data-transformation.html"><a href="data-transformation.html#categorizing-data-based-on-survey-questions"><i class="fa fa-check"></i><b>3.3</b> Categorizing data based on survey questions</a></li>
-<li class="chapter" data-level="3.4" data-path="data-transformation.html"><a href="data-transformation.html#datasets-that-we-decide-to-analyze"><i class="fa fa-check"></i><b>3.4</b> Datasets that we decide to analyze</a>
+<li class="chapter" data-level="3.3" data-path="data-transformation.html"><a href="data-transformation.html#step-3-categorizing-data-based-on-survey-questions"><i class="fa fa-check"></i><b>3.3</b> Step 3: Categorizing data based on survey questions</a></li>
+<li class="chapter" data-level="3.4" data-path="data-transformation.html"><a href="data-transformation.html#step-4-datasets-that-we-decide-to-analyze"><i class="fa fa-check"></i><b>3.4</b> Step 4: Datasets that we decide to analyze</a>
 <ul>
 <li class="chapter" data-level="3.4.1" data-path="data-transformation.html"><a href="data-transformation.html#communication-with-families-from-teachers-and-parents-perspectives"><i class="fa fa-check"></i><b>3.4.1</b> Communication with families from teachers’ and parents’ perspectives</a></li>
 <li class="chapter" data-level="3.4.2" data-path="data-transformation.html"><a href="data-transformation.html#teaching-quality-and-student-performance"><i class="fa fa-check"></i><b>3.4.2</b> Teaching quality and student performance</a></li>
@@ -105,6 +105,7 @@
 <li class="chapter" data-level="3.4.4" data-path="data-transformation.html"><a href="data-transformation.html#diversity-and-inclusion-from-students-and-teachers-perspectives"><i class="fa fa-check"></i><b>3.4.4</b> Diversity and inclusion from students’ and teachers’ perspectives</a></li>
 <li class="chapter" data-level="3.4.5" data-path="data-transformation.html"><a href="data-transformation.html#bullying-harrasement-and-any-aggresive-behaviors-from-teachers-and-students-perspective"><i class="fa fa-check"></i><b>3.4.5</b> Bullying, harrasement, and any aggresive behaviors from teachers’ and students’ perspective</a></li>
 </ul></li>
+<li class="chapter" data-level="3.5" data-path="data-transformation.html"><a href="data-transformation.html#link-to-code"><i class="fa fa-check"></i><b>3.5</b> Link to code</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a>
 <ul>
@@ -172,19 +173,28 @@
 <h2><span class="header-section-number">4.1</span> Aggregated Dataframe</h2>
 <p><img src="finalproj_files/figure-html/unnamed-chunk-45-1.png" width="1344" /></p>
 <blockquote>
-<p>In most cases, the dataset is missing the variable ‘Supportive Environment Score’, in fact this variable is completely missing, which indicates this score might not be measured during the year of 2019. There is no complete cases in this dataset as we know that one variable is completely void. However, more than 1/2 of the data only have the ‘Supportive Environment Score’ missing. Besides ‘Supportive Environment Score’, ‘Total Student Response Rate’ has the second most NAs. As we can observe from this graph, these are the two most common cases of the dataset, around 80% to 90% of the data lies in this category. This dataset does not contains complete cases, which means for certain observations all variables do not contain NAs. However, we can see that the columns ‘DBN’, ‘School Name’, ‘Total Parent Response Rate’, and ‘Total Teacher Reponse Rate’ are complete with no missing values.</p>
+<p>7 variables out of 11 contains missing value. In most cases, the dataset is only missing the variable <code>Supportive Environment Score</code>. The variable is also the one with most missing values: in fact, with 1829 missing observations, this variable is completely missing, which indicates this score might not be measured during the year of 2019. Therefore, there is no complete cases in this dataset as we know that one variable is completely void. However, more than 1/2 of the data only have the <code>Supportive Environment Score</code> missing.</p>
+</blockquote>
+<blockquote>
+<p>Besides <code>Supportive Environment Score</code>, <code>Total Student Response Rate</code> has the second most NAs, with 720 observations. As we can observe from this graph, missing <code>Supportive Environment Score</code> and <code>Total Student Response Rate</code> are the two most common missing patterns of the dataset, around 80% to 90% of the data lies in this category.</p>
+</blockquote>
+<blockquote>
+<p>Five other variables with missing values are: <code>Collaborative Teachers</code>, <code>Effective School Leadership</code>, <code>Family-Community Ties', 'Rigorous Instructions</code>, and <code>Trust</code>. Besides <code>Trust</code>, the number of missing values for the other four variables are roughly equal, with around 200 missing values, while <code>Trust</code> has only 72 missing values. It made sense that the amount of missing values in different aspects are similar as these variables are calculated based on survey reponses.</p>
+</blockquote>
+<blockquote>
+<p>As we’ve discussed earlier, this dataset does not contains complete cases, which means for certain observations all variables do not contain NAs. However, we can see that the columns <code>DBN</code>, <code>School Name</code>, <code>Total Parent Response Rate</code>, and <code>Total Teacher Reponse Rate</code> are complete with no missing values.</p>
 </blockquote>
 </div>
 <div id="dataframe-on-inclusion-and-diversity-aggressive-behaviors-teaching-quality" class="section level2" number="4.2">
 <h2><span class="header-section-number">4.2</span> Dataframe on inclusion and diversity &amp; aggressive behaviors &amp; teaching quality</h2>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-46-1.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-46-2.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-46-3.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-46-1.png" width="1344" /><img src="finalproj_files/figure-html/unnamed-chunk-46-2.png" width="1344" /><img src="finalproj_files/figure-html/unnamed-chunk-46-3.png" width="1344" /></p>
 <blockquote>
-<p>As we can see, for these three dataframes, all variables are complete, except that there are small amount of data missing on <code>Student Response Rate</code></p>
+<p>As we can see, for these three dataframes, all variables are complete, except that there are small amount of data missing on <code>Student Response Rate</code>. In all these dataframes, there are only one observation missing on <code>Student Response Rate</code>. As there are a total of 1109 observations in each dataframe, it constitutes a very small percent of missing pattern.</p>
 </blockquote>
 </div>
 <div id="dataframe-on-trust-collaboration-and-respect-student-performance-family-communication" class="section level2" number="4.3">
 <h2><span class="header-section-number">4.3</span> Dataframe on trust, collaboration, and respect &amp; student performance &amp; family communication</h2>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-47-1.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-47-2.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-47-3.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-47-1.png" width="1344" /><img src="finalproj_files/figure-html/unnamed-chunk-47-2.png" width="1344" /><img src="finalproj_files/figure-html/unnamed-chunk-47-3.png" width="1344" /></p>
 <blockquote>
 <p>As we can see, these three dataframes are complete</p>
 </blockquote>

@@ -96,8 +96,8 @@
 <ul>
 <li class="chapter" data-level="3.1" data-path="data-transformation.html"><a href="data-transformation.html#step1-change-column-names"><i class="fa fa-check"></i><b>3.1</b> Step1: Change column names</a></li>
 <li class="chapter" data-level="3.2" data-path="data-transformation.html"><a href="data-transformation.html#step-2-transform-survey-response-from-student-teacher-and-parents."><i class="fa fa-check"></i><b>3.2</b> Step 2: Transform survey response from student, teacher, and parents.</a></li>
-<li class="chapter" data-level="3.3" data-path="data-transformation.html"><a href="data-transformation.html#categorizing-data-based-on-survey-questions"><i class="fa fa-check"></i><b>3.3</b> Categorizing data based on survey questions</a></li>
-<li class="chapter" data-level="3.4" data-path="data-transformation.html"><a href="data-transformation.html#datasets-that-we-decide-to-analyze"><i class="fa fa-check"></i><b>3.4</b> Datasets that we decide to analyze</a>
+<li class="chapter" data-level="3.3" data-path="data-transformation.html"><a href="data-transformation.html#step-3-categorizing-data-based-on-survey-questions"><i class="fa fa-check"></i><b>3.3</b> Step 3: Categorizing data based on survey questions</a></li>
+<li class="chapter" data-level="3.4" data-path="data-transformation.html"><a href="data-transformation.html#step-4-datasets-that-we-decide-to-analyze"><i class="fa fa-check"></i><b>3.4</b> Step 4: Datasets that we decide to analyze</a>
 <ul>
 <li class="chapter" data-level="3.4.1" data-path="data-transformation.html"><a href="data-transformation.html#communication-with-families-from-teachers-and-parents-perspectives"><i class="fa fa-check"></i><b>3.4.1</b> Communication with families from teachers’ and parents’ perspectives</a></li>
 <li class="chapter" data-level="3.4.2" data-path="data-transformation.html"><a href="data-transformation.html#teaching-quality-and-student-performance"><i class="fa fa-check"></i><b>3.4.2</b> Teaching quality and student performance</a></li>
@@ -105,6 +105,7 @@
 <li class="chapter" data-level="3.4.4" data-path="data-transformation.html"><a href="data-transformation.html#diversity-and-inclusion-from-students-and-teachers-perspectives"><i class="fa fa-check"></i><b>3.4.4</b> Diversity and inclusion from students’ and teachers’ perspectives</a></li>
 <li class="chapter" data-level="3.4.5" data-path="data-transformation.html"><a href="data-transformation.html#bullying-harrasement-and-any-aggresive-behaviors-from-teachers-and-students-perspective"><i class="fa fa-check"></i><b>3.4.5</b> Bullying, harrasement, and any aggresive behaviors from teachers’ and students’ perspective</a></li>
 </ul></li>
+<li class="chapter" data-level="3.5" data-path="data-transformation.html"><a href="data-transformation.html#link-to-code"><i class="fa fa-check"></i><b>3.5</b> Link to code</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a>
 <ul>
@@ -170,9 +171,10 @@
 <h1><span class="header-section-number">Chapter 2</span> Data sources</h1>
 <div id="data-source-links" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Data source links</h2>
-<p>The data is provided by NYC Department of Education and could be downloaded from NYC OpenData.</p>
-<p>As shown in the FAQ document of NYC School Survey, the survey is voluntary and all District 75 students are provided with survey materials. All participants (parents, students, and teachers) involved are confidential, while only the teachers’ responses are both anonymous and confidential. While the surveys may be completed online or by paper by parents and students, teachers are only allowed to take the survey online.</p>
-<p>The result of parent, teacher and student response of the NYC school survey can be found in the links listed below:</p>
+<p>The data is provided by the NYC Department of Education and could be downloaded from NYC OpenData.</p>
+<p>As shown in the FAQ document of the NYC School Survey, the survey is voluntary and all District 75 students are provided with survey materials. All participants (parents, students, and teachers) involved are confidential, while only the teachers’ responses are both anonymous and confidential. While the surveys may be completed online or by paper by parents and students, teachers are only allowed to take the survey online.</p>
+<p>More info on this link: <a href="https://infohub.nyced.org/reports/school-quality/nyc-school-survey/survey-archives" class="uri">https://infohub.nyced.org/reports/school-quality/nyc-school-survey/survey-archives</a></p>
+<p>The result of parent, teacher, and student responses of the NYC school survey can be found in the links listed below:</p>
 <p><a href="https://data.cityofnewyork.us/Education/2019-NYC-School-Survey-Teachers/uzmq-2khh" class="uri">https://data.cityofnewyork.us/Education/2019-NYC-School-Survey-Teachers/uzmq-2khh</a></p>
 <p><a href="https://data.cityofnewyork.us/Education/2019-NYC-School-Survey-Parents/4fcz-jias" class="uri">https://data.cityofnewyork.us/Education/2019-NYC-School-Survey-Parents/4fcz-jias</a></p>
 <p><a href="https://data.cityofnewyork.us/Education/2019-NYC-School-Survey-Student/k2zg-756q" class="uri">https://data.cityofnewyork.us/Education/2019-NYC-School-Survey-Student/k2zg-756q</a></p>
@@ -189,7 +191,7 @@
 <ul>
 <li><p>DBN: Primary key for the dataset and identification of schools.</p></li>
 <li><p>School Name: School Name</p></li>
-<li><p>Total Parent/Teacher/Student Response Rate: Percentage rate of response from parent/teacher/student respectively, The response rate should be the same across datasets.</p></li>
+<li><p>Total Parent/Teacher/Student Response Rate: Percentage rate of response from parent/teacher/student respectively</p></li>
 <li><p>Collaborative Teachers Score</p></li>
 <li><p>Effective School Leadership Score</p></li>
 <li><p>Rigorous Instruction Score</p></li>
@@ -318,7 +320,7 @@
 </div>
 <div id="issues-with-our-data" class="section level2" number="2.3">
 <h2><span class="header-section-number">2.3</span> Issues with our data</h2>
-<p>As described earlier, our data primarily consists of two parts, the aggregated dataframe and dataframes on specific survey responses. While the survey responses are categorical, the aggregated dataframe consists of numerical values calculated based on these survey response. We did not obtain information on how these numerial values are calculated, thus our analysis is primarily based on the dataframes of specific survey responses. In order to conduct the analysis, we have cleaned and wrangled the dataframes on specific survey questions based on our own understanding.</p>
+<p>As described earlier, our data primarily consists of two parts, the aggregated dataframe and dataframes on specific survey responses. While the survey responses are categorical, the aggregated dataframe consists of numerical values calculated based on these survey response. We did not obtain specific information on how these numerical values are calculated, thus our analysis is primarily based on the dataframes of specific survey responses. In order to conduct the analysis, we have cleaned and wrangled the dataframes on specific survey questions based on our own understanding which could be subjective and biased.</p>
 
 </div>
 </div>

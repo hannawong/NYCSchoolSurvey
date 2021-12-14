@@ -130,22 +130,28 @@ overview <- overview %>%
   rename(rig_instruction = `Rigorous Instruction Score`) %>%
   rename(supp_env = `Supportive Environment Score`) %>%
   rename(family_communityties = `Strong Family-Community Ties Score`)
-plot_missing(overview, percent = TRUE)
+plot_missing(overview, percent = FALSE)
 ```
 
-> In most cases, the dataset is missing the variable 'Supportive Environment Score', in fact this variable is completely missing, which indicates this score might not be measured during the year of 2019. There is no complete cases in this dataset as we know that one variable is completely void. However, more than 1/2 of the data only have the 'Supportive Environment Score' missing. Besides 'Supportive Environment Score', 'Total Student Response Rate' has the second most NAs. As we can observe from this graph, these are the two most common cases of the dataset, around 80% to 90% of the data lies in this category. This dataset does not contains complete cases, which means for certain observations all variables do not contain NAs. However, we can see that the columns 'DBN', 'School Name', 'Total Parent Response Rate', and 'Total Teacher Reponse Rate' are complete with no missing values.
+> 7 variables out of 11 contains missing value. In most cases, the dataset is only missing the variable `Supportive Environment Score`. The variable is also the one with most missing values: in fact, with 1829 missing observations, this variable is completely missing, which indicates this score might not be measured during the year of 2019. Therefore, there is no complete cases in this dataset as we know that one variable is completely void. However, more than 1/2 of the data only have the `Supportive Environment Score` missing. 
+
+> Besides `Supportive Environment Score`, `Total Student Response Rate` has the second most NAs, with 720 observations. As we can observe from this graph, missing `Supportive Environment Score` and `Total Student Response Rate` are the two most common missing patterns of the dataset, around 80% to 90% of the data lies in this category. 
+
+> Five other variables with missing values are: `Collaborative Teachers`, `Effective School Leadership`, `Family-Community Ties', 'Rigorous Instructions`, and `Trust`. Besides `Trust`, the number of missing values for the other four variables are roughly equal, with around 200 missing values, while `Trust` has only 72 missing values. It made sense that the amount of missing values in different aspects are similar as these variables are calculated based on survey reponses. 
+
+> As we've discussed earlier, this dataset does not contains complete cases, which means for certain observations all variables do not contain NAs. However, we can see that the columns `DBN`, `School Name`, `Total Parent Response Rate`, and `Total Teacher Reponse Rate` are complete with no missing values.
 
 ## Dataframe on inclusion and diversity & aggressive behaviors & teaching quality
-```{r}
+```{r, fig.height = 6, fig.width = 14}
 plot_missing(inclusion, percent = TRUE)
 plot_missing(aggresive_behavior, percent = TRUE)
 plot_missing(teachingquality, percent = TRUE)
 ```
 
-> As we can see, for these three dataframes, all variables are complete, except that there are small amount of data missing on `Student Response Rate`
+> As we can see, for these three dataframes, all variables are complete, except that there are small amount of data missing on `Student Response Rate`. In all these dataframes, there are only one observation missing on `Student Response Rate`. As there are a total of 1109 observations in each dataframe, it constitutes a very small percent of missing pattern.
 
 ## Dataframe on trust, collaboration, and respect & student performance & family communication
-```{r}
+```{r, fig.height = 6, fig.width = 14}
 plot_missing(teacher_tcr, percent = TRUE)
 plot_missing(t_sperformance, percent = TRUE)
 plot_missing(family, percent = TRUE)
