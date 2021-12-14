@@ -365,7 +365,7 @@ ggplot(data = data, aes(x = tq_score,y = perform_score)) +
   theme_grey(18) + 
   xlab("Teaching Quality") + 
   ylab("Student Performance") +
-  labs(title = "The relationship between teaching quality and students' performance") 
+  labs(title = "Teaching quality and students' performance") 
 ```
 
 ```{r}
